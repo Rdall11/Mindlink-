@@ -22,6 +22,53 @@
         .header {
             text-align: center;
             margin-bottom: 30px;
+            position: relative;
+        }
+        
+        .status-indicator {
+            position: absolute;
+            top: 0;
+            left: 0;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(255,255,255,0.05);
+            padding: 8px 14px;
+            border-radius: 20px;
+            border: 1px solid rgba(255,255,255,0.1);
+            font-size: 0.8rem;
+        }
+        
+        .status-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+        
+        .status-dot.active {
+            background: #6bcb77;
+            box-shadow: 0 0 8px #6bcb77;
+        }
+        
+        .status-dot.recent {
+            background: #ffd93d;
+            box-shadow: 0 0 8px #ffd93d;
+            animation: none;
+        }
+        
+        .status-dot.idle {
+            background: #4a5568;
+            animation: none;
+        }
+        
+        .status-text {
+            color: #8892b0;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
         }
         
         .header h1 {
@@ -250,6 +297,10 @@
 </head>
 <body>
     <div class="header">
+        <div class="status-indicator" id="status-indicator" data-last-active="2026-02-09T10:14:00Z">
+            <div class="status-dot" id="status-dot"></div>
+            <span class="status-text" id="status-text">Checking...</span>
+        </div>
         <h1>🧠 MindLink Ops Dashboard</h1>
         <div class="subtitle">R's AI Assistant Work Tracker</div>
         <div class="last-updated">Last updated: <span id="timestamp"></span></div>
@@ -448,6 +499,30 @@
             timeStyle: 'short',
             timeZone: 'Europe/London'
         }) + ' GMT';
+        
+        // Status indicator logic
+        (function() {
+            const indicator = document.getElementById('status-indicator');
+            const dot = document.getElementById('status-dot');
+            const text = document.getElementById('status-text');
+            const lastActive = new Date(indicator.dataset.lastActive);
+            const now = new Date();
+            const diffMs = now - lastActive;
+            const diffHours = diffMs / (1000 * 60 * 60);
+            
+            if (diffHours < 1) {
+                dot.className = 'status-dot active';
+                text.textContent = 'Lez is active';
+            } else if (diffHours < 24) {
+                dot.className = 'status-dot recent';
+                const hours = Math.floor(diffHours);
+                text.textContent = hours === 1 ? '1 hour ago' : hours + ' hours ago';
+            } else {
+                dot.className = 'status-dot idle';
+                const days = Math.floor(diffHours / 24);
+                text.textContent = days === 1 ? '1 day ago' : days + ' days ago';
+            }
+        })();
     </script>
 </body>
 </html>
