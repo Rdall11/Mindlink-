@@ -5,304 +5,115 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MindLink Ops Dashboard</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
             min-height: 100vh;
             color: #fff;
             padding: 20px;
         }
-        
-        .header {
-            text-align: center;
-            margin-bottom: 30px;
-            position: relative;
-        }
-        
+        .header { text-align: center; margin-bottom: 30px; position: relative; }
         .status-indicator {
-            position: absolute;
-            top: 0;
-            left: 0;
-            display: flex;
-            align-items: center;
-            gap: 8px;
+            position: absolute; top: 0; left: 0;
+            display: flex; align-items: center; gap: 8px;
             background: rgba(255,255,255,0.05);
-            padding: 8px 14px;
-            border-radius: 20px;
+            padding: 8px 14px; border-radius: 20px;
             border: 1px solid rgba(255,255,255,0.1);
             font-size: 0.8rem;
         }
-        
         .status-dot {
-            width: 10px;
-            height: 10px;
-            border-radius: 50%;
+            width: 10px; height: 10px; border-radius: 50%;
             animation: pulse 2s infinite;
         }
-        
-        .status-dot.active {
-            background: #6bcb77;
-            box-shadow: 0 0 10px #6bcb77;
-        }
-        
-        .status-dot.working {
-            background: #ffd93d;
-            box-shadow: 0 0 10px #ffd93d;
-            animation: pulse 1s infinite;
-        }
-        
-        .status-dot.recent {
-            background: #ffd93d;
-        }
-        
-        .status-dot.idle {
-            background: #4a5568;
-            animation: none;
-        }
-        
-        @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.5; }
-        }
-        
-        h1 {
-            font-size: 2rem;
-            margin-bottom: 5px;
-        }
-        
-        .subtitle {
-            color: #8892b0;
-            font-size: 0.95rem;
-        }
-        
-        .last-updated {
-            color: #4a5568;
-            font-size: 0.8rem;
-            margin-top: 10px;
-        }
-        
+        .status-dot.active { background: #6bcb77; box-shadow: 0 0 10px #6bcb77; }
+        .status-dot.recent { background: #ffd93d; }
+        .status-dot.idle { background: #4a5568; animation: none; }
+        @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
+        h1 { font-size: 2rem; margin-bottom: 5px; }
+        .subtitle { color: #8892b0; font-size: 0.95rem; }
+        .last-updated { color: #4a5568; font-size: 0.8rem; margin-top: 10px; }
         .stats-bar {
-            display: flex;
-            justify-content: center;
-            gap: 40px;
-            margin-bottom: 30px;
-            flex-wrap: wrap;
+            display: flex; justify-content: center; gap: 40px;
+            margin-bottom: 30px; flex-wrap: wrap;
         }
-        
-        .stat {
-            text-align: center;
-        }
-        
-        .stat-number {
-            font-size: 2rem;
-            font-weight: bold;
-            color: #00d4ff;
-        }
-        
-        .stat-label {
-            font-size: 0.8rem;
-            color: #8892b0;
-        }
-        
+        .stat { text-align: center; }
+        .stat-number { font-size: 2rem; font-weight: bold; color: #00d4ff; }
+        .stat-label { font-size: 0.8rem; color: #8892b0; }
         .kanban {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 20px;
-            max-width: 1400px;
-            margin: 0 auto;
+            display: grid; grid-template-columns: repeat(4, 1fr);
+            gap: 20px; max-width: 1400px; margin: 0 auto;
         }
-        
-        @media (max-width: 1200px) {
-            .kanban {
-                grid-template-columns: repeat(2, 1fr);
-            }
-        }
-        
-        @media (max-width: 600px) {
-            .kanban {
-                grid-template-columns: 1fr;
-            }
-        }
-        
+        @media (max-width: 1200px) { .kanban { grid-template-columns: repeat(2, 1fr); } }
+        @media (max-width: 600px) { .kanban { grid-template-columns: 1fr; } }
         .column {
             background: rgba(255,255,255,0.03);
-            border-radius: 12px;
-            padding: 15px;
+            border-radius: 12px; padding: 15px;
             border: 1px solid rgba(255,255,255,0.08);
         }
-        
         .column-header {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin-bottom: 15px;
-            padding-bottom: 10px;
+            display: flex; align-items: center; gap: 10px;
+            margin-bottom: 15px; padding-bottom: 10px;
             border-bottom: 1px solid rgba(255,255,255,0.1);
         }
-        
-        .column-icon {
-            font-size: 1.2rem;
-        }
-        
-        .column-title {
-            font-weight: 600;
-            flex-grow: 1;
-        }
-        
+        .column-icon { font-size: 1.2rem; }
+        .column-title { font-weight: 600; flex-grow: 1; }
         .column-count {
             background: rgba(255,255,255,0.1);
-            padding: 2px 8px;
-            border-radius: 10px;
-            font-size: 0.8rem;
+            padding: 2px 8px; border-radius: 10px; font-size: 0.8rem;
         }
-        
         .task {
             background: rgba(255,255,255,0.05);
-            border-radius: 8px;
-            padding: 12px;
-            margin-bottom: 10px;
+            border-radius: 8px; padding: 12px; margin-bottom: 10px;
             border-left: 3px solid #4a5568;
             transition: transform 0.2s, box-shadow 0.2s;
         }
-        
-        .task:hover {
-            transform: translateX(3px);
-            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
-        }
-        
-        .task.priority-high {
-            border-left-color: #ff6b6b;
-        }
-        
-        .task.priority-medium {
-            border-left-color: #ffd93d;
-        }
-        
-        .task.priority-low {
-            border-left-color: #6bcb77;
-        }
-        
-        .task.running {
-            border-left-color: #00d4ff;
-            background: rgba(0,212,255,0.1);
-        }
-        
-        .task-title {
-            font-weight: 500;
-            margin-bottom: 8px;
-            font-size: 0.95rem;
-        }
-        
-        .task-meta {
-            display: flex;
-            gap: 10px;
-            flex-wrap: wrap;
-        }
-        
+        .task:hover { transform: translateX(3px); box-shadow: 0 4px 12px rgba(0,0,0,0.3); }
+        .task.priority-high { border-left-color: #ff6b6b; }
+        .task.priority-medium { border-left-color: #ffd93d; }
+        .task.review { border-left-color: #00d4ff; background: rgba(0,212,255,0.1); }
+        .task-title { font-weight: 500; margin-bottom: 8px; font-size: 0.95rem; }
+        .task-meta { display: flex; gap: 10px; flex-wrap: wrap; }
         .tag {
-            font-size: 0.7rem;
-            padding: 3px 8px;
-            border-radius: 4px;
-            background: rgba(0,212,255,0.2);
-            color: #00d4ff;
+            font-size: 0.7rem; padding: 3px 8px; border-radius: 4px;
+            background: rgba(0,212,255,0.2); color: #00d4ff;
         }
-        
         .tag.leads { background: rgba(107,203,119,0.2); color: #6bcb77; }
         .tag.content { background: rgba(255,217,61,0.2); color: #ffd93d; }
         .tag.partners { background: rgba(255,107,107,0.2); color: #ff6b6b; }
         .tag.system { background: rgba(123,44,191,0.2); color: #a855f7; }
-        .tag.running { background: rgba(0,212,255,0.3); color: #00d4ff; }
-        
-        .done-task {
-            opacity: 0.6;
-        }
-        
-        .done-task .task-title {
-            text-decoration: line-through;
-        }
-        
+        .done-task { opacity: 0.6; }
+        .done-task .task-title { text-decoration: line-through; }
         .section-divider {
-            margin: 40px auto;
-            max-width: 1400px;
-            border-top: 1px solid rgba(255,255,255,0.1);
-            padding-top: 30px;
+            margin: 40px auto; max-width: 1400px;
+            border-top: 1px solid rgba(255,255,255,0.1); padding-top: 30px;
         }
-        
-        .section-title {
-            font-size: 1.2rem;
-            margin-bottom: 20px;
-            color: #8892b0;
-        }
-        
-        .priorities {
-            max-width: 1400px;
-            margin: 0 auto;
-        }
-        
-        .priority-list {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 20px;
-        }
-        
-        @media (max-width: 900px) {
-            .priority-list {
-                grid-template-columns: 1fr;
-            }
-        }
-        
+        .section-title { font-size: 1.2rem; margin-bottom: 20px; color: #8892b0; }
+        .priorities { max-width: 1400px; margin: 0 auto; }
+        .priority-list { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+        @media (max-width: 900px) { .priority-list { grid-template-columns: 1fr; } }
         .priority-card {
             background: rgba(255,255,255,0.03);
-            border-radius: 12px;
-            padding: 20px;
+            border-radius: 12px; padding: 20px;
             border: 1px solid rgba(255,255,255,0.08);
         }
-        
         .priority-card h3 {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin-bottom: 15px;
-            font-size: 1rem;
+            display: flex; align-items: center; gap: 10px;
+            margin-bottom: 15px; font-size: 1rem;
         }
-        
-        .priority-card ul {
-            list-style: none;
-        }
-        
+        .priority-card ul { list-style: none; }
         .priority-card li {
-            padding: 8px 0;
-            border-bottom: 1px solid rgba(255,255,255,0.05);
-            font-size: 0.9rem;
-            color: #b8c1d1;
+            padding: 8px 0; border-bottom: 1px solid rgba(255,255,255,0.05);
+            font-size: 0.9rem; color: #b8c1d1;
         }
-        
-        .priority-card li:last-child {
-            border-bottom: none;
-        }
-        
-        .running-indicator {
-            display: inline-block;
-            width: 8px;
-            height: 8px;
-            background: #00d4ff;
-            border-radius: 50%;
-            margin-right: 6px;
-            animation: pulse 1s infinite;
-        }
+        .priority-card li:last-child { border-bottom: none; }
     </style>
 </head>
 <body>
     <div class="header">
-        <div class="status-indicator" id="status-indicator" data-last-active="2026-02-10T10:20:00Z">
+        <div class="status-indicator" id="status-indicator" data-last-active="2026-02-12T22:20:00Z">
             <div class="status-dot active" id="status-dot"></div>
-            <span class="status-text" id="status-text">Checking...</span>
+            <span class="status-text" id="status-text">Lez is active</span>
         </div>
         <h1>🧠 MindLink Ops Dashboard</h1>
         <div class="subtitle">R's AI Assistant Work Tracker</div>
@@ -319,7 +130,7 @@
             <div class="stat-label">Ready for Review</div>
         </div>
         <div class="stat">
-            <div class="stat-number">8</div>
+            <div class="stat-number">11</div>
             <div class="stat-label">Completed</div>
         </div>
         <div class="stat">
@@ -337,27 +148,19 @@
             </div>
             <div class="task">
                 <div class="task-title">Competitor landscape analysis</div>
-                <div class="task-meta">
-                    <span class="tag">research</span>
-                </div>
+                <div class="task-meta"><span class="tag">research</span></div>
             </div>
             <div class="task">
                 <div class="task-title">Intern task brief templates</div>
-                <div class="task-meta">
-                    <span class="tag system">system</span>
-                </div>
+                <div class="task-meta"><span class="tag system">system</span></div>
             </div>
             <div class="task">
                 <div class="task-title">Meeting prep system</div>
-                <div class="task-meta">
-                    <span class="tag system">system</span>
-                </div>
+                <div class="task-meta"><span class="tag system">system</span></div>
             </div>
             <div class="task">
                 <div class="task-title">Proposal templates</div>
-                <div class="task-meta">
-                    <span class="tag content">content</span>
-                </div>
+                <div class="task-meta"><span class="tag content">content</span></div>
             </div>
         </div>
         
@@ -368,16 +171,12 @@
                 <span class="column-count">2</span>
             </div>
             <div class="task priority-medium">
-                <div class="task-title">LinkedIn content ideas</div>
-                <div class="task-meta">
-                    <span class="tag content">content</span>
-                </div>
+                <div class="task-title">Automation Audit skill</div>
+                <div class="task-meta"><span class="tag system">system</span></div>
             </div>
             <div class="task priority-medium">
-                <div class="task-title">Daily briefing system</div>
-                <div class="task-meta">
-                    <span class="tag system">system</span>
-                </div>
+                <div class="task-title">LinkedIn content ideas</div>
+                <div class="task-meta"><span class="tag content">content</span></div>
             </div>
         </div>
         
@@ -387,23 +186,17 @@
                 <span class="column-title">Ready for Review</span>
                 <span class="column-count">3</span>
             </div>
-            <div class="task priority-high">
-                <div class="task-title">LinkedIn deep research (5 prospects)</div>
-                <div class="task-meta">
-                    <span class="tag leads">leads</span>
-                </div>
+            <div class="task review">
+                <div class="task-title">LinkedIn prospect research (5 leads)</div>
+                <div class="task-meta"><span class="tag leads">leads</span></div>
             </div>
-            <div class="task priority-high">
-                <div class="task-title">Agency partnerships (14 targets)</div>
-                <div class="task-meta">
-                    <span class="tag partners">partners</span>
-                </div>
+            <div class="task review">
+                <div class="task-title">Agency partners list (14 agencies)</div>
+                <div class="task-meta"><span class="tag partners">partners</span></div>
             </div>
-            <div class="task priority-high">
+            <div class="task review">
                 <div class="task-title">Outreach message templates</div>
-                <div class="task-meta">
-                    <span class="tag content">content</span>
-                </div>
+                <div class="task-meta"><span class="tag content">content</span></div>
             </div>
         </div>
         
@@ -411,88 +204,81 @@
             <div class="column-header">
                 <span class="column-icon">✅</span>
                 <span class="column-title">Done</span>
-                <span class="column-count">8</span>
+                <span class="column-count">11</span>
+            </div>
+            <div class="task done-task">
+                <div class="task-title">OpenRouter API setup</div>
+                <div class="task-meta"><span class="tag system">system</span></div>
+            </div>
+            <div class="task done-task">
+                <div class="task-title">Ollama local LLM (heartbeats)</div>
+                <div class="task-meta"><span class="tag system">system</span></div>
+            </div>
+            <div class="task done-task">
+                <div class="task-title">Model routing configured</div>
+                <div class="task-meta"><span class="tag system">system</span></div>
             </div>
             <div class="task done-task">
                 <div class="task-title">QMD search skill installed</div>
-                <div class="task-meta">
-                    <span class="tag system">system</span>
-                </div>
+                <div class="task-meta"><span class="tag system">system</span></div>
             </div>
             <div class="task done-task">
                 <div class="task-title">ICP lead research framework</div>
-                <div class="task-meta">
-                    <span class="tag leads">leads</span>
-                </div>
+                <div class="task-meta"><span class="tag leads">leads</span></div>
+            </div>
+            <div class="task done-task">
+                <div class="task-title">B2C prospects identified</div>
+                <div class="task-meta"><span class="tag leads">leads</span></div>
             </div>
             <div class="task done-task">
                 <div class="task-title">Telegram channel secured</div>
-                <div class="task-meta">
-                    <span class="tag system">system</span>
-                </div>
-            </div>
-            <div class="task done-task">
-                <div class="task-title">Disabled unused channels</div>
-                <div class="task-meta">
-                    <span class="tag system">system</span>
-                </div>
+                <div class="task-meta"><span class="tag system">system</span></div>
             </div>
             <div class="task done-task">
                 <div class="task-title">Business context captured</div>
-                <div class="task-meta">
-                    <span class="tag system">system</span>
-                </div>
+                <div class="task-meta"><span class="tag system">system</span></div>
             </div>
             <div class="task done-task">
-                <div class="task-title">Analyzed MindLink websites</div>
-                <div class="task-meta">
-                    <span class="tag">research</span>
-                </div>
-            </div>
-            <div class="task done-task">
-                <div class="task-title">Set up workspace structure</div>
-                <div class="task-meta">
-                    <span class="tag system">system</span>
-                </div>
+                <div class="task-title">Workspace structure setup</div>
+                <div class="task-meta"><span class="tag system">system</span></div>
             </div>
             <div class="task done-task">
                 <div class="task-title">Daily briefing scheduled</div>
-                <div class="task-meta">
-                    <span class="tag system">system</span>
-                </div>
+                <div class="task-meta"><span class="tag system">system</span></div>
+            </div>
+            <div class="task done-task">
+                <div class="task-title">Session memory protocol</div>
+                <div class="task-meta"><span class="tag system">system</span></div>
             </div>
         </div>
     </div>
     
     <div class="section-divider">
         <div class="priorities">
-            <h2 class="section-title">📊 Current Priorities</h2>
+            <h2 class="section-title">📊 Next Up (When R Returns)</h2>
             <div class="priority-list">
                 <div class="priority-card">
-                    <h3>🎯 Leads</h3>
+                    <h3>🎯 Review Research</h3>
                     <ul>
-                        <li>✅ ICP framework defined</li>
-                        <li>✅ B2C prospects identified</li>
-                        <li>✅ LinkedIn deep research (5 leads)</li>
-                        <li>👀 Ready: Pick 2-3 for outreach</li>
+                        <li>Review 5 LinkedIn prospects</li>
+                        <li>⭐ Adam Hanover (Redwood) — top target</li>
+                        <li>Pick 2-3 for first outreach</li>
                     </ul>
                 </div>
                 <div class="priority-card">
                     <h3>🤝 Partnerships</h3>
                     <ul>
-                        <li>✅ 14 agencies identified</li>
-                        <li>✅ Home services & med spa focus</li>
-                        <li>✅ Partnership pitch template</li>
-                        <li>👀 Ready: Reach out to Hook Agency</li>
+                        <li>Review 14 agency partners</li>
+                        <li>Top picks: Hook Agency, MedStar Media</li>
+                        <li>Green light pilot outreach?</li>
                     </ul>
                 </div>
                 <div class="priority-card">
                     <h3>✍️ Content</h3>
                     <ul>
-                        <li>✅ Outreach templates created</li>
-                        <li>LinkedIn post ideas (next)</li>
-                        <li>Thought leadership angles</li>
-                        <li>Case study frameworks</li>
+                        <li>Review outreach templates</li>
+                        <li>Finalize automation-audit skill</li>
+                        <li>LinkedIn post ideas</li>
                     </ul>
                 </div>
             </div>
@@ -501,35 +287,24 @@
     
     <script>
         document.getElementById('timestamp').textContent = new Date().toLocaleString('en-GB', {
-            dateStyle: 'medium',
-            timeStyle: 'short',
-            timeZone: 'Europe/London'
+            dateStyle: 'medium', timeStyle: 'short', timeZone: 'Europe/London'
         }) + ' GMT';
-        
-        // Status indicator logic
         (function() {
             const indicator = document.getElementById('status-indicator');
             const dot = document.getElementById('status-dot');
             const text = document.getElementById('status-text');
             const lastActive = new Date(indicator.dataset.lastActive);
             const now = new Date();
-            const diffMs = now - lastActive;
-            const diffHours = diffMs / (1000 * 60 * 60);
-            
+            const diffHours = (now - lastActive) / (1000 * 60 * 60);
             if (diffHours < 1) {
-                dot.className = 'status-dot working';
-                text.textContent = 'Lez is working...';
-            } else if (diffHours < 4) {
                 dot.className = 'status-dot active';
-                text.textContent = 'Recently active';
+                text.textContent = 'Lez is active';
             } else if (diffHours < 24) {
                 dot.className = 'status-dot recent';
-                const hours = Math.floor(diffHours);
-                text.textContent = hours === 1 ? '1 hour ago' : hours + ' hours ago';
+                text.textContent = Math.floor(diffHours) + ' hours ago';
             } else {
                 dot.className = 'status-dot idle';
-                const days = Math.floor(diffHours / 24);
-                text.textContent = days === 1 ? '1 day ago' : days + ' days ago';
+                text.textContent = Math.floor(diffHours / 24) + ' days ago';
             }
         })();
     </script>
