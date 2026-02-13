@@ -6,17 +6,17 @@
     <title>ROI Calculator | MindLink Systems</title>
     <style>
         :root {
-            --bg-primary: #0a0a0f;
-            --bg-secondary: #12121a;
-            --bg-card: #1a1a24;
-            --accent-primary: #3b82f6;
-            --accent-secondary: #8b5cf6;
-            --accent-gradient: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
-            --text-primary: #ffffff;
-            --text-secondary: #94a3b8;
-            --text-muted: #64748b;
-            --border-color: rgba(255,255,255,0.1);
-            --success: #22c55e;
+            --bg-primary: #000000;
+            --bg-secondary: #0a0a0f;
+            --bg-card: #21277B;
+            --accent-primary: #006AD7;
+            --accent-secondary: #9AD9EA;
+            --accent-gradient: linear-gradient(135deg, #006AD7 0%, #21277B 100%);
+            --text-primary: #FFFFFF;
+            --text-secondary: #9AD9EA;
+            --text-muted: #7aa3b8;
+            --border-color: rgba(154, 217, 234, 0.2);
+            --success: #9AD9EA;
             --warning: #f59e0b;
         }
 
@@ -365,36 +365,23 @@
             margin-bottom: 20px;
         }
 
-        .cta-form {
-            display: flex;
-            gap: 12px;
-            max-width: 400px;
-            margin: 0 auto;
-        }
-
-        @media (max-width: 500px) {
-            .cta-form { flex-direction: column; }
-        }
-
-        .cta-form input {
-            flex: 1;
-            padding: 12px 16px;
-            background: var(--bg-primary);
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
-            color: var(--text-primary);
-            font-size: 1rem;
-        }
-
-        .cta-form button {
-            padding: 12px 24px;
+        .cta-button {
+            display: inline-block;
+            padding: 16px 32px;
             background: var(--accent-gradient);
             border: none;
             border-radius: 8px;
             color: white;
+            font-size: 1.1rem;
             font-weight: 600;
             cursor: pointer;
-            white-space: nowrap;
+            text-decoration: none;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(0, 106, 215, 0.4);
         }
 
         .disclaimer {
@@ -561,12 +548,9 @@
                 </div>
 
                 <div class="cta-section">
-                    <h3>Want a detailed breakdown?</h3>
-                    <p>Get a free personalized automation audit for your business</p>
-                    <form class="cta-form" onsubmit="submitLead(event)">
-                        <input type="email" id="email" placeholder="Enter your email" required>
-                        <button type="submit">Get My Free Audit</button>
-                    </form>
+                    <h3>Ready to unlock these savings?</h3>
+                    <p>Book a free strategy call to see how automation can work for your business</p>
+                    <a href="https://cal.com/mindlinkai/strategy" target="_blank" class="cta-button">Book Your Free Strategy Call →</a>
                 </div>
             </div>
         </div>
@@ -850,18 +834,7 @@
             document.getElementById('results').scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
 
-        function submitLead(e) {
-            e.preventDefault();
-            const email = document.getElementById('email').value;
-            const industry = document.getElementById('industry').value;
-            const savings = document.getElementById('annual-savings').textContent;
-            const fte = document.getElementById('fte-equivalent').textContent;
-            
-            // TODO: Replace with your form endpoint
-            console.log('Lead captured:', { email, industry, savings, fte });
-            
-            alert('Thanks! We\'ll send your personalized automation audit within 24 hours.');
-        }
+        // CTA links to Cal.com booking
 
         // Initialize
         updateDefaults();
