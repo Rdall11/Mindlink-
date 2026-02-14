@@ -449,13 +449,25 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="hourly-cost">Average Hourly Employee Cost ($)</label>
+                    <label for="hourly-cost" id="hourly-label">Average Hourly Employee Cost ($)</label>
                     <input type="number" id="hourly-cost" value="35" min="10" max="500">
                 </div>
 
                 <div class="form-group">
                     <label for="locations">Number of Locations / Portfolio Companies</label>
                     <input type="number" id="locations" value="1" min="1" max="100">
+                </div>
+
+                <div class="form-group">
+                    <label for="currency">Currency</label>
+                    <select id="currency" onchange="updateCurrencyLabel()">
+                        <option value="USD" data-symbol="$">USD ($) - US Dollar</option>
+                        <option value="EUR" data-symbol="€">EUR (€) - Euro</option>
+                        <option value="GBP" data-symbol="£">GBP (£) - British Pound</option>
+                        <option value="CAD" data-symbol="$">CAD ($) - Canadian Dollar</option>
+                        <option value="AUD" data-symbol="$">AUD ($) - Australian Dollar</option>
+                        <option value="ZAR" data-symbol="R">ZAR (R) - South African Rand</option>
+                    </select>
                 </div>
             </div>
 
@@ -563,6 +575,32 @@
 
     <script>
         let currentEstimate = 'moderate';
+        
+        const currencyFormats = {
+            USD: { symbol: '$', position: 'before', locale: 'en-US' },
+            EUR: { symbol: '€', position: 'before', locale: 'de-DE' },
+            GBP: { symbol: '£', position: 'before', locale: 'en-GB' },
+            CAD: { symbol: '$', position: 'before', locale: 'en-CA' },
+            AUD: { symbol: '$', position: 'before', locale: 'en-AU' },
+            ZAR: { symbol: 'R', position: 'before', locale: 'en-ZA' }
+        };
+
+        function getCurrencySymbol() {
+            const select = document.getElementById('currency');
+            return select.options[select.selectedIndex].dataset.symbol;
+        }
+
+        function formatCurrency(amount) {
+            const currency = document.getElementById('currency').value;
+            const format = currencyFormats[currency];
+            const formatted = Math.round(amount).toLocaleString(format.locale);
+            return format.symbol + formatted;
+        }
+
+        function updateCurrencyLabel() {
+            const symbol = getCurrencySymbol();
+            document.getElementById('hourly-label').textContent = `Average Hourly Employee Cost (${symbol})`;
+        }
 
         // Automation rates by estimate type
         const automationMultipliers = {
@@ -800,8 +838,8 @@
 
             // Update results
             document.getElementById('hours-saved').textContent = Math.round(hoursSaved);
-            document.getElementById('monthly-savings').textContent = '$' + Math.round(monthlySavings).toLocaleString();
-            document.getElementById('annual-savings').textContent = '$' + Math.round(annualSavings).toLocaleString();
+            document.getElementById('monthly-savings').textContent = formatCurrency(monthlySavings);
+            document.getElementById('annual-savings').textContent = formatCurrency(annualSavings);
             document.getElementById('fte-equivalent').textContent = fteEquivalent.toFixed(1);
             document.getElementById('payback').textContent = paybackMonths.toFixed(1);
             document.getElementById('roi-percent').textContent = Math.round(roiPercent) + '%';
@@ -809,9 +847,9 @@
             // Update ranges
             if (currentEstimate === 'moderate') {
                 document.getElementById('monthly-range').textContent = 
-                    '$' + Math.round(monthlyLow).toLocaleString() + ' - $' + Math.round(monthlyHigh).toLocaleString();
+                    formatCurrency(monthlyLow) + ' - ' + formatCurrency(monthlyHigh);
                 document.getElementById('annual-range').textContent = 
-                    '$' + Math.round(annualLow).toLocaleString() + ' - $' + Math.round(annualHigh).toLocaleString();
+                    formatCurrency(annualLow) + ' - ' + formatCurrency(annualHigh);
             } else {
                 document.getElementById('monthly-range').textContent = '';
                 document.getElementById('annual-range').textContent = '';
@@ -824,10 +862,10 @@
             document.getElementById('bar-after').style.width = (afterHours / totalHours * 100) + '%';
 
             // Update timeline
-            document.getElementById('savings-3mo').textContent = '$' + Math.round(monthlySavings * 3).toLocaleString();
-            document.getElementById('savings-6mo').textContent = '$' + Math.round(monthlySavings * 6).toLocaleString();
-            document.getElementById('savings-12mo').textContent = '$' + Math.round(monthlySavings * 12).toLocaleString();
-            document.getElementById('savings-24mo').textContent = '$' + Math.round(monthlySavings * 24).toLocaleString();
+            document.getElementById('savings-3mo').textContent = formatCurrency(monthlySavings * 3);
+            document.getElementById('savings-6mo').textContent = formatCurrency(monthlySavings * 6);
+            document.getElementById('savings-12mo').textContent = formatCurrency(monthlySavings * 12);
+            document.getElementById('savings-24mo').textContent = formatCurrency(monthlySavings * 24);
 
             // Show results
             document.getElementById('results').classList.add('show');
