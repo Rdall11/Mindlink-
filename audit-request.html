@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Request Your Free Audit Preview | MindLink Systems</title>
+    <style>
+        :root {
+            --bg-primary: #0a0a0f;
+            --bg-secondary: #12121a;
+            --bg-card: #1a1a24;
+            --accent-primary: #006AD7;
+            --accent-gradient: linear-gradient(135deg, #006AD7 0%, #0052a3 100%);
+            --text-primary: #ffffff;
+            --text-secondary: #94a3b8;
+            --text-muted: #64748b;
+            --border-color: rgba(255,255,255,0.1);
+            --success: #22c55e;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+
+        .container {
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .header h1 {
+            font-size: 2.2rem;
+            margin-bottom: 12px;
+            background: var(--accent-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .header p {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            line-height: 1.6;
+        }
+
+        .form-card {
+            background: var(--bg-card);
+            border-radius: 16px;
+            padding: 40px;
+            border: 1px solid var(--border-color);
+        }
+
+        .section-title {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            margin-bottom: 24px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .form-group {
+            margin-bottom: 24px;
+        }
+
+        label {
+            display: block;
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+            margin-bottom: 8px;
+        }
+
+        label .required {
+            color: var(--accent-primary);
+        }
+
+        input[type="text"],
+        input[type="email"],
+        input[type="url"],
+        select,
+        textarea {
+            width: 100%;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 12px 16px;
+            color: var(--text-primary);
+            font-size: 1rem;
+            transition: border-color 0.2s;
+            font-family: inherit;
+        }
+
+        input:focus,
+        select:focus,
+        textarea:focus {
+            outline: none;
+            border-color: var(--accent-primary);
+        }
+
+        textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        .helper-text {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-top: 6px;
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 16px;
+            background: var(--accent-gradient);
+            border: none;
+            border-radius: 8px;
+            color: white;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            margin-top: 8px;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(0, 106, 215, 0.3);
+        }
+
+        .submit-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .success-message {
+            display: none;
+            background: var(--bg-card);
+            border: 2px solid var(--success);
+            border-radius: 16px;
+            padding: 48px 40px;
+            text-align: center;
+        }
+
+        .success-message.show {
+            display: block;
+        }
+
+        .success-message h2 {
+            color: var(--success);
+            font-size: 1.8rem;
+            margin-bottom: 16px;
+        }
+
+        .success-message p {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            line-height: 1.6;
+        }
+
+        .features {
+            background: var(--bg-secondary);
+            border-radius: 12px;
+            padding: 24px;
+            margin-top: 32px;
+        }
+
+        .features h3 {
+            font-size: 1rem;
+            color: var(--text-secondary);
+            margin-bottom: 16px;
+        }
+
+        .features ul {
+            list-style: none;
+        }
+
+        .features li {
+            color: var(--text-secondary);
+            padding: 8px 0;
+            padding-left: 24px;
+            position: relative;
+        }
+
+        .features li:before {
+            content: "✓";
+            color: var(--accent-primary);
+            font-weight: bold;
+            position: absolute;
+            left: 0;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 40px;
+            padding-top: 24px;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .footer-logo {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--accent-primary);
+            margin-bottom: 8px;
+        }
+
+        .footer p {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 600px) {
+            .header h1 { font-size: 1.8rem; }
+            .form-card { padding: 24px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Request Your Free Audit Preview</h1>
+            <p>Get a personalized analysis of automation opportunities in your business. No obligation, delivered within 24 hours.</p>
+        </div>
+
+        <div class="form-card" id="form-container">
+            <div class="section-title">Your Business Information</div>
+            
+            <form id="audit-request-form" name="audit-request" method="POST" data-netlify="true">
+                <div class="form-group">
+                    <label for="company-name">Company Name <span class="required">*</span></label>
+                    <input type="text" id="company-name" name="companyName" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="website">Company Website <span class="required">*</span></label>
+                    <input type="url" id="website" name="website" placeholder="https://example.com" required>
+                    <div class="helper-text">We'll analyze your website to understand your business model</div>
+                </div>
+
+                <div class="form-group">
+                    <label for="industry">Industry <span class="required">*</span></label>
+                    <select id="industry" name="industry" required>
+                        <option value="">Select your industry...</option>
+                        <optgroup label="B2C / High-Volume">
+                            <option value="home-services">Home Services (HVAC, Plumbing, Electrical)</option>
+                            <option value="med-spa">Med Spa / Aesthetics</option>
+                            <option value="healthcare">Healthcare / Dental Practice</option>
+                            <option value="property-management">Property Management</option>
+                            <option value="ecommerce">E-commerce / Retail</option>
+                        </optgroup>
+                        <optgroup label="B2B / Professional Services">
+                            <option value="private-equity">Private Equity / Investment Firm</option>
+                            <option value="real-estate-dev">Real Estate Development</option>
+                            <option value="law-firm">Law Firm / Legal Services</option>
+                            <option value="accounting">Accounting / CPA Firm</option>
+                            <option value="wealth-management">Wealth Management / Financial Advisory</option>
+                            <option value="insurance">Insurance Agency</option>
+                            <option value="recruiting">Recruiting / Staffing Agency</option>
+                            <option value="agency">Marketing Agency</option>
+                        </optgroup>
+                        <optgroup label="Other">
+                            <option value="other">Other Industry</option>
+                        </optgroup>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="email">Your Email <span class="required">*</span></label>
+                    <input type="email" id="email" name="email" required>
+                    <div class="helper-text">We'll send your audit preview to this email</div>
+                </div>
+
+                <div class="form-group">
+                    <label for="name">Your Name <span class="required">*</span></label>
+                    <input type="text" id="name" name="name" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="notes">Anything specific you'd like us to focus on? (Optional)</label>
+                    <textarea id="notes" name="notes" placeholder="E.g., 'We're struggling with customer follow-ups' or 'Looking to reduce admin time'"></textarea>
+                </div>
+
+                <button type="submit" class="submit-btn" id="submit-btn">Request My Free Audit Preview →</button>
+            </form>
+
+            <div class="features">
+                <h3>What you'll receive:</h3>
+                <ul>
+                    <li>Analysis of your current operational state</li>
+                    <li>Top 2 automation opportunities for your industry</li>
+                    <li>Estimated savings potential (ballpark)</li>
+                    <li>Delivered within 24 hours</li>
+                    <li>100% free, no obligation</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="success-message" id="success-message">
+            <h2>✓ Request Received!</h2>
+            <p style="margin-bottom: 16px;">Thanks for your interest! We'll analyze <strong id="submitted-company"></strong> and send your personalized audit preview to <strong id="submitted-email"></strong> within 24 hours.</p>
+            <p>In the meantime, feel free to <a href="https://cal.com/mindlinkai/strategy" style="color: var(--accent-primary); text-decoration: none;">book a strategy call</a> if you'd like to discuss your automation needs directly.</p>
+        </div>
+
+        <div class="footer">
+            <div class="footer-logo">MindLink Systems</div>
+            <p>AI Automation Consulting • mindlink.systems</p>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('audit-request-form').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const submitBtn = document.getElementById('submit-btn');
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Submitting...';
+
+            const formData = {
+                companyName: document.getElementById('company-name').value,
+                website: document.getElementById('website').value,
+                industry: document.getElementById('industry').value,
+                email: document.getElementById('email').value,
+                name: document.getElementById('name').value,
+                notes: document.getElementById('notes').value,
+                timestamp: new Date().toISOString()
+            };
+
+            try {
+                // TODO: Replace with your actual endpoint (Netlify Forms, Formspree, or custom API)
+                // For now, this will just show the success message
+                
+                // Simulate API call
+                await new Promise(resolve => setTimeout(resolve, 1000));
+                
+                // Store in localStorage as backup (for development/testing)
+                const submissions = JSON.parse(localStorage.getItem('auditRequests') || '[]');
+                submissions.push(formData);
+                localStorage.setItem('auditRequests', JSON.stringify(submissions));
+                
+                // Show success message
+                document.getElementById('submitted-company').textContent = formData.companyName;
+                document.getElementById('submitted-email').textContent = formData.email;
+                document.getElementById('form-container').style.display = 'none';
+                document.getElementById('success-message').classList.add('show');
+                
+                // Log to console for now (replace with actual submission)
+                console.log('Audit request submitted:', formData);
+                
+            } catch (error) {
+                alert('Something went wrong. Please try again or email us directly at contact@mindlink.systems');
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Request My Free Audit Preview →';
+            }
+        });
+    </script>
+</body>
+</html>
