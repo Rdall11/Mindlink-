@@ -206,6 +206,14 @@
             box-shadow: 0 8px 24px rgba(0, 106, 215, 0.3);
         }
 
+        .disclaimer-text {
+            text-align: center;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-bottom: 16px;
+            line-height: 1.5;
+        }
+
         .results {
             display: none;
             margin-top: 32px;
@@ -485,6 +493,8 @@
                 <!-- Tasks will be dynamically inserted here -->
             </div>
 
+            <p class="disclaimer-text">*These estimates are based on industry benchmarks and typical automation rates. Actual savings vary by business. Book a call for a detailed analysis of your specific operations.</p>
+            
             <button class="calculate-btn" onclick="calculate()">Calculate My Savings →</button>
 
             <div class="results" id="results">
