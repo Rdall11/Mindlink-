@@ -514,8 +514,8 @@
                         <div class="result-label">Month Payback</div>
                     </div>
                     <div class="result-card">
-                        <div class="result-value" id="roi-percent">0%</div>
-                        <div class="result-label">First Year ROI</div>
+                        <div class="result-value" id="roi-percent">0x</div>
+                        <div class="result-label">Savings Multiple</div>
                     </div>
                 </div>
 
@@ -833,8 +833,8 @@
             const implementationCost = monthlySavings * 2;
             const paybackMonths = monthlySavings > 0 ? implementationCost / monthlySavings : 0;
             
-            // ROI percentage
-            const roiPercent = implementationCost > 0 ? ((annualSavings - implementationCost) / implementationCost * 100) : 0;
+            // Savings multiple
+            const savingsMultiple = implementationCost > 0 ? (annualSavings / implementationCost) : 0;
 
             // Update results
             document.getElementById('hours-saved').textContent = Math.round(hoursSaved);
@@ -842,7 +842,7 @@
             document.getElementById('annual-savings').textContent = formatCurrency(annualSavings);
             document.getElementById('fte-equivalent').textContent = fteEquivalent.toFixed(1);
             document.getElementById('payback').textContent = paybackMonths.toFixed(1);
-            document.getElementById('roi-percent').textContent = Math.round(roiPercent) + '%';
+            document.getElementById('roi-percent').textContent = savingsMultiple.toFixed(1) + 'x';
 
             // Update ranges
             if (currentEstimate === 'moderate') {
