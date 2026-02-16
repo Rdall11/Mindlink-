@@ -27,8 +27,6 @@
             animation: pulse 2s infinite;
         }
         .status-dot.active { background: #6bcb77; box-shadow: 0 0 10px #6bcb77; }
-        .status-dot.recent { background: #ffd93d; }
-        .status-dot.idle { background: #4a5568; animation: none; }
         @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
         h1 { font-size: 2rem; margin-bottom: 5px; }
         .subtitle { color: #8892b0; font-size: 0.95rem; }
@@ -84,40 +82,17 @@
         .tag.system { background: rgba(123,44,191,0.2); color: #a855f7; }
         .done-task { opacity: 0.6; }
         .done-task .task-title { text-decoration: line-through; }
-        .section-divider {
-            margin: 40px auto; max-width: 1400px;
-            border-top: 1px solid rgba(255,255,255,0.1); padding-top: 30px;
-        }
-        .section-title { font-size: 1.2rem; margin-bottom: 20px; color: #8892b0; }
-        .priorities { max-width: 1400px; margin: 0 auto; }
-        .priority-list { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
-        @media (max-width: 900px) { .priority-list { grid-template-columns: 1fr; } }
-        .priority-card {
-            background: rgba(255,255,255,0.03);
-            border-radius: 12px; padding: 20px;
-            border: 1px solid rgba(255,255,255,0.08);
-        }
-        .priority-card h3 {
-            display: flex; align-items: center; gap: 10px;
-            margin-bottom: 15px; font-size: 1rem;
-        }
-        .priority-card ul { list-style: none; }
-        .priority-card li {
-            padding: 8px 0; border-bottom: 1px solid rgba(255,255,255,0.05);
-            font-size: 0.9rem; color: #b8c1d1;
-        }
-        .priority-card li:last-child { border-bottom: none; }
     </style>
 </head>
 <body>
     <div class="header">
-        <div class="status-indicator" id="status-indicator" data-last-active="2026-02-12T22:20:00Z">
-            <div class="status-dot active" id="status-dot"></div>
-            <span class="status-text" id="status-text">Lez is active</span>
+        <div class="status-indicator">
+            <div class="status-dot active"></div>
+            <span class="status-text">Lez is active</span>
         </div>
         <h1>🧠 MindLink Ops Dashboard</h1>
         <div class="subtitle">R's AI Assistant Work Tracker</div>
-        <div class="last-updated">Last updated: <span id="timestamp"></span></div>
+        <div class="last-updated">Last updated: Mon Feb 16, 2026 - 09:42 GMT</div>
     </div>
     
     <div class="stats-bar">
@@ -126,15 +101,15 @@
             <div class="stat-label">In Progress</div>
         </div>
         <div class="stat">
-            <div class="stat-number">3</div>
+            <div class="stat-number">1</div>
             <div class="stat-label">Ready for Review</div>
         </div>
         <div class="stat">
-            <div class="stat-number">11</div>
+            <div class="stat-number">15</div>
             <div class="stat-label">Completed</div>
         </div>
         <div class="stat">
-            <div class="stat-number">4</div>
+            <div class="stat-number">3</div>
             <div class="stat-label">Backlog</div>
         </div>
     </div>
@@ -144,39 +119,47 @@
             <div class="column-header">
                 <span class="column-icon">📋</span>
                 <span class="column-title">Backlog</span>
-                <span class="column-count">4</span>
+                <span class="column-count">3</span>
+            </div>
+            <div class="task">
+                <div class="task-title">Slack integration for intern coordination</div>
+                <div class="task-meta">
+                    <span class="tag system">system</span>
+                </div>
+            </div>
+            <div class="task">
+                <div class="task-title">Multi-agent setup exploration</div>
+                <div class="task-meta">
+                    <span class="tag system">research</span>
+                </div>
             </div>
             <div class="task">
                 <div class="task-title">Competitor landscape analysis</div>
-                <div class="task-meta"><span class="tag">research</span></div>
-            </div>
-            <div class="task">
-                <div class="task-title">Intern task brief templates</div>
-                <div class="task-meta"><span class="tag system">system</span></div>
-            </div>
-            <div class="task">
-                <div class="task-title">Meeting prep system</div>
-                <div class="task-meta"><span class="tag system">system</span></div>
-            </div>
-            <div class="task">
-                <div class="task-title">Proposal templates</div>
-                <div class="task-meta"><span class="tag content">content</span></div>
+                <div class="task-meta">
+                    <span class="tag">research</span>
+                </div>
             </div>
         </div>
         
         <div class="column">
             <div class="column-header">
-                <span class="column-icon">🔨</span>
+                <span class="column-icon">⚙️</span>
                 <span class="column-title">In Progress</span>
                 <span class="column-count">2</span>
             </div>
-            <div class="task priority-medium">
-                <div class="task-title">Automation Audit skill</div>
-                <div class="task-meta"><span class="tag system">system</span></div>
+            <div class="task priority-high">
+                <div class="task-title">LinkedIn outreach - awaiting connection accepts</div>
+                <div class="task-meta">
+                    <span class="tag leads">leads</span>
+                    <span class="tag">5 sent</span>
+                </div>
             </div>
             <div class="task priority-medium">
-                <div class="task-title">LinkedIn content ideas</div>
-                <div class="task-meta"><span class="tag content">content</span></div>
+                <div class="task-title">Remaining LinkedIn connections (3)</div>
+                <div class="task-meta">
+                    <span class="tag leads">leads</span>
+                    <span class="tag">ready</span>
+                </div>
             </div>
         </div>
         
@@ -184,19 +167,14 @@
             <div class="column-header">
                 <span class="column-icon">👀</span>
                 <span class="column-title">Ready for Review</span>
-                <span class="column-count">3</span>
+                <span class="column-count">1</span>
             </div>
             <div class="task review">
-                <div class="task-title">LinkedIn prospect research (5 leads)</div>
-                <div class="task-meta"><span class="tag leads">leads</span></div>
-            </div>
-            <div class="task review">
-                <div class="task-title">Agency partners list (14 agencies)</div>
-                <div class="task-meta"><span class="tag partners">partners</span></div>
-            </div>
-            <div class="task review">
-                <div class="task-title">Outreach message templates</div>
-                <div class="task-meta"><span class="tag content">content</span></div>
+                <div class="task-title">Automation Savings Calculator - website integration</div>
+                <div class="task-meta">
+                    <span class="tag content">tool</span>
+                    <span class="tag">deployed</span>
+                </div>
             </div>
         </div>
         
@@ -204,109 +182,114 @@
             <div class="column-header">
                 <span class="column-icon">✅</span>
                 <span class="column-title">Done</span>
-                <span class="column-count">11</span>
+                <span class="column-count">15</span>
             </div>
             <div class="task done-task">
-                <div class="task-title">OpenRouter API setup</div>
-                <div class="task-meta"><span class="tag system">system</span></div>
-            </div>
-            <div class="task done-task">
-                <div class="task-title">Ollama local LLM (heartbeats)</div>
-                <div class="task-meta"><span class="tag system">system</span></div>
-            </div>
-            <div class="task done-task">
-                <div class="task-title">Model routing configured</div>
-                <div class="task-meta"><span class="tag system">system</span></div>
-            </div>
-            <div class="task done-task">
-                <div class="task-title">QMD search skill installed</div>
-                <div class="task-meta"><span class="tag system">system</span></div>
-            </div>
-            <div class="task done-task">
-                <div class="task-title">ICP lead research framework</div>
-                <div class="task-meta"><span class="tag leads">leads</span></div>
-            </div>
-            <div class="task done-task">
-                <div class="task-title">B2C prospects identified</div>
-                <div class="task-meta"><span class="tag leads">leads</span></div>
-            </div>
-            <div class="task done-task">
-                <div class="task-title">Telegram channel secured</div>
-                <div class="task-meta"><span class="tag system">system</span></div>
-            </div>
-            <div class="task done-task">
-                <div class="task-title">Business context captured</div>
-                <div class="task-meta"><span class="tag system">system</span></div>
-            </div>
-            <div class="task done-task">
-                <div class="task-title">Workspace structure setup</div>
-                <div class="task-meta"><span class="tag system">system</span></div>
-            </div>
-            <div class="task done-task">
-                <div class="task-title">Daily briefing scheduled</div>
-                <div class="task-meta"><span class="tag system">system</span></div>
-            </div>
-            <div class="task done-task">
-                <div class="task-title">Session memory protocol</div>
-                <div class="task-meta"><span class="tag system">system</span></div>
-            </div>
-        </div>
-    </div>
-    
-    <div class="section-divider">
-        <div class="priorities">
-            <h2 class="section-title">📊 Next Up (When R Returns)</h2>
-            <div class="priority-list">
-                <div class="priority-card">
-                    <h3>🎯 Review Research</h3>
-                    <ul>
-                        <li>Review 5 LinkedIn prospects</li>
-                        <li>⭐ Adam Hanover (Redwood) — top target</li>
-                        <li>Pick 2-3 for first outreach</li>
-                    </ul>
+                <div class="task-title">ROI Calculator → Automation Savings Calculator rename</div>
+                <div class="task-meta">
+                    <span class="tag content">tool</span>
                 </div>
-                <div class="priority-card">
-                    <h3>🤝 Partnerships</h3>
-                    <ul>
-                        <li>Review 14 agency partners</li>
-                        <li>Top picks: Hook Agency, MedStar Media</li>
-                        <li>Green light pilot outreach?</li>
-                    </ul>
+            </div>
+            <div class="task done-task">
+                <div class="task-title">AI Audit skill - teaser version built</div>
+                <div class="task-meta">
+                    <span class="tag system">skill</span>
                 </div>
-                <div class="priority-card">
-                    <h3>✍️ Content</h3>
-                    <ul>
-                        <li>Review outreach templates</li>
-                        <li>Finalize automation-audit skill</li>
-                        <li>LinkedIn post ideas</li>
-                    </ul>
+            </div>
+            <div class="task done-task">
+                <div class="task-title">RAN³ audit preview generated</div>
+                <div class="task-meta">
+                    <span class="tag leads">demo</span>
+                </div>
+            </div>
+            <div class="task done-task">
+                <div class="task-title">Audit request form deployed</div>
+                <div class="task-meta">
+                    <span class="tag content">tool</span>
+                </div>
+            </div>
+            <div class="task done-task">
+                <div class="task-title">Auto-generation cron job (6hr check)</div>
+                <div class="task-meta">
+                    <span class="tag system">automation</span>
+                </div>
+            </div>
+            <div class="task done-task">
+                <div class="task-title">LinkedIn outreach drafts (8 targets)</div>
+                <div class="task-meta">
+                    <span class="tag leads">leads</span>
+                </div>
+            </div>
+            <div class="task done-task">
+                <div class="task-title">Currency selector added to calculator</div>
+                <div class="task-meta">
+                    <span class="tag content">feature</span>
+                </div>
+            </div>
+            <div class="task done-task">
+                <div class="task-title">Brand colors applied to calculator</div>
+                <div class="task-meta">
+                    <span class="tag content">design</span>
+                </div>
+            </div>
+            <div class="task done-task">
+                <div class="task-title">Lead research - 5 prospects + 3 agencies</div>
+                <div class="task-meta">
+                    <span class="tag leads">research</span>
+                </div>
+            </div>
+            <div class="task done-task">
+                <div class="task-title">Industry benchmarks reference doc</div>
+                <div class="task-meta">
+                    <span class="tag">research</span>
+                </div>
+            </div>
+            <div class="task done-task">
+                <div class="task-title">QMD local search skill installed</div>
+                <div class="task-meta">
+                    <span class="tag system">skill</span>
+                </div>
+            </div>
+            <div class="task done-task">
+                <div class="task-title">Model cost optimization (Opus → Sonnet)</div>
+                <div class="task-meta">
+                    <span class="tag system">config</span>
+                </div>
+            </div>
+            <div class="task done-task">
+                <div class="task-title">Kanban dashboard initial build</div>
+                <div class="task-meta">
+                    <span class="tag system">tool</span>
+                </div>
+            </div>
+            <div class="task done-task">
+                <div class="task-title">ICP framework & outreach templates</div>
+                <div class="task-meta">
+                    <span class="tag leads">strategy</span>
+                </div>
+            </div>
+            <div class="task done-task">
+                <div class="task-title">AGENTS.md, SOUL.md, USER.md setup</div>
+                <div class="task-meta">
+                    <span class="tag system">config</span>
                 </div>
             </div>
         </div>
     </div>
     
     <script>
-        document.getElementById('timestamp').textContent = new Date().toLocaleString('en-GB', {
-            dateStyle: 'medium', timeStyle: 'short', timeZone: 'Europe/London'
-        }) + ' GMT';
-        (function() {
-            const indicator = document.getElementById('status-indicator');
-            const dot = document.getElementById('status-dot');
-            const text = document.getElementById('status-text');
-            const lastActive = new Date(indicator.dataset.lastActive);
-            const now = new Date();
-            const diffHours = (now - lastActive) / (1000 * 60 * 60);
-            if (diffHours < 1) {
-                dot.className = 'status-dot active';
-                text.textContent = 'Lez is active';
-            } else if (diffHours < 24) {
-                dot.className = 'status-dot recent';
-                text.textContent = Math.floor(diffHours) + ' hours ago';
-            } else {
-                dot.className = 'status-dot idle';
-                text.textContent = Math.floor(diffHours / 24) + ' days ago';
-            }
-        })();
+        // Auto-update timestamp
+        const now = new Date();
+        const options = { 
+            weekday: 'short', 
+            year: 'numeric', 
+            month: 'short', 
+            day: 'numeric',
+            hour: '2-digit',
+            minute: '2-digit',
+            timeZone: 'Europe/London'
+        };
+        document.getElementById('timestamp').textContent = now.toLocaleString('en-GB', options) + ' GMT';
     </script>
 </body>
 </html>
