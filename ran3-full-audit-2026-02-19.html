@@ -684,8 +684,27 @@
                 page-break-inside: avoid;
             }
             
+            table {
+                print-color-adjust: exact;
+                -webkit-print-color-adjust: exact;
+            }
+            
             @page {
                 margin: 2cm;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .key-stats {
+                grid-template-columns: 1fr;
+            }
+            
+            table {
+                font-size: 0.85em;
+            }
+            
+            th, td {
+                padding: 10px !important;
             }
         }
     </style>
