@@ -241,9 +241,7 @@
             background: var(--bg-card);
             padding: 20px;
             position: relative;
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
+            min-height: 250px;
         }
         
         .quadrant-label {
@@ -252,7 +250,9 @@
             color: var(--text-muted);
             text-transform: uppercase;
             letter-spacing: 0.5px;
-            margin-bottom: 8px;
+            margin-bottom: 15px;
+            position: relative;
+            z-index: 2;
         }
         
         .quadrant-tl {
@@ -271,24 +271,54 @@
             border-left: 2px solid var(--accent-primary);
         }
         
-        .matrix-item {
-            background: var(--bg-secondary);
-            padding: 12px 16px;
-            border-radius: 6px;
-            font-size: 0.95em;
-            color: var(--text-primary);
-            border-left: 3px solid;
-            transition: all 0.2s ease;
-        }
-        
-        .matrix-item:hover {
-            transform: translateX(3px);
+        .matrix-bubble {
+            position: absolute;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.75em;
+            font-weight: 500;
+            color: white;
+            text-align: center;
+            padding: 8px;
+            transition: all 0.3s ease;
+            cursor: pointer;
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+            line-height: 1.2;
         }
         
-        .matrix-item.quick { border-color: #4ade80; }
-        .matrix-item.mid { border-color: #fbbf24; }
-        .matrix-item.long { border-color: #f87171; }
+        .matrix-bubble:hover {
+            transform: scale(1.15);
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.5);
+            z-index: 10;
+        }
+        
+        .matrix-bubble.quick { background: #4ade80; }
+        .matrix-bubble.mid { background: #fbbf24; }
+        .matrix-bubble.long { background: #f87171; }
+        
+        .bubble-tooltip {
+            display: none;
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--bg-primary);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 12px 16px;
+            margin-bottom: 10px;
+            white-space: nowrap;
+            font-size: 0.9em;
+            color: var(--text-secondary);
+            z-index: 100;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+        }
+        
+        .matrix-bubble:hover .bubble-tooltip {
+            display: block;
+        }
         
         /* Opportunities */
         .priority-section {
@@ -458,6 +488,11 @@
             .matrix-y-label {
                 display: none;
             }
+            .matrix-bubble {
+                position: relative !important;
+                margin: 10px;
+                display: inline-flex !important;
+            }
         }
         
         @media print {
@@ -541,27 +576,51 @@
                         <!-- Top Left: Low Impact, Low Effort -->
                         <div class="quadrant quadrant-tl">
                             <div class="quadrant-label">Nice to Have</div>
-                            <div class="matrix-item quick">Contractor Communications</div>
-                            <div class="matrix-item mid">Compliance Tracking</div>
+                            <div class="matrix-bubble quick" style="width: 75px; height: 75px; top: 35%; left: 25%;">
+                                Contractor Comms
+                                <div class="bubble-tooltip">Contractor & Vendor Communications<br>€25K - €35K/year</div>
+                            </div>
+                            <div class="matrix-bubble mid" style="width: 85px; height: 85px; top: 55%; left: 65%;">
+                                Compliance
+                                <div class="bubble-tooltip">Multi-Jurisdiction Compliance<br>€35K - €45K/year</div>
+                            </div>
                         </div>
                         <!-- Top Right: High Impact, Low Effort -->
                         <div class="quadrant quadrant-tr">
                             <div class="quadrant-label">Quick Wins</div>
-                            <div class="matrix-item quick">Investor Communication Hub</div>
-                            <div class="matrix-item quick">Deal Pipeline Management</div>
-                            <div class="matrix-item mid">Due Diligence Processing</div>
+                            <div class="matrix-bubble quick" style="width: 90px; height: 90px; top: 25%; left: 20%;">
+                                Investor Comms
+                                <div class="bubble-tooltip">Investor Communication Hub<br>€40K - €50K/year</div>
+                            </div>
+                            <div class="matrix-bubble quick" style="width: 85px; height: 85px; top: 50%; left: 60%;">
+                                Deal Pipeline
+                                <div class="bubble-tooltip">Deal Pipeline Management<br>€30K - €40K/year</div>
+                            </div>
+                            <div class="matrix-bubble mid" style="width: 105px; height: 105px; top: 60%; left: 25%;">
+                                Due Diligence
+                                <div class="bubble-tooltip">Due Diligence Processing<br>€60K - €80K/year</div>
+                            </div>
                         </div>
                         <!-- Bottom Left: Low Impact, High Effort -->
                         <div class="quadrant quadrant-bl">
                             <div class="quadrant-label">Avoid</div>
-                            <p style="color: var(--text-muted); font-size: 0.9em; font-style: italic;">No opportunities identified in this category</p>
+                            <p style="color: var(--text-muted); font-size: 0.9em; font-style: italic; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center;">No opportunities<br>identified</p>
                         </div>
                         <!-- Bottom Right: High Impact, High Effort -->
                         <div class="quadrant quadrant-br">
                             <div class="quadrant-label">Strategic</div>
-                            <div class="matrix-item mid">Portfolio Reporting System</div>
-                            <div class="matrix-item mid">Capital Call/Distribution</div>
-                            <div class="matrix-item mid">Asset-Level KPI Dashboard</div>
+                            <div class="matrix-bubble mid" style="width: 120px; height: 120px; top: 25%; left: 55%;">
+                                Portfolio Reporting
+                                <div class="bubble-tooltip">Portfolio Reporting Automation<br>€80K - €100K/year</div>
+                            </div>
+                            <div class="matrix-bubble mid" style="width: 110px; height: 110px; top: 60%; left: 20%;">
+                                Capital Calls
+                                <div class="bubble-tooltip">Capital Call & Distribution<br>€70K - €90K/year</div>
+                            </div>
+                            <div class="matrix-bubble mid" style="width: 95px; height: 95px; top: 35%; left: 15%;">
+                                KPI Dashboard
+                                <div class="bubble-tooltip">Asset-Level KPI Dashboard<br>€50K - €65K/year</div>
+                            </div>
                         </div>
                     </div>
                     <div class="matrix-x-label">Business Impact</div>
