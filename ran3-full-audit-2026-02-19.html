@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AI Automation Audit - RAN³</title>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
     <style>
         :root {
             --bg-primary: #0a0a0f;
@@ -162,22 +161,20 @@
         /* Matrix */
         .matrix-container {
             margin: 30px 0;
-            padding: 20px;
+            padding: 30px;
             background: var(--bg-secondary);
             border-radius: 12px;
         }
         
-        .chart-wrapper {
-            position: relative;
-            height: 500px;
-            margin: 20px 0;
+        .matrix-header {
+            display: flex;
+            justify-content: flex-end;
+            margin-bottom: 20px;
         }
         
         .matrix-legend {
             display: flex;
-            gap: 30px;
-            justify-content: center;
-            margin-top: 20px;
+            gap: 20px;
             flex-wrap: wrap;
         }
         
@@ -186,17 +183,112 @@
             align-items: center;
             gap: 8px;
             color: var(--text-secondary);
+            font-size: 0.9em;
         }
         
         .legend-color {
-            width: 20px;
-            height: 20px;
+            width: 16px;
+            height: 16px;
             border-radius: 50%;
         }
         
         .legend-color.quick { background: #4ade80; }
         .legend-color.mid { background: #fbbf24; }
         .legend-color.long { background: #f87171; }
+        
+        .matrix-grid {
+            position: relative;
+            padding-left: 30px;
+            padding-bottom: 30px;
+        }
+        
+        .matrix-y-label {
+            position: absolute;
+            left: -10px;
+            top: 50%;
+            transform: translateY(-50%) rotate(-90deg);
+            font-size: 0.9em;
+            font-weight: 600;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            white-space: nowrap;
+        }
+        
+        .matrix-x-label {
+            text-align: center;
+            margin-top: 15px;
+            font-size: 0.9em;
+            font-weight: 600;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .matrix-quadrants {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            grid-template-rows: 1fr 1fr;
+            gap: 2px;
+            background: var(--border-color);
+            border: 2px solid var(--border-color);
+            border-radius: 8px;
+            overflow: hidden;
+            min-height: 500px;
+        }
+        
+        .quadrant {
+            background: var(--bg-card);
+            padding: 20px;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        
+        .quadrant-label {
+            font-size: 0.85em;
+            font-weight: 600;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 8px;
+        }
+        
+        .quadrant-tl {
+            opacity: 0.7;
+        }
+        
+        .quadrant-tr {
+            border-left: 2px solid var(--accent-primary);
+        }
+        
+        .quadrant-bl {
+            opacity: 0.5;
+        }
+        
+        .quadrant-br {
+            border-left: 2px solid var(--accent-primary);
+        }
+        
+        .matrix-item {
+            background: var(--bg-secondary);
+            padding: 12px 16px;
+            border-radius: 6px;
+            font-size: 0.95em;
+            color: var(--text-primary);
+            border-left: 3px solid;
+            transition: all 0.2s ease;
+        }
+        
+        .matrix-item:hover {
+            transform: translateX(3px);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+        }
+        
+        .matrix-item.quick { border-color: #4ade80; }
+        .matrix-item.mid { border-color: #fbbf24; }
+        .matrix-item.long { border-color: #f87171; }
         
         /* Opportunities */
         .priority-section {
@@ -358,6 +450,16 @@
             box-shadow: 0 8px 24px rgba(0, 106, 215, 0.4);
         }
         
+        @media (max-width: 768px) {
+            .matrix-quadrants {
+                grid-template-columns: 1fr;
+                min-height: auto;
+            }
+            .matrix-y-label {
+                display: none;
+            }
+        }
+        
         @media print {
             :root {
                 --bg-primary: white;
@@ -390,7 +492,7 @@
                 
                 <p>Our comprehensive analysis identified <strong>eight distinct automation opportunities</strong> with combined annual savings potential of <strong>€410K-€545K</strong>, equivalent to 3.5-4.5 FTE. The firm's sophisticated operational model, emphasis on transparent communication, and rigorous multi-jurisdiction due diligence processes create significant manual coordination overhead that intelligent automation can dramatically reduce.</p>
                 
-                <p>With an <strong>AI Readiness Score of 6/10</strong>, RAN³ has a solid foundation for automation. The firm possesses strong financial data infrastructure and well-defined processes, but faces common challenges with system integration and documentation. The recommended implementation approach prioritizes quick wins that build momentum—starting with investor communications and portfolio reporting—before expanding to more complex deal flow and compliance automation.</p>
+                <p>With an <strong>AI Readiness Score of 6/10</strong>, RAN³ has a solid foundation for automation. The firm possesses strong financial data infrastructure and well-defined processes, but faces common challenges with system integration and documentation. The recommended implementation approach prioritizes quick wins that build momentum—starting with investor communications and deal pipeline management—before expanding to more complex portfolio reporting and compliance automation.</p>
                 
                 <p>The top three priority opportunities alone represent €150K-€190K in annual savings and can be implemented within 2-4 months, creating immediate operational leverage while your team maintains focus on high-value strategic activities.</p>
             </div>
@@ -417,25 +519,52 @@
         <div class="section">
             <h2 class="section-title">Opportunity Matrix</h2>
             <div class="matrix-container">
-                <p style="text-align: center; color: var(--text-secondary); margin-bottom: 20px;">
-                    Bubble size represents annual savings potential. Color indicates timeline to value.
-                </p>
-                <div class="chart-wrapper">
-                    <canvas id="opportunityMatrix"></canvas>
+                <div class="matrix-header">
+                    <div class="matrix-legend">
+                        <div class="legend-item">
+                            <div class="legend-color quick"></div>
+                            <span>Quick Wins (&lt;3 months)</span>
+                        </div>
+                        <div class="legend-item">
+                            <div class="legend-color mid"></div>
+                            <span>Mid-term (3-6 months)</span>
+                        </div>
+                        <div class="legend-item">
+                            <div class="legend-color long"></div>
+                            <span>Long-term (6+ months)</span>
+                        </div>
+                    </div>
                 </div>
-                <div class="matrix-legend">
-                    <div class="legend-item">
-                        <div class="legend-color quick"></div>
-                        <span>Quick Wins (&lt;3 months)</span>
+                <div class="matrix-grid">
+                    <div class="matrix-y-label">Implementation Effort</div>
+                    <div class="matrix-quadrants">
+                        <!-- Top Left: Low Impact, Low Effort -->
+                        <div class="quadrant quadrant-tl">
+                            <div class="quadrant-label">Nice to Have</div>
+                            <div class="matrix-item quick">Contractor Communications</div>
+                            <div class="matrix-item mid">Compliance Tracking</div>
+                        </div>
+                        <!-- Top Right: High Impact, Low Effort -->
+                        <div class="quadrant quadrant-tr">
+                            <div class="quadrant-label">Quick Wins</div>
+                            <div class="matrix-item quick">Investor Communication Hub</div>
+                            <div class="matrix-item quick">Deal Pipeline Management</div>
+                            <div class="matrix-item mid">Due Diligence Processing</div>
+                        </div>
+                        <!-- Bottom Left: Low Impact, High Effort -->
+                        <div class="quadrant quadrant-bl">
+                            <div class="quadrant-label">Avoid</div>
+                            <p style="color: var(--text-muted); font-size: 0.9em; font-style: italic;">No opportunities identified in this category</p>
+                        </div>
+                        <!-- Bottom Right: High Impact, High Effort -->
+                        <div class="quadrant quadrant-br">
+                            <div class="quadrant-label">Strategic</div>
+                            <div class="matrix-item mid">Portfolio Reporting System</div>
+                            <div class="matrix-item mid">Capital Call/Distribution</div>
+                            <div class="matrix-item mid">Asset-Level KPI Dashboard</div>
+                        </div>
                     </div>
-                    <div class="legend-item">
-                        <div class="legend-color mid"></div>
-                        <span>Mid-term (3-6 months)</span>
-                    </div>
-                    <div class="legend-item">
-                        <div class="legend-color long"></div>
-                        <span>Long-term (6+ months)</span>
-                    </div>
+                    <div class="matrix-x-label">Business Impact</div>
                 </div>
             </div>
         </div>
@@ -476,36 +605,8 @@
                 
                 <div class="opportunity priority">
                     <div class="opportunity-header">
-                        <h3 class="opportunity-title">Portfolio Reporting Automation</h3>
-                        <div class="opportunity-number">2</div>
-                    </div>
-                    <p class="opportunity-description">
-                        Automate the aggregation and analysis of performance data across all 47 projects spanning Portugal, UK, and France. System pulls data from property management systems, accounting platforms, and local market sources to generate comprehensive portfolio dashboards, variance analysis, and executive summaries. Eliminates manual data consolidation across multiple currencies, geographies, and asset classes.
-                    </p>
-                    <div class="opportunity-metrics">
-                        <div class="metric">
-                            <div class="metric-label">Annual Savings</div>
-                            <div class="metric-value">€80K - €100K</div>
-                        </div>
-                        <div class="metric">
-                            <div class="metric-label">Implementation</div>
-                            <div class="metric-value">12-16 weeks</div>
-                        </div>
-                        <div class="metric">
-                            <div class="metric-label">Timeline</div>
-                            <div class="metric-value">3-4 months</div>
-                        </div>
-                        <div class="metric">
-                            <div class="metric-label">Impact Area</div>
-                            <div class="metric-value">Portfolio Management</div>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="opportunity priority">
-                    <div class="opportunity-header">
                         <h3 class="opportunity-title">Deal Pipeline Management System</h3>
-                        <div class="opportunity-number">3</div>
+                        <div class="opportunity-number">2</div>
                     </div>
                     <p class="opportunity-description">
                         Intelligent CRM specifically designed for PE real estate deal flow. Automatically captures and scores opportunities from broker emails, direct contacts, and market scanning. Tracks deal progression through your evaluation stages, coordinates internal and external stakeholder input, manages due diligence task lists, and maintains historical deal data for comparable analysis. Reduces manual pipeline tracking and ensures no opportunities fall through the cracks.
@@ -526,6 +627,34 @@
                         <div class="metric">
                             <div class="metric-label">Impact Area</div>
                             <div class="metric-value">Deal Sourcing</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="opportunity priority">
+                    <div class="opportunity-header">
+                        <h3 class="opportunity-title">Portfolio Reporting Automation</h3>
+                        <div class="opportunity-number">3</div>
+                    </div>
+                    <p class="opportunity-description">
+                        Automate the aggregation and analysis of performance data across all 47 projects spanning Portugal, UK, and France. System pulls data from property management systems, accounting platforms, and local market sources to generate comprehensive portfolio dashboards, variance analysis, and executive summaries. Eliminates manual data consolidation across multiple currencies, geographies, and asset classes.
+                    </p>
+                    <div class="opportunity-metrics">
+                        <div class="metric">
+                            <div class="metric-label">Annual Savings</div>
+                            <div class="metric-value">€80K - €100K</div>
+                        </div>
+                        <div class="metric">
+                            <div class="metric-label">Implementation</div>
+                            <div class="metric-value">12-16 weeks</div>
+                        </div>
+                        <div class="metric">
+                            <div class="metric-label">Timeline</div>
+                            <div class="metric-value">3-4 months</div>
+                        </div>
+                        <div class="metric">
+                            <div class="metric-label">Impact Area</div>
+                            <div class="metric-value">Portfolio Management</div>
                         </div>
                     </div>
                 </div>
@@ -579,7 +708,7 @@
                 <ol>
                     <li><strong>Discovery Workshop</strong> - Deep dive into your top priority opportunities with your team to validate assumptions and refine scope. We'll map current workflows, identify integration points with existing systems, and establish success metrics tailored to RAN³'s operations.</li>
                     <li><strong>Pilot Implementation</strong> - Start with the Investor Communication Hub to generate quick wins and build organizational momentum. This lower-complexity initiative will demonstrate value while your team learns to work with AI automation, creating confidence for larger initiatives.</li>
-                    <li><strong>Iterative Rollout</strong> - Expand to Portfolio Reporting Automation and Deal Pipeline Management based on pilot learnings. Stagger implementations to avoid overwhelming your team while maintaining steady progress toward your total savings potential.</li>
+                    <li><strong>Iterative Rollout</strong> - Expand to Deal Pipeline Management and Portfolio Reporting based on pilot learnings. Stagger implementations to avoid overwhelming your team while maintaining steady progress toward your total savings potential.</li>
                     <li><strong>Continuous Optimization</strong> - Measure results against baseline metrics, refine automation rules based on team feedback, and identify new opportunities as they emerge. The goal is sustainable operational leverage that scales with your portfolio growth.</li>
                 </ol>
             </div>
@@ -592,167 +721,5 @@
             <a href="https://cal.com/mindlinkai/strategy" class="cta-button">Book Strategy Call</a>
         </div>
     </div>
-    
-    <script>
-        // Matrix data injected by backend
-        const matrixData = [
-            {
-                "x": 8,
-                "y": 3,
-                "r": 13.4,
-                "label": "Investor Communication Hub",
-                "color": "#4ade80",
-                "timeline": "2-3 months",
-                "savingsFormatted": "€40K - €50K/year"
-            },
-            {
-                "x": 9,
-                "y": 5,
-                "r": 19.0,
-                "label": "Portfolio Reporting",
-                "color": "#fbbf24",
-                "timeline": "3-4 months",
-                "savingsFormatted": "€80K - €100K/year"
-            },
-            {
-                "x": 7,
-                "y": 4,
-                "r": 11.8,
-                "label": "Deal Pipeline Management",
-                "color": "#4ade80",
-                "timeline": "2-3 months",
-                "savingsFormatted": "€30K - €40K/year"
-            },
-            {
-                "x": 8,
-                "y": 5,
-                "r": 16.7,
-                "label": "Due Diligence Processing",
-                "color": "#fbbf24",
-                "timeline": "3-4 months",
-                "savingsFormatted": "€60K - €80K/year"
-            },
-            {
-                "x": 8,
-                "y": 6,
-                "r": 17.9,
-                "label": "Capital Call/Distribution",
-                "color": "#fbbf24",
-                "timeline": "4-5 months",
-                "savingsFormatted": "€70K - €90K/year"
-            },
-            {
-                "x": 7,
-                "y": 5,
-                "r": 15.2,
-                "label": "KPI Dashboard",
-                "color": "#fbbf24",
-                "timeline": "3-4 months",
-                "savingsFormatted": "€50K - €65K/year"
-            },
-            {
-                "x": 6,
-                "y": 3,
-                "r": 11.0,
-                "label": "Contractor Communications",
-                "color": "#4ade80",
-                "timeline": "1-2 months",
-                "savingsFormatted": "€25K - €35K/year"
-            },
-            {
-                "x": 6,
-                "y": 5,
-                "r": 12.6,
-                "label": "Compliance Tracking",
-                "color": "#fbbf24",
-                "timeline": "3-4 months",
-                "savingsFormatted": "€35K - €45K/year"
-            }
-        ];
-        
-        const ctx = document.getElementById('opportunityMatrix').getContext('2d');
-        
-        const chart = new Chart(ctx, {
-            type: 'bubble',
-            data: {
-                datasets: [{
-                    label: 'Opportunities',
-                    data: matrixData,
-                    backgroundColor: matrixData.map(d => d.color),
-                    borderColor: matrixData.map(d => d.color),
-                    borderWidth: 2
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: {
-                    legend: {
-                        display: false
-                    },
-                    tooltip: {
-                        callbacks: {
-                            label: function(context) {
-                                const point = context.raw;
-                                return [
-                                    point.label,
-                                    `Impact: ${point.x}/10`,
-                                    `Effort: ${(10 - point.y)}/10`,
-                                    `Savings: ${point.savingsFormatted}`,
-                                    `Timeline: ${point.timeline}`
-                                ];
-                            }
-                        }
-                    }
-                },
-                scales: {
-                    x: {
-                        title: {
-                            display: true,
-                            text: 'Business Impact',
-                            font: {
-                                size: 14,
-                                weight: 'bold'
-                            },
-                            color: '#94a3b8'
-                        },
-                        min: 0,
-                        max: 10,
-                        ticks: {
-                            stepSize: 1,
-                            color: '#94a3b8'
-                        },
-                        grid: {
-                            color: 'rgba(255,255,255,0.05)'
-                        }
-                    },
-                    y: {
-                        title: {
-                            display: true,
-                            text: 'Implementation Effort',
-                            font: {
-                                size: 14,
-                                weight: 'bold'
-                            },
-                            color: '#94a3b8'
-                        },
-                        min: 0,
-                        max: 10,
-                        ticks: {
-                            stepSize: 1,
-                            color: '#94a3b8',
-                            callback: function(value) {
-                                // Invert scale so low effort is at top
-                                return 10 - value;
-                            }
-                        },
-                        grid: {
-                            color: 'rgba(255,255,255,0.05)'
-                        }
-                    }
-                }
-            }
-        });
-    </script>
 </body>
 </html>
