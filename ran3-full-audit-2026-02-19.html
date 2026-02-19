@@ -198,21 +198,21 @@
         
         .matrix-grid {
             position: relative;
-            padding-left: 30px;
             padding-bottom: 30px;
         }
         
         .matrix-y-label {
             position: absolute;
-            left: -10px;
+            left: -25px;
             top: 50%;
             transform: translateY(-50%) rotate(-90deg);
-            font-size: 0.9em;
+            font-size: 0.75em;
             font-weight: 600;
-            color: var(--text-secondary);
+            color: var(--text-muted);
             text-transform: uppercase;
-            letter-spacing: 1px;
+            letter-spacing: 1.5px;
             white-space: nowrap;
+            opacity: 0.6;
         }
         
         .matrix-x-label {
@@ -571,7 +571,6 @@
                     </div>
                 </div>
                 <div class="matrix-grid">
-                    <div class="matrix-y-label">Implementation Effort</div>
                     <div class="matrix-quadrants">
                         <!-- Top Left: Low Impact, Low Effort -->
                         <div class="quadrant quadrant-tl">
