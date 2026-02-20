@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Intern Coordination Framework - MindLink Systems</title>
+    <style>
+        :root {
+            --bg-primary: #0a0a0f;
+            --bg-secondary: #12121a;
+            --bg-card: #1a1a24;
+            --accent-primary: #006AD7;
+            --accent-gradient: linear-gradient(135deg, #006AD7 0%, #0052a3 100%);
+            --text-primary: #ffffff;
+            --text-secondary: #94a3b8;
+            --text-muted: #64748b;
+            --border-color: rgba(255,255,255,0.1);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+            line-height: 1.6;
+            color: var(--text-primary);
+            background: var(--bg-primary);
+            padding: 40px 20px;
+        }
+        
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 50px;
+            padding-bottom: 30px;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            background: var(--accent-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .header .subtitle {
+            font-size: 1.2em;
+            color: var(--text-secondary);
+        }
+        
+        .section {
+            background: var(--bg-card);
+            border-radius: 16px;
+            padding: 30px;
+            margin-bottom: 30px;
+            border: 1px solid var(--border-color);
+        }
+        
+        .section h2 {
+            font-size: 1.6em;
+            color: var(--accent-primary);
+            margin-bottom: 20px;
+        }
+        
+        .section h3 {
+            font-size: 1.3em;
+            color: var(--text-primary);
+            margin-top: 25px;
+            margin-bottom: 15px;
+        }
+        
+        .section h4 {
+            font-size: 1.1em;
+            color: var(--text-secondary);
+            margin-top: 20px;
+            margin-bottom: 10px;
+        }
+        
+        .section p, .section li {
+            color: var(--text-secondary);
+            margin-bottom: 10px;
+        }
+        
+        .section ul, .section ol {
+            margin-left: 25px;
+            margin-bottom: 15px;
+        }
+        
+        .team-box {
+            background: var(--bg-secondary);
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+        
+        .team-box strong {
+            color: var(--accent-primary);
+        }
+        
+        .template-box {
+            background: var(--bg-secondary);
+            padding: 20px;
+            border-radius: 8px;
+            margin: 15px 0;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+            overflow-x: auto;
+            white-space: pre-wrap;
+        }
+        
+        .example-box {
+            background: var(--bg-primary);
+            padding: 15px;
+            border-radius: 6px;
+            margin: 10px 0;
+            border-left: 3px solid var(--accent-primary);
+        }
+        
+        .good {
+            border-left-color: #4ade80;
+        }
+        
+        .bad {
+            border-left-color: #f87171;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background: var(--bg-secondary);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        
+        th {
+            background: var(--accent-gradient);
+            color: white;
+            padding: 12px;
+            text-align: left;
+            font-weight: 600;
+        }
+        
+        td {
+            padding: 12px;
+            border-bottom: 1px solid var(--border-color);
+            color: var(--text-secondary);
+        }
+        
+        tr:last-child td {
+            border-bottom: none;
+        }
+        
+        .checklist {
+            list-style: none;
+            margin-left: 0;
+        }
+        
+        .checklist li:before {
+            content: "☐ ";
+            color: var(--accent-primary);
+            font-weight: bold;
+            margin-right: 8px;
+        }
+        
+        .highlight {
+            background: var(--accent-gradient);
+            color: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+        
+        @media print {
+            body {
+                background: white;
+                color: black;
+            }
+            .section {
+                page-break-inside: avoid;
+                background: white;
+                border: 1px solid #ddd;
+            }
+            .template-box, .example-box {
+                background: #f5f5f5;
+                border: 1px solid #ddd;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Intern Coordination Framework</h1>
+            <div class="subtitle">MindLink Systems Operations</div>
+        </div>
+        
+        <div class="section">
+            <h2>Team Structure</h2>
+            <div class="team-box">
+                <p><strong>Intern Manager:</strong> [Your Name]</p>
+                <p><strong>Direct Reports:</strong></p>
+                <ul>
+                    <li><strong>Cyril</strong> - Partnership & Influencer Outreach, LinkedIn Company Page Management</li>
+                    <li><strong>Pius</strong> - Target Audience LinkedIn Outreach, Nurturing, Facebook Page Setup</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="section">
+            <h2>Weekly Cadence</h2>
+            
+            <h3>Monday: Weekly Priorities Post</h3>
+            <div class="template-box">## Week of [Date] - Priorities
+
+### Cyril's Focus:
+1. [Task] - Owner: Cyril | Outcome: [specific deliverable] | Due: [Day]
+2. [Task] - Owner: Cyril | Outcome: [specific deliverable] | Due: [Day]
+3. [Task] - Owner: Cyril | Outcome: [specific deliverable] | Due: [Day]
+
+### Pius's Focus:
+1. [Task] - Owner: Pius | Outcome: [specific deliverable] | Due: [Day]
+2. [Task] - Owner: Pius | Outcome: [specific deliverable] | Due: [Day]
+3. [Task] - Owner: Pius | Outcome: [specific deliverable] | Due: [Day]
+
+### Coordination Items:
+- [Any cross-team dependencies]
+
+### Questions for R:
+- [Any strategic direction needed]</div>
+            <p><strong>Post Location:</strong> Slack #weekly-priorities channel</p>
+            <p><strong>Deadline:</strong> Every Monday by 10 AM GMT</p>
+            <p><strong>Format:</strong> Keep it to 3-5 priorities per person max</p>
+            
+            <h3>Friday: End-of-Week Summary</h3>
+            <div class="template-box">## Week of [Date] - Summary
+
+### Cyril's Outcomes:
+✅ [Task] - [Brief result]
+✅ [Task] - [Brief result]
+⚠️ [Task] - [Status/blocker if not complete]
+
+**Metrics:**
+- Partnerships contacted: X
+- Responses received: X
+- Meetings booked: X
+- LinkedIn company page engagement: X impressions, X clicks
+
+### Pius's Outcomes:
+✅ [Task] - [Brief result]
+✅ [Task] - [Brief result]
+⚠️ [Task] - [Status/blocker if not complete]
+
+**Metrics:**
+- Connections sent: X
+- Accepts received: X
+- Conversations started: X
+- Comments posted: X
+
+### Blockers & Learnings:
+- [Any issues encountered]
+- [What we learned this week]
+
+### Next Week Preview:
+- [High-level focus areas]</div>
+            <p><strong>Post Location:</strong> Slack #weekly-priorities channel</p>
+            <p><strong>Deadline:</strong> Every Friday by 5 PM GMT</p>
+        </div>
+        
+        <div class="section">
+            <h2>Task Ownership Format</h2>
+            <p>Every task MUST include:</p>
+            <ol>
+                <li><strong>Owner:</strong> Who's responsible (Cyril or Pius)</li>
+                <li><strong>Outcome:</strong> Specific, measurable deliverable (not just "work on X")</li>
+                <li><strong>Deadline:</strong> Day of the week, not vague "end of week"</li>
+            </ol>
+            
+            <div class="example-box good">
+                <strong style="color: #4ade80;">✓ Good Example:</strong><br>
+                Owner: Cyril | Outcome: 20 partnership outreach emails sent with tracking spreadsheet | Due: Wednesday
+            </div>
+            
+            <div class="example-box bad">
+                <strong style="color: #f87171;">✗ Bad Example:</strong><br>
+                Owner: Cyril | Outcome: Work on partnerships | Due: This week
+            </div>
+        </div>
+        
+        <div class="section">
+            <h2>Daily Coordination</h2>
+            
+            <h3>Morning Check-In (Optional but Recommended)</h3>
+            <p><strong>Time:</strong> 9:30 AM GMT</p>
+            <p><strong>Format:</strong> Quick 5-minute sync in Slack or voice</p>
+            <ul>
+                <li>What are you working on today?</li>
+                <li>Any blockers?</li>
+                <li>Need anything from the other person?</li>
+            </ul>
+            
+            <h3>Blocker Protocol</h3>
+            <h4>If you're blocked:</h4>
+            <ol>
+                <li>Post in #questions-escalations immediately (don't wait)</li>
+                <li>Tag the person who can unblock you</li>
+                <li>Include: What you're blocked on + What you need to proceed</li>
+            </ol>
+            
+            <h4>If someone else is blocked:</h4>
+            <ol>
+                <li>Respond within 2 hours during working hours</li>
+                <li>If you can't unblock them, escalate to R with context</li>
+            </ol>
+        </div>
+        
+        <div class="section">
+            <h2>Coordination Between Cyril & Pius</h2>
+            
+            <h3>Handoff Points</h3>
+            <h4>Cyril → Pius:</h4>
+            <ul>
+                <li>When partnership/influencer responds positively → hand warm lead to Pius for nurturing</li>
+                <li>Share successful messaging templates that work</li>
+            </ul>
+            
+            <h4>Pius → Cyril:</h4>
+            <ul>
+                <li>When target audience member asks about partnerships → route to Cyril</li>
+                <li>Share engagement insights (what content resonates) for company page</li>
+            </ul>
+            
+            <h3>Weekly Sync (Recommended)</h3>
+            <p><strong>Time:</strong> Wednesday 2 PM GMT (mid-week checkpoint)</p>
+            <p><strong>Duration:</strong> 15 minutes</p>
+            <p><strong>Agenda:</strong></p>
+            <ul>
+                <li>Quick update on progress</li>
+                <li>Share wins and learnings</li>
+                <li>Coordinate any handoffs</li>
+                <li>Surface blockers early</li>
+            </ul>
+        </div>
+        
+        <div class="section">
+            <h2>Key Metrics to Track</h2>
+            
+            <h3>Cyril's Metrics:</h3>
+            <ul>
+                <li>Partnership outreach: # contacted, # responses, # meetings</li>
+                <li>Influencer outreach: # contacted, # responses, # collaborations</li>
+                <li>LinkedIn company page: impressions, clicks, followers gained, engagement rate</li>
+                <li>Content posted: # posts, best performing post</li>
+            </ul>
+            
+            <h3>Pius's Metrics:</h3>
+            <ul>
+                <li>LinkedIn connections: # sent, # accepted, acceptance rate %</li>
+                <li>Conversations: # started, # ongoing, # converted to meetings</li>
+                <li>Engagement: # comments posted, # DMs sent, response rate</li>
+                <li>Facebook page: setup milestones, initial followers</li>
+            </ul>
+            
+            <p><strong>Tracking:</strong> Shared Google Sheet updated weekly (link in Slack channel description)</p>
+        </div>
+        
+        <div class="section">
+            <h2>Questions & Escalations</h2>
+            
+            <h3>When to Ask R for Direction:</h3>
+            
+            <h4>Strategic Questions (ask in Monday priorities post):</h4>
+            <ul>
+                <li>Target audience clarification</li>
+                <li>Messaging/positioning changes</li>
+                <li>New initiative ideas</li>
+                <li>Budget/tool requests</li>
+            </ul>
+            
+            <h4>Urgent Questions (ask immediately in Slack):</h4>
+            <ul>
+                <li>Approval needed for external commitments</li>
+                <li>Brand/legal concerns</li>
+                <li>Something broke</li>
+            </ul>
+            
+            <h4>Non-Urgent Questions (batch for weekly sync with R):</h4>
+            <ul>
+                <li>Process improvements</li>
+                <li>Long-term planning</li>
+                <li>Career development</li>
+            </ul>
+        </div>
+        
+        <div class="section">
+            <h2>Communication Channels</h2>
+            
+            <table>
+                <tr>
+                    <th>Channel</th>
+                    <th>Purpose</th>
+                </tr>
+                <tr>
+                    <td>#weekly-priorities</td>
+                    <td>Monday priorities, Friday summaries</td>
+                </tr>
+                <tr>
+                    <td>#outreach-execution</td>
+                    <td>Day-to-day work updates, wins, progress</td>
+                </tr>
+                <tr>
+                    <td>#questions-escalations</td>
+                    <td>Blockers, need help, strategic questions</td>
+                </tr>
+                <tr>
+                    <td>#content-</td>
+                    <td>Content drafts, approval requests (if applicable)</td>
+                </tr>
+                <tr>
+                    <td>DMs</td>
+                    <td>Quick 1:1 coordination between interns</td>
+                </tr>
+            </table>
+        </div>
+        
+        <div class="section">
+            <h2>Standard Operating Procedures</h2>
+            
+            <h3>Monday Morning (Intern Manager):</h3>
+            <ol>
+                <li>Review last week's outcomes vs. priorities</li>
+                <li>Draft this week's priorities based on R's direction</li>
+                <li>Ensure each task has Owner + Outcome + Deadline</li>
+                <li>Post by 10 AM GMT</li>
+                <li>Answer any clarifying questions</li>
+            </ol>
+            
+            <h3>Wednesday Mid-Week (Intern Manager):</h3>
+            <ol>
+                <li>Check progress on priorities</li>
+                <li>Unblock anyone who's stuck</li>
+                <li>Adjust priorities if needed</li>
+                <li>Ensure coordination is happening</li>
+            </ol>
+            
+            <h3>Friday Afternoon (Intern Manager):</h3>
+            <ol>
+                <li>Collect metrics from both interns</li>
+                <li>Write end-of-week summary</li>
+                <li>Post by 5 PM GMT</li>
+                <li>Identify next week's focus areas</li>
+            </ol>
+        </div>
+        
+        <div class="section">
+            <h2>Templates & Resources</h2>
+            
+            <h3>Quick Task Assignment Template (for ad-hoc work)</h3>
+            <div class="template-box">@Cyril or @Pius
+Task: [specific action]
+Outcome: [what done looks like]
+Deadline: [day + time]
+Context: [why we're doing this]
+Questions? Reply here.</div>
+            
+            <h3>Blocker Report Template</h3>
+            <div class="template-box">🚧 BLOCKED
+
+Who: [Your name]
+Task: [What you're working on]
+Blocker: [Specific issue]
+Tried: [What you've attempted]
+Need: [What would unblock you]
+Urgency: High/Medium/Low</div>
+        </div>
+        
+        <div class="section">
+            <h2>Success Criteria</h2>
+            
+            <h3>Weekly priorities are effective when:</h3>
+            <ul>
+                <li>Each priority has clear owner, outcome, deadline</li>
+                <li>No more than 5 priorities per person</li>
+                <li>At least 80% of priorities are completed</li>
+                <li>Blockers are identified and resolved within 24 hours</li>
+            </ul>
+            
+            <h3>Team coordination is working when:</h3>
+            <ul>
+                <li>No duplicate work happening</li>
+                <li>Handoffs happen smoothly</li>
+                <li>Each person knows what the other is working on</li>
+                <li>Blockers are caught early (Wednesday checkpoint)</li>
+            </ul>
+        </div>
+        
+        <div class="section">
+            <h2>Getting Started Checklist</h2>
+            <ul class="checklist">
+                <li>Intern manager posts first Monday priorities using template</li>
+                <li>Both interns acknowledge and ask clarifying questions</li>
+                <li>Set up shared metrics tracking spreadsheet</li>
+                <li>Schedule optional Wednesday sync time</li>
+                <li>Test blocker protocol once to ensure everyone understands</li>
+                <li>First Friday summary posted to establish rhythm</li>
+            </ul>
+        </div>
+        
+        <div class="section">
+            <h2>Notes for Intern Manager</h2>
+            
+            <div class="highlight">
+                <h3 style="margin-top: 0; color: white;">Your role is:</h3>
+                <ul>
+                    <li>Translate R's strategic direction into weekly priorities</li>
+                    <li>Ensure tasks are specific and measurable</li>
+                    <li>Unblock the interns quickly</li>
+                    <li>Track progress and report up to R</li>
+                    <li>Facilitate coordination between Cyril and Pius</li>
+                </ul>
+            </div>
+            
+            <h3>You are NOT responsible for:</h3>
+            <ul>
+                <li>Doing the work yourself</li>
+                <li>Being available 24/7</li>
+                <li>Making strategic decisions (escalate to R)</li>
+                <li>Micromanaging - trust the interns to execute</li>
+            </ul>
+            
+            <h3>When in doubt:</h3>
+            <ul>
+                <li>Make the task more specific</li>
+                <li>Add the deadline</li>
+                <li>Ask R for clarity</li>
+                <li>Document the decision</li>
+            </ul>
+        </div>
+        
+        <div style="text-align: center; padding: 30px; color: var(--text-muted);">
+            <p><strong>Questions or need to adapt this framework?</strong></p>
+            <p>Work with Lez to refine based on what works for your team.</p>
+        </div>
+    </div>
+</body>
+</html>
