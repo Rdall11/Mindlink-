@@ -229,36 +229,6 @@
             border-radius: 12px;
         }
         
-        .matrix-header {
-            display: flex;
-            justify-content: flex-end;
-            margin-bottom: 20px;
-        }
-        
-        .matrix-legend {
-            display: flex;
-            gap: 20px;
-            flex-wrap: wrap;
-        }
-        
-        .legend-item {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            color: var(--text-secondary);
-            font-size: 0.9em;
-        }
-        
-        .legend-color {
-            width: 16px;
-            height: 16px;
-            border-radius: 50%;
-        }
-        
-        .legend-color.quick { background: #4ade80; }
-        .legend-color.mid { background: #fbbf24; }
-        .legend-color.long { background: #f87171; }
-        
         .matrix-grid {
             position: relative;
             padding-bottom: 30px;
@@ -335,6 +305,7 @@
             cursor: pointer;
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
             line-height: 1.2;
+            background: var(--accent-primary);
         }
         
         .matrix-bubble:hover {
@@ -342,10 +313,6 @@
             box-shadow: 0 4px 16px rgba(0, 0, 0, 0.5);
             z-index: 10;
         }
-        
-        .matrix-bubble.quick { background: #4ade80; }
-        .matrix-bubble.mid { background: #fbbf24; }
-        .matrix-bubble.long { background: #f87171; }
         
         .bubble-tooltip {
             display: none;
@@ -777,32 +744,16 @@
         <div class="section">
             <h2 class="section-title">Opportunity Matrix</h2>
             <div class="matrix-container">
-                <div class="matrix-header">
-                    <div class="matrix-legend">
-                        <div class="legend-item">
-                            <div class="legend-color quick"></div>
-                            <span>Quick Wins (&lt;3 months)</span>
-                        </div>
-                        <div class="legend-item">
-                            <div class="legend-color mid"></div>
-                            <span>Mid-term (3-6 months)</span>
-                        </div>
-                        <div class="legend-item">
-                            <div class="legend-color long"></div>
-                            <span>Long-term (6+ months)</span>
-                        </div>
-                    </div>
-                </div>
                 <div class="matrix-grid">
                     <div class="matrix-quadrants">
                         <!-- Top Left: Low Impact, Low Effort -->
                         <div class="quadrant quadrant-tl">
                             <div class="quadrant-label">Nice to Have</div>
-                            <div class="matrix-bubble quick" style="width: 75px; height: 75px; top: 35%; left: 25%;">
+                            <div class="matrix-bubble" style="width: 75px; height: 75px; top: 35%; left: 25%;">
                                 Contractor Comms
                                 <div class="bubble-tooltip">Contractor & Vendor Communications<br>€25K - €35K/year</div>
                             </div>
-                            <div class="matrix-bubble mid" style="width: 85px; height: 85px; top: 55%; left: 65%;">
+                            <div class="matrix-bubble" style="width: 85px; height: 85px; top: 55%; left: 65%;">
                                 Compliance
                                 <div class="bubble-tooltip">Multi-Jurisdiction Compliance<br>€35K - €45K/year</div>
                             </div>
@@ -810,17 +761,17 @@
                         <!-- Top Right: High Impact, Low Effort -->
                         <div class="quadrant quadrant-tr">
                             <div class="quadrant-label">Quick Wins</div>
-                            <div class="matrix-bubble quick" style="width: 90px; height: 90px; top: 25%; left: 20%;">
+                            <div class="matrix-bubble" style="width: 90px; height: 90px; top: 25%; left: 20%;">
                                 <div class="priority-badge">1</div>
                                 Investor Comms
                                 <div class="bubble-tooltip">Investor Communication Hub<br>€40K - €50K/year</div>
                             </div>
-                            <div class="matrix-bubble quick" style="width: 85px; height: 85px; top: 50%; left: 60%;">
+                            <div class="matrix-bubble" style="width: 85px; height: 85px; top: 50%; left: 60%;">
                                 <div class="priority-badge">2</div>
                                 Deal Pipeline
                                 <div class="bubble-tooltip">Deal Pipeline Management<br>€30K - €40K/year</div>
                             </div>
-                            <div class="matrix-bubble mid" style="width: 105px; height: 105px; top: 60%; left: 25%;">
+                            <div class="matrix-bubble" style="width: 105px; height: 105px; top: 60%; left: 25%;">
                                 Due Diligence
                                 <div class="bubble-tooltip">Due Diligence Processing<br>€60K - €80K/year</div>
                             </div>
@@ -833,16 +784,16 @@
                         <!-- Bottom Right: High Impact, High Effort -->
                         <div class="quadrant quadrant-br">
                             <div class="quadrant-label">Strategic</div>
-                            <div class="matrix-bubble mid" style="width: 120px; height: 120px; top: 25%; left: 55%;">
+                            <div class="matrix-bubble" style="width: 120px; height: 120px; top: 25%; left: 55%;">
                                 <div class="priority-badge">3</div>
                                 Portfolio Reporting
                                 <div class="bubble-tooltip">Portfolio Reporting Automation<br>€80K - €100K/year</div>
                             </div>
-                            <div class="matrix-bubble mid" style="width: 110px; height: 110px; top: 60%; left: 20%;">
+                            <div class="matrix-bubble" style="width: 110px; height: 110px; top: 60%; left: 20%;">
                                 Capital Calls
                                 <div class="bubble-tooltip">Capital Call & Distribution<br>€70K - €90K/year</div>
                             </div>
-                            <div class="matrix-bubble mid" style="width: 95px; height: 95px; top: 35%; left: 15%;">
+                            <div class="matrix-bubble" style="width: 95px; height: 95px; top: 35%; left: 15%;">
                                 KPI Dashboard
                                 <div class="bubble-tooltip">Asset-Level KPI Dashboard<br>€50K - €65K/year</div>
                             </div>
