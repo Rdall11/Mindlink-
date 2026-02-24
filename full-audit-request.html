@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Comprehensive AI Audit | MindLink Systems</title>
+    <style>
+        :root {
+            --bg-primary: #0a0a0f;
+            --bg-secondary: #12121a;
+            --bg-card: #1a1a24;
+            --accent-primary: #006AD7;
+            --accent-gradient: linear-gradient(135deg, #006AD7 0%, #0052a3 100%);
+            --text-primary: #ffffff;
+            --text-secondary: #94a3b8;
+            --text-muted: #64748b;
+            --border-color: rgba(255,255,255,0.1);
+            --success: #22c55e;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+
+        .container {
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .header h1 {
+            font-size: 2.2rem;
+            margin-bottom: 12px;
+            background: var(--accent-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .header p {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            line-height: 1.6;
+        }
+
+        .pricing-badge {
+            display: inline-block;
+            background: var(--bg-secondary);
+            border: 1px solid var(--accent-primary);
+            border-radius: 20px;
+            padding: 8px 20px;
+            margin-top: 16px;
+            font-size: 0.95rem;
+            color: var(--accent-primary);
+        }
+
+        .form-card {
+            background: var(--bg-card);
+            border-radius: 16px;
+            padding: 40px;
+            border: 1px solid var(--border-color);
+        }
+
+        .section-title {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            margin-bottom: 24px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .section-title:not(:first-of-type) {
+            margin-top: 32px;
+        }
+
+        .form-group {
+            margin-bottom: 24px;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        label {
+            display: block;
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+            margin-bottom: 8px;
+        }
+
+        label .required {
+            color: var(--accent-primary);
+        }
+
+        input[type="text"],
+        input[type="email"],
+        input[type="url"],
+        input[type="tel"],
+        select,
+        textarea {
+            width: 100%;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 12px 16px;
+            color: var(--text-primary);
+            font-size: 1rem;
+            transition: border-color 0.2s;
+            font-family: inherit;
+        }
+
+        input:focus,
+        select:focus,
+        textarea:focus {
+            outline: none;
+            border-color: var(--accent-primary);
+        }
+
+        textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        .helper-text {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-top: 6px;
+        }
+
+        .checkbox-group {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px;
+            background: var(--bg-secondary);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .checkbox-item:hover {
+            background: rgba(0, 106, 215, 0.1);
+        }
+
+        .checkbox-item input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            accent-color: var(--accent-primary);
+        }
+
+        .checkbox-item label {
+            margin: 0;
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 16px;
+            background: var(--accent-gradient);
+            border: none;
+            border-radius: 8px;
+            color: white;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            margin-top: 8px;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(0, 106, 215, 0.3);
+        }
+
+        .submit-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .success-message {
+            display: none;
+            background: var(--bg-card);
+            border: 2px solid var(--success);
+            border-radius: 16px;
+            padding: 48px 40px;
+            text-align: center;
+        }
+
+        .success-message.show {
+            display: block;
+        }
+
+        .success-message h2 {
+            color: var(--success);
+            font-size: 1.8rem;
+            margin-bottom: 16px;
+        }
+
+        .success-message p {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            line-height: 1.6;
+        }
+
+        .features {
+            background: var(--bg-secondary);
+            border-radius: 12px;
+            padding: 24px;
+            margin-top: 32px;
+        }
+
+        .features h3 {
+            font-size: 1rem;
+            color: var(--text-secondary);
+            margin-bottom: 16px;
+        }
+
+        .features ul {
+            list-style: none;
+        }
+
+        .features li {
+            color: var(--text-secondary);
+            padding: 8px 0;
+            padding-left: 24px;
+            position: relative;
+        }
+
+        .features li:before {
+            content: "✓";
+            color: var(--accent-primary);
+            font-weight: bold;
+            position: absolute;
+            left: 0;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 40px;
+            padding-top: 24px;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .footer-logo {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--accent-primary);
+            margin-bottom: 8px;
+        }
+
+        .footer p {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 600px) {
+            .header h1 { font-size: 1.8rem; }
+            .form-card { padding: 24px; }
+            .form-row { grid-template-columns: 1fr; }
+            .checkbox-group { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Comprehensive AI Automation Audit</h1>
+            <p>Get a detailed analysis of your operations with prioritized opportunities, savings projections, and an actionable implementation roadmap.</p>
+            <div class="pricing-badge">£500 • Delivered in 3-5 business days</div>
+        </div>
+
+        <div class="form-card" id="form-container">
+            <form id="full-audit-form" name="full-audit-request" method="POST" data-netlify="true">
+                
+                <div class="section-title">Company Information</div>
+                
+                <div class="form-group">
+                    <label for="company-name">Company Name <span class="required">*</span></label>
+                    <input type="text" id="company-name" name="companyName" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="website">Company Website <span class="required">*</span></label>
+                    <input type="url" id="website" name="website" placeholder="https://example.com" required>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="industry">Industry <span class="required">*</span></label>
+                        <select id="industry" name="industry" required>
+                            <option value="">Select your industry...</option>
+                            <optgroup label="B2C / High-Volume">
+                                <option value="home-services">Home Services (HVAC, Plumbing, Electrical)</option>
+                                <option value="med-spa">Med Spa / Aesthetics</option>
+                                <option value="healthcare">Healthcare / Dental Practice</option>
+                                <option value="property-management">Property Management</option>
+                                <option value="ecommerce">E-commerce / Retail</option>
+                            </optgroup>
+                            <optgroup label="B2B / Professional Services">
+                                <option value="private-equity">Private Equity / Investment Firm</option>
+                                <option value="real-estate-dev">Real Estate Development</option>
+                                <option value="law-firm">Law Firm / Legal Services</option>
+                                <option value="accounting">Accounting / CPA Firm</option>
+                                <option value="wealth-management">Wealth Management / Financial Advisory</option>
+                                <option value="insurance">Insurance Agency</option>
+                                <option value="recruiting">Recruiting / Staffing Agency</option>
+                                <option value="agency">Marketing Agency</option>
+                            </optgroup>
+                            <optgroup label="Other">
+                                <option value="other">Other Industry</option>
+                            </optgroup>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="employees">Number of Employees <span class="required">*</span></label>
+                        <select id="employees" name="employees" required>
+                            <option value="">Select range...</option>
+                            <option value="1-10">1-10 employees</option>
+                            <option value="11-50">11-50 employees</option>
+                            <option value="51-200">51-200 employees</option>
+                            <option value="201-500">201-500 employees</option>
+                            <option value="500+">500+ employees</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="section-title">Contact Information</div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="name">Your Name <span class="required">*</span></label>
+                        <input type="text" id="name" name="name" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="role">Your Role <span class="required">*</span></label>
+                        <input type="text" id="role" name="role" placeholder="e.g. CEO, COO, Operations Manager" required>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="email">Email <span class="required">*</span></label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="phone">Phone (Optional)</label>
+                        <input type="tel" id="phone" name="phone" placeholder="+44 7xxx xxx xxx">
+                    </div>
+                </div>
+
+                <div class="section-title">Areas of Focus</div>
+
+                <div class="form-group">
+                    <label>Which areas do you want us to analyze? <span class="required">*</span></label>
+                    <div class="helper-text" style="margin-bottom: 12px;">Select all that apply</div>
+                    <div class="checkbox-group">
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="area-sales" name="focusAreas" value="sales-lead-gen">
+                            <label for="area-sales">Sales & Lead Generation</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="area-customer" name="focusAreas" value="customer-support">
+                            <label for="area-customer">Customer Support</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="area-operations" name="focusAreas" value="operations">
+                            <label for="area-operations">Operations & Workflows</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="area-finance" name="focusAreas" value="finance-admin">
+                            <label for="area-finance">Finance & Admin</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="area-marketing" name="focusAreas" value="marketing">
+                            <label for="area-marketing">Marketing & Content</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="area-hr" name="focusAreas" value="hr-recruiting">
+                            <label for="area-hr">HR & Recruiting</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="area-data" name="focusAreas" value="data-reporting">
+                            <label for="area-data">Data & Reporting</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="area-all" name="focusAreas" value="all-areas">
+                            <label for="area-all">All Areas</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="timeline">Implementation Timeline <span class="required">*</span></label>
+                    <select id="timeline" name="timeline" required>
+                        <option value="">When are you looking to implement?</option>
+                        <option value="asap">As soon as possible</option>
+                        <option value="1-3-months">Within 1-3 months</option>
+                        <option value="3-6-months">Within 3-6 months</option>
+                        <option value="6-12-months">Within 6-12 months</option>
+                        <option value="planning">Just exploring / planning ahead</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="challenges">Current Challenges & Goals <span class="required">*</span></label>
+                    <textarea id="challenges" name="challenges" placeholder="Tell us about the operational challenges you're facing and what you hope to achieve through automation. The more detail, the better we can tailor the audit." required></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="additional">Additional Context (Optional)</label>
+                    <textarea id="additional" name="additional" placeholder="Anything else we should know? Current tools you use, previous automation attempts, specific processes you'd like analyzed, etc."></textarea>
+                </div>
+
+                <button type="submit" class="submit-btn" id="submit-btn">Submit Audit Request →</button>
+            </form>
+
+            <div class="features">
+                <h3>What's included in your comprehensive audit:</h3>
+                <ul>
+                    <li>AI Readiness Score (1-10) with detailed assessment</li>
+                    <li>8+ automation opportunities analyzed</li>
+                    <li>Visual opportunity matrix (effort vs. impact)</li>
+                    <li>Annual savings projections with payback periods</li>
+                    <li>Top 3 prioritized recommendations</li>
+                    <li>Implementation roadmap & next steps</li>
+                    <li>30-minute walkthrough call included</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="success-message" id="success-message">
+            <h2>✓ Request Received!</h2>
+            <p style="margin-bottom: 16px;">Thank you! We've received your audit request for <strong id="submitted-company"></strong>.</p>
+            <p style="margin-bottom: 16px;">We'll review your submission and send a confirmation email to <strong id="submitted-email"></strong> within 24 hours with next steps and payment details.</p>
+            <p>Questions? Email us at <a href="mailto:contact@mindlink.systems" style="color: var(--accent-primary); text-decoration: none;">contact@mindlink.systems</a></p>
+        </div>
+
+        <div class="footer">
+            <div class="footer-logo">MindLink Systems</div>
+            <p>AI Automation Consulting • mindlink.systems</p>
+        </div>
+    </div>
+
+    <script>
+        // Handle "All Areas" checkbox logic
+        const allAreasCheckbox = document.getElementById('area-all');
+        const areaCheckboxes = document.querySelectorAll('input[name="focusAreas"]:not(#area-all)');
+        
+        allAreasCheckbox.addEventListener('change', function() {
+            if (this.checked) {
+                areaCheckboxes.forEach(cb => cb.checked = false);
+            }
+        });
+        
+        areaCheckboxes.forEach(cb => {
+            cb.addEventListener('change', function() {
+                if (this.checked) {
+                    allAreasCheckbox.checked = false;
+                }
+            });
+        });
+
+        // Validate at least one focus area selected
+        function validateFocusAreas() {
+            const checked = document.querySelectorAll('input[name="focusAreas"]:checked');
+            return checked.length > 0;
+        }
+
+        document.getElementById('full-audit-form').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            if (!validateFocusAreas()) {
+                alert('Please select at least one focus area for the audit.');
+                return;
+            }
+            
+            const submitBtn = document.getElementById('submit-btn');
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Submitting...';
+
+            const focusAreas = Array.from(document.querySelectorAll('input[name="focusAreas"]:checked'))
+                .map(cb => cb.value);
+
+            const formData = {
+                companyName: document.getElementById('company-name').value,
+                website: document.getElementById('website').value,
+                industry: document.getElementById('industry').value,
+                employees: document.getElementById('employees').value,
+                name: document.getElementById('name').value,
+                role: document.getElementById('role').value,
+                email: document.getElementById('email').value,
+                phone: document.getElementById('phone').value,
+                focusAreas: focusAreas.join(', '),
+                timeline: document.getElementById('timeline').value,
+                challenges: document.getElementById('challenges').value,
+                additional: document.getElementById('additional').value,
+                type: 'full-audit',
+                timestamp: new Date().toISOString()
+            };
+
+            try {
+                // Submit to Netlify Forms
+                const response = await fetch('/', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                    body: new URLSearchParams({
+                        'form-name': 'full-audit-request',
+                        ...formData
+                    }).toString()
+                });
+
+                if (response.ok) {
+                    document.getElementById('submitted-company').textContent = formData.companyName;
+                    document.getElementById('submitted-email').textContent = formData.email;
+                    document.getElementById('form-container').style.display = 'none';
+                    document.getElementById('success-message').classList.add('show');
+                } else {
+                    throw new Error('Form submission failed');
+                }
+                
+            } catch (error) {
+                console.error('Submission error:', error);
+                alert('Something went wrong. Please try again or email us directly at contact@mindlink.systems');
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Submit Audit Request →';
+            }
+        });
+    </script>
+</body>
+</html>
