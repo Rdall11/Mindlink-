@@ -1,0 +1,1028 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MindLink Operations - Standard Operating Procedures</title>
+    <style>
+        :root {
+            --bg-primary: #0a0a0f;
+            --bg-secondary: #12121a;
+            --bg-card: #1a1a24;
+            --accent-primary: #006AD7;
+            --accent-gradient: linear-gradient(135deg, #006AD7 0%, #0052a3 100%);
+            --text-primary: #ffffff;
+            --text-secondary: #94a3b8;
+            --text-muted: #64748b;
+            --border-color: rgba(255,255,255,0.1);
+            --success: #22c55e;
+            --warning: #f59e0b;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.7;
+            padding: 40px 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 50px;
+            padding-bottom: 30px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 12px;
+            background: var(--accent-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .header .meta {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+        }
+
+        .toc {
+            background: var(--bg-card);
+            border-radius: 12px;
+            padding: 30px;
+            margin-bottom: 40px;
+            border: 1px solid var(--border-color);
+        }
+
+        .toc h2 {
+            font-size: 1.3rem;
+            margin-bottom: 20px;
+            color: var(--accent-primary);
+        }
+
+        .toc ol {
+            columns: 2;
+            column-gap: 40px;
+        }
+
+        .toc li {
+            margin-bottom: 10px;
+        }
+
+        .toc a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        .toc a:hover {
+            color: var(--accent-primary);
+        }
+
+        section {
+            background: var(--bg-card);
+            border-radius: 12px;
+            padding: 30px;
+            margin-bottom: 30px;
+            border: 1px solid var(--border-color);
+        }
+
+        h2 {
+            font-size: 1.6rem;
+            margin-bottom: 20px;
+            padding-bottom: 12px;
+            border-bottom: 2px solid var(--accent-primary);
+            color: var(--text-primary);
+        }
+
+        h3 {
+            font-size: 1.2rem;
+            margin: 25px 0 15px 0;
+            color: var(--accent-primary);
+        }
+
+        h4 {
+            font-size: 1rem;
+            margin: 20px 0 10px 0;
+            color: var(--text-secondary);
+        }
+
+        p {
+            margin-bottom: 15px;
+            color: var(--text-secondary);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            font-size: 0.9rem;
+        }
+
+        th, td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        th {
+            background: var(--bg-secondary);
+            color: var(--accent-primary);
+            font-weight: 600;
+        }
+
+        td {
+            color: var(--text-secondary);
+        }
+
+        tr:hover td {
+            background: rgba(0, 106, 215, 0.05);
+        }
+
+        ul, ol {
+            margin: 15px 0;
+            padding-left: 25px;
+            color: var(--text-secondary);
+        }
+
+        li {
+            margin-bottom: 8px;
+        }
+
+        .checklist {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .checklist li {
+            padding-left: 28px;
+            position: relative;
+        }
+
+        .checklist li:before {
+            content: "☐";
+            position: absolute;
+            left: 0;
+            color: var(--accent-primary);
+        }
+
+        code {
+            background: var(--bg-secondary);
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-family: 'Monaco', 'Menlo', monospace;
+            font-size: 0.85rem;
+            color: var(--accent-primary);
+        }
+
+        pre {
+            background: var(--bg-secondary);
+            padding: 20px;
+            border-radius: 8px;
+            overflow-x: auto;
+            margin: 15px 0;
+            border: 1px solid var(--border-color);
+        }
+
+        pre code {
+            background: none;
+            padding: 0;
+            color: var(--text-secondary);
+        }
+
+        .highlight {
+            background: rgba(0, 106, 215, 0.1);
+            border-left: 3px solid var(--accent-primary);
+            padding: 15px 20px;
+            margin: 20px 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .highlight p {
+            margin: 0;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .badge-success { background: rgba(34, 197, 94, 0.2); color: var(--success); }
+        .badge-warning { background: rgba(245, 158, 11, 0.2); color: var(--warning); }
+        .badge-primary { background: rgba(0, 106, 215, 0.2); color: var(--accent-primary); }
+
+        .template-box {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 20px;
+            margin: 15px 0;
+        }
+
+        .template-box h5 {
+            color: var(--accent-primary);
+            margin-bottom: 10px;
+            font-size: 0.9rem;
+        }
+
+        .template-box p {
+            font-style: italic;
+            margin: 0;
+            color: var(--text-secondary);
+        }
+
+        .back-to-top {
+            display: inline-block;
+            margin-top: 20px;
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 0.85rem;
+        }
+
+        .back-to-top:hover {
+            color: var(--accent-primary);
+        }
+
+        @media (max-width: 600px) {
+            .header h1 { font-size: 1.8rem; }
+            section { padding: 20px; }
+            .toc ol { columns: 1; }
+            table { font-size: 0.8rem; }
+            th, td { padding: 8px 10px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🧠 MindLink Operations SOP</h1>
+            <p class="meta">Standard Operating Procedures</p>
+            <p class="meta">Version 1.0 • Last Updated: March 1, 2026</p>
+        </div>
+
+        <nav class="toc" id="top">
+            <h2>📋 Table of Contents</h2>
+            <ol>
+                <li><a href="#overview">Company Overview</a></li>
+                <li><a href="#lead-gen">Lead Generation SOPs</a></li>
+                <li><a href="#sales">Sales Process SOPs</a></li>
+                <li><a href="#pricing">Pricing & Packages</a></li>
+                <li><a href="#audit-delivery">Audit Delivery SOPs</a></li>
+                <li><a href="#implementation">Implementation Delivery SOPs</a></li>
+                <li><a href="#communication">Client Communication SOPs</a></li>
+                <li><a href="#saas">SaaS Operations SOPs</a></li>
+                <li><a href="#interns">Intern SOPs</a></li>
+                <li><a href="#tools">Tool Stack & Access</a></li>
+                <li><a href="#templates">Templates & Scripts</a></li>
+            </ol>
+        </nav>
+
+        <!-- Section 1: Company Overview -->
+        <section id="overview">
+            <h2>1. Company Overview</h2>
+            
+            <h3>Two Business Units</h3>
+            <table>
+                <tr>
+                    <th>Business</th>
+                    <th>Description</th>
+                    <th>Stage</th>
+                </tr>
+                <tr>
+                    <td><strong>MindLink Systems</strong></td>
+                    <td>AI Automation Consulting</td>
+                    <td><span class="badge badge-success">Launching</span></td>
+                </tr>
+                <tr>
+                    <td><strong>MindLink App</strong></td>
+                    <td>AI Knowledge Management SaaS</td>
+                    <td><span class="badge badge-warning">MVP Beta</span></td>
+                </tr>
+            </table>
+
+            <h3>Business Model</h3>
+            <ul>
+                <li><strong>Buyer Journey:</strong> Consulting engagement → SaaS upsell</li>
+                <li><strong>Team:</strong> Founder (R) + 2-3 interns (10h/week each)</li>
+                <li><strong>Agency Partner:</strong> Building SaaS + mentoring on AI consulting/sales</li>
+            </ul>
+
+            <a href="#top" class="back-to-top">↑ Back to top</a>
+        </section>
+
+        <!-- Section 2: Lead Generation -->
+        <section id="lead-gen">
+            <h2>2. Lead Generation SOPs</h2>
+
+            <h3>2.1 Lead Sources (Priority Order)</h3>
+            <table>
+                <tr>
+                    <th>Channel</th>
+                    <th>Status</th>
+                    <th>Owner</th>
+                    <th>Frequency</th>
+                </tr>
+                <tr>
+                    <td>LinkedIn (outbound)</td>
+                    <td><span class="badge badge-success">Active</span></td>
+                    <td>Intern 2 + R</td>
+                    <td>Daily</td>
+                </tr>
+                <tr>
+                    <td>Warm Network</td>
+                    <td><span class="badge badge-success">Active</span></td>
+                    <td>R</td>
+                    <td>Ongoing</td>
+                </tr>
+                <tr>
+                    <td>Cold Email</td>
+                    <td><span class="badge badge-success">Active</span></td>
+                    <td>R / Intern</td>
+                    <td>Weekly campaigns</td>
+                </tr>
+                <tr>
+                    <td>SEO / Organic</td>
+                    <td><span class="badge badge-warning">Building</span></td>
+                    <td>Future Intern</td>
+                    <td>Ongoing</td>
+                </tr>
+                <tr>
+                    <td>Reddit</td>
+                    <td><span class="badge badge-primary">Launching</span></td>
+                    <td>R</td>
+                    <td>2-3x/week</td>
+                </tr>
+                <tr>
+                    <td>Paid Ads</td>
+                    <td><span class="badge badge-warning">Future</span></td>
+                    <td>TBD</td>
+                    <td>When budget allows</td>
+                </tr>
+            </table>
+
+            <h3>2.2 LinkedIn Outbound SOP</h3>
+            <p><strong>Owner:</strong> Intern 2 (prospect research + outreach) / R (high-value targets)</p>
+
+            <h4>Step 1: Prospect Research</h4>
+            <ol>
+                <li>Identify companies matching ICP (property management, PE-backed, service businesses)</li>
+                <li>Find decision-makers (CEO, COO, VP Ops, Founders)</li>
+                <li>Document in research tracker:
+                    <ul>
+                        <li>Company name & website</li>
+                        <li>Contact name, title, LinkedIn URL</li>
+                        <li>Company size, funding status</li>
+                        <li>Pain point hypothesis</li>
+                        <li>Personalization hooks (recent news, posts, mutual connections)</li>
+                    </ul>
+                </li>
+            </ol>
+
+            <h4>Step 2: Connection Request</h4>
+            <div class="highlight">
+                <p><strong>Template Framework (under 300 chars):</strong><br>
+                [Name], [personalization hook - their recent post/company news].<br>
+                [One sentence on what we do + relevance to them].<br>
+                [Soft ask - curious if X is on your radar?]</p>
+            </div>
+
+            <h4>Step 3: Follow-Up Sequence (once connected)</h4>
+            <table>
+                <tr>
+                    <th>Day</th>
+                    <th>Action</th>
+                </tr>
+                <tr>
+                    <td>Day 0</td>
+                    <td>Connection accepted — send thank you + value message</td>
+                </tr>
+                <tr>
+                    <td>Day 3</td>
+                    <td>If no response — follow up with case study or insight</td>
+                </tr>
+                <tr>
+                    <td>Day 7</td>
+                    <td>If no response — soft breakup or direct CTA</td>
+                </tr>
+            </table>
+
+            <h3>2.3 Cold Email SOP</h3>
+            <h4>Campaign Setup</h4>
+            <ol>
+                <li>Write 3-email sequence:
+                    <ul>
+                        <li><strong>Email 1:</strong> Problem + credibility + soft CTA</li>
+                        <li><strong>Email 2:</strong> Case study or insight + CTA</li>
+                        <li><strong>Email 3:</strong> Breakup email + final CTA</li>
+                    </ul>
+                </li>
+                <li>Personalize first line for each lead</li>
+                <li>Schedule sends (Tue-Thu, 9-11 AM recipient timezone)</li>
+            </ol>
+
+            <h3>2.4 Reddit Lead Magnet SOP</h3>
+            <p><strong>Target Subreddits:</strong> r/smallbusiness, r/Entrepreneur, r/automation, r/Landlord, r/PropertyManagement</p>
+            
+            <h4>Process:</h4>
+            <ol>
+                <li>Identify active threads about admin overwhelm, automation, efficiency</li>
+                <li>Comment with genuine value (advice, experience)</li>
+                <li>Mention lead magnet naturally if relevant (don't force)</li>
+                <li>Link to calculator or free audit only when asked or appropriate</li>
+                <li>Spread comments over time (2-3 per day max)</li>
+            </ol>
+
+            <div class="highlight">
+                <p><strong>Lead Magnets:</strong><br>
+                Calculator: <code>mindlinksystems.netlify.app/automation-savings-calculator.html</code><br>
+                Free Audit: <code>mindlinksystems.netlify.app/audit-request.html</code></p>
+            </div>
+
+            <a href="#top" class="back-to-top">↑ Back to top</a>
+        </section>
+
+        <!-- Section 3: Sales Process -->
+        <section id="sales">
+            <h2>3. Sales Process SOPs</h2>
+
+            <h3>3.1 Sales Pipeline Stages</h3>
+            <table>
+                <tr>
+                    <th>Stage</th>
+                    <th>Description</th>
+                    <th>Exit Criteria</th>
+                </tr>
+                <tr>
+                    <td>Lead</td>
+                    <td>New contact identified</td>
+                    <td>Qualified or disqualified</td>
+                </tr>
+                <tr>
+                    <td>Qualified</td>
+                    <td>Passed qualification</td>
+                    <td>Strategy call booked</td>
+                </tr>
+                <tr>
+                    <td>Strategy Call</td>
+                    <td>Intro call completed</td>
+                    <td>Follow-up booked + proposal sent</td>
+                </tr>
+                <tr>
+                    <td>Proposal Sent</td>
+                    <td>Proposal delivered</td>
+                    <td>Payment received</td>
+                </tr>
+                <tr>
+                    <td>Discovery</td>
+                    <td>Paid discovery call</td>
+                    <td>Audit in progress</td>
+                </tr>
+                <tr>
+                    <td>Delivery</td>
+                    <td>Audit/implementation in progress</td>
+                    <td>Completed</td>
+                </tr>
+                <tr>
+                    <td>Closed Won</td>
+                    <td>Engagement complete</td>
+                    <td>Invoice paid</td>
+                </tr>
+            </table>
+
+            <h3>3.2 Qualification SOP</h3>
+            <h4>Qualifying Questions:</h4>
+            <ol>
+                <li>What's your biggest operational bottleneck?</li>
+                <li>How many people are involved in [process]?</li>
+                <li>Have you tried automating before? What happened?</li>
+                <li>What's your timeline for solving this?</li>
+                <li>Do you have budget allocated for this?</li>
+            </ol>
+
+            <h4>Qualification Criteria:</h4>
+            <ul>
+                <li>✅ Clear pain point we can solve</li>
+                <li>✅ Decision-maker or access to one</li>
+                <li>✅ Budget aligned with our pricing</li>
+                <li>✅ Timeline within 1-3 months</li>
+                <li>❌ Just researching, no urgency</li>
+                <li>❌ Budget mismatch</li>
+                <li>❌ Pain point outside our expertise</li>
+            </ul>
+
+            <h3>3.3 Strategy Call Structure</h3>
+            <p><strong>Duration:</strong> 30-45 minutes</p>
+            <table>
+                <tr>
+                    <th>Phase</th>
+                    <th>Duration</th>
+                    <th>Focus</th>
+                </tr>
+                <tr>
+                    <td>Rapport</td>
+                    <td>5 min</td>
+                    <td>Build connection, small talk</td>
+                </tr>
+                <tr>
+                    <td>Discovery</td>
+                    <td>15 min</td>
+                    <td>Understand their pain, goals, current state</td>
+                </tr>
+                <tr>
+                    <td>Pitch</td>
+                    <td>10 min</td>
+                    <td>Present how we solve their problem</td>
+                </tr>
+                <tr>
+                    <td>Objection Handling</td>
+                    <td>5 min</td>
+                    <td>Address concerns</td>
+                </tr>
+                <tr>
+                    <td>Close</td>
+                    <td>5 min</td>
+                    <td>Book follow-up, explain next steps</td>
+                </tr>
+            </table>
+
+            <a href="#top" class="back-to-top">↑ Back to top</a>
+        </section>
+
+        <!-- Section 4: Pricing -->
+        <section id="pricing">
+            <h2>4. Pricing & Packages</h2>
+
+            <table>
+                <tr>
+                    <th>Package</th>
+                    <th>Price (USD)</th>
+                    <th>Deliverables</th>
+                    <th>Timeline</th>
+                </tr>
+                <tr>
+                    <td><strong>Mini Audit / Audit Sprint</strong></td>
+                    <td>$2,000</td>
+                    <td>Quick assessment, 2-3 opportunities, high-level recommendations</td>
+                    <td>1 week</td>
+                </tr>
+                <tr>
+                    <td><strong>Full Audit</strong></td>
+                    <td>$5,000+</td>
+                    <td>Comprehensive assessment, 8+ opportunities, savings projections, priority matrix, implementation roadmap, 30-min walkthrough</td>
+                    <td>2-3 weeks</td>
+                </tr>
+                <tr>
+                    <td><strong>Implementation / Custom Solutions</strong></td>
+                    <td>$10,000+</td>
+                    <td>Build and deploy automations, integrations, workflows</td>
+                    <td>4-8 weeks</td>
+                </tr>
+            </table>
+
+            <h3>Payment Terms</h3>
+            <ul>
+                <li><strong>Audit packages:</strong> 100% upfront before discovery call</li>
+                <li><strong>Implementation:</strong> 50% upfront, 50% on completion (or milestone-based)</li>
+            </ul>
+
+            <a href="#top" class="back-to-top">↑ Back to top</a>
+        </section>
+
+        <!-- Section 5: Audit Delivery -->
+        <section id="audit-delivery">
+            <h2>5. Audit Delivery SOPs</h2>
+
+            <h3>5.1 Mini Audit Delivery</h3>
+            <p><strong>Timeline:</strong> 1 week</p>
+            <table>
+                <tr>
+                    <th>Day</th>
+                    <th>Task</th>
+                </tr>
+                <tr><td>Day 1</td><td>Discovery call with client (30-60 min)</td></tr>
+                <tr><td>Day 2-3</td><td>Research and analysis</td></tr>
+                <tr><td>Day 4-5</td><td>Draft audit report</td></tr>
+                <tr><td>Day 6</td><td>Internal review</td></tr>
+                <tr><td>Day 7</td><td>Deliver report + walkthrough call</td></tr>
+            </table>
+
+            <h3>5.2 Full Audit Delivery</h3>
+            <p><strong>Timeline:</strong> 2-3 weeks</p>
+            <table>
+                <tr>
+                    <th>Phase</th>
+                    <th>Duration</th>
+                    <th>Activities</th>
+                </tr>
+                <tr>
+                    <td>Discovery</td>
+                    <td>Week 1</td>
+                    <td>Discovery calls with stakeholders across departments</td>
+                </tr>
+                <tr>
+                    <td>Analysis</td>
+                    <td>Week 2</td>
+                    <td>Deep research, process mapping, opportunity identification</td>
+                </tr>
+                <tr>
+                    <td>Delivery</td>
+                    <td>Week 3</td>
+                    <td>Report creation, internal review, walkthrough call</td>
+                </tr>
+            </table>
+
+            <h4>Full Audit Deliverables:</h4>
+            <ul>
+                <li>Comprehensive HTML audit report</li>
+                <li>AI Readiness Score (1-10)</li>
+                <li>8+ automation opportunities</li>
+                <li>Visual opportunity matrix (effort vs impact)</li>
+                <li>Annual savings projections with payback periods</li>
+                <li>Top 3 prioritized recommendations</li>
+                <li>Implementation roadmap</li>
+                <li>30-min walkthrough call</li>
+            </ul>
+
+            <h3>5.3 Client Portal SOP (Assembly)</h3>
+            <h4>When client pays:</h4>
+            <ol>
+                <li>Create client workspace in Assembly</li>
+                <li>Invite client to portal</li>
+                <li>Create folders: <code>/Documents</code>, <code>/Deliverables</code>, <code>/Communications</code></li>
+                <li>Send welcome message with:
+                    <ul>
+                        <li>What to upload (org chart, process docs, access info)</li>
+                        <li>Timeline overview</li>
+                        <li>Point of contact</li>
+                    </ul>
+                </li>
+            </ol>
+
+            <a href="#top" class="back-to-top">↑ Back to top</a>
+        </section>
+
+        <!-- Section 6: Implementation -->
+        <section id="implementation">
+            <h2>6. Implementation Delivery SOPs</h2>
+
+            <h3>Implementation Process</h3>
+            <p><strong>Timeline:</strong> 4-8 weeks (varies by scope)</p>
+            <table>
+                <tr>
+                    <th>Phase</th>
+                    <th>Duration</th>
+                    <th>Activities</th>
+                </tr>
+                <tr><td>Kickoff</td><td>Week 1</td><td>Kickoff call, access collection, tool setup</td></tr>
+                <tr><td>Build</td><td>Weeks 2-5</td><td>Build automations, integrations, workflows</td></tr>
+                <tr><td>Test</td><td>Week 6</td><td>Internal testing, client UAT</td></tr>
+                <tr><td>Deploy</td><td>Week 7</td><td>Go live, monitor, fix issues</td></tr>
+                <tr><td>Handoff</td><td>Week 8</td><td>Documentation, training, support transition</td></tr>
+            </table>
+
+            <h4>Deliverables:</h4>
+            <ul>
+                <li>Working automation/system</li>
+                <li>Documentation (how it works, how to maintain)</li>
+                <li>Training session for client team</li>
+                <li>30-day support window post-launch</li>
+            </ul>
+
+            <h3>Stakeholder Discovery SOP</h3>
+            <ol>
+                <li>Identify all relevant stakeholders (by department)</li>
+                <li>Schedule 30-min discovery call with each</li>
+                <li>Ask:
+                    <ul>
+                        <li>What does your day-to-day look like?</li>
+                        <li>What tasks take the most time?</li>
+                        <li>What breaks most often?</li>
+                        <li>What would make your job easier?</li>
+                    </ul>
+                </li>
+                <li>Document findings in Assembly</li>
+                <li>Synthesize into requirements doc</li>
+            </ol>
+
+            <a href="#top" class="back-to-top">↑ Back to top</a>
+        </section>
+
+        <!-- Section 7: Communication -->
+        <section id="communication">
+            <h2>7. Client Communication SOPs</h2>
+
+            <h3>Communication Channels</h3>
+            <table>
+                <tr>
+                    <th>Channel</th>
+                    <th>Use Case</th>
+                </tr>
+                <tr><td><strong>Assembly (Portal)</strong></td><td>Document sharing, project updates, formal communications</td></tr>
+                <tr><td><strong>WhatsApp</strong></td><td>Quick questions, urgent matters, informal check-ins</td></tr>
+                <tr><td><strong>Email</strong></td><td>Proposals, invoices, formal communications, recaps</td></tr>
+                <tr><td><strong>Cal.com</strong></td><td>Booking all calls</td></tr>
+            </table>
+
+            <h3>Communication Cadence</h3>
+            <table>
+                <tr>
+                    <th>Engagement Type</th>
+                    <th>Frequency</th>
+                    <th>Format</th>
+                </tr>
+                <tr><td>Audit (Mini)</td><td>2x during engagement</td><td>Portal update + email</td></tr>
+                <tr><td>Audit (Full)</td><td>2-3x per week</td><td>Portal update</td></tr>
+                <tr><td>Implementation</td><td>Weekly</td><td>Portal update + call if needed</td></tr>
+                <tr><td>Post-delivery</td><td>Monthly (first 3 months)</td><td>Check-in email</td></tr>
+            </table>
+
+            <h3>Response Time SLA</h3>
+            <table>
+                <tr>
+                    <th>Channel</th>
+                    <th>Response Time</th>
+                </tr>
+                <tr><td>WhatsApp</td><td>Within 4 hours (business hours)</td></tr>
+                <tr><td>Email</td><td>Within 24 hours</td></tr>
+                <tr><td>Portal</td><td>Within 24 hours</td></tr>
+            </table>
+
+            <a href="#top" class="back-to-top">↑ Back to top</a>
+        </section>
+
+        <!-- Section 8: SaaS -->
+        <section id="saas">
+            <h2>8. SaaS Operations SOPs (MindLink App)</h2>
+
+            <h3>Lead Generation</h3>
+            <p>Same process as consulting (see Section 2).</p>
+
+            <h3>Demo SOP</h3>
+            <p><strong>Duration:</strong> 30 minutes</p>
+            <table>
+                <tr>
+                    <th>Phase</th>
+                    <th>Duration</th>
+                    <th>Focus</th>
+                </tr>
+                <tr><td>Recap</td><td>5 min</td><td>Their pain points</td></tr>
+                <tr><td>Walkthrough</td><td>15 min</td><td>Product demo tailored to use case</td></tr>
+                <tr><td>Q&A</td><td>5 min</td><td>Answer questions</td></tr>
+                <tr><td>Close</td><td>5 min</td><td>Pricing and next steps</td></tr>
+            </table>
+
+            <h3>Onboarding SOP</h3>
+            <ol>
+                <li>Create account for client</li>
+                <li>Send welcome email with login details</li>
+                <li>Schedule onboarding call (30 min)</li>
+                <li>Walk through key features</li>
+                <li>Provide documentation/help resources</li>
+                <li>Check in after 1 week</li>
+            </ol>
+
+            <h3>Support & Feature Requests</h3>
+            <ul>
+                <li><strong>In-App:</strong> Feature requests tab → centralized in product backlog</li>
+                <li><strong>Bug reports:</strong> Triaged by dev team</li>
+                <li><strong>Critical bugs:</strong> Within 24 hours</li>
+                <li><strong>Feature requests:</strong> Acknowledged within 48 hours</li>
+            </ul>
+
+            <a href="#top" class="back-to-top">↑ Back to top</a>
+        </section>
+
+        <!-- Section 9: Interns -->
+        <section id="interns">
+            <h2>9. Intern SOPs</h2>
+
+            <h3>Current Intern Roles</h3>
+            <table>
+                <tr>
+                    <th>Intern</th>
+                    <th>Focus Area</th>
+                    <th>Key Tasks</th>
+                </tr>
+                <tr>
+                    <td><strong>Intern 1</strong></td>
+                    <td>Partnerships + LinkedIn Company Page</td>
+                    <td>Partnership identification, LinkedIn content, company page management</td>
+                </tr>
+                <tr>
+                    <td><strong>Intern 2</strong></td>
+                    <td>Prospect Research + Outreach</td>
+                    <td>ICP research, LinkedIn outreach, lead documentation</td>
+                </tr>
+                <tr>
+                    <td><strong>Future Intern</strong></td>
+                    <td>Content + SEO</td>
+                    <td>Blog posts, LinkedIn content, creative content, organic SEO</td>
+                </tr>
+            </table>
+
+            <h3>Intern 1: Partnerships + LinkedIn Company Page</h3>
+            <h4>Weekly Tasks:</h4>
+            <ul class="checklist">
+                <li>Identify 5 potential partnership opportunities (agencies, complementary services)</li>
+                <li>Draft 2-3 LinkedIn company page posts</li>
+                <li>Schedule posts using LinkedIn or scheduling tool</li>
+                <li>Monitor company page engagement, respond to comments</li>
+                <li>Report partnership leads to R</li>
+            </ul>
+
+            <h4>Deliverables:</h4>
+            <ul>
+                <li>Weekly partnership report (5 leads minimum)</li>
+                <li>2-3 LinkedIn posts scheduled per week</li>
+                <li>Monthly company page analytics summary</li>
+            </ul>
+
+            <h3>Intern 2: Prospect Research + LinkedIn Outreach</h3>
+            <h4>Weekly Tasks:</h4>
+            <ul class="checklist">
+                <li>Research 20 new prospects matching ICP</li>
+                <li>Document in prospect tracker (name, company, title, LinkedIn, pain points)</li>
+                <li>Send 15-20 connection requests</li>
+                <li>Follow up with new connections per sequence</li>
+                <li>Report qualified leads to R</li>
+            </ul>
+
+            <h4>Handoff to R:</h4>
+            <p>When a prospect shows interest (replies positively, asks for call):</p>
+            <ol>
+                <li>Notify R immediately via WhatsApp</li>
+                <li>Provide context (conversation history, company info)</li>
+                <li>R takes over for qualification/strategy call</li>
+            </ol>
+
+            <h3>Intern Communication</h3>
+            <table>
+                <tr>
+                    <th>Type</th>
+                    <th>Channel</th>
+                    <th>Frequency</th>
+                </tr>
+                <tr><td>Task assignments</td><td>Slack/WhatsApp</td><td>As needed</td></tr>
+                <tr><td>Weekly check-in</td><td>Call or async update</td><td>Weekly</td></tr>
+                <tr><td>Questions</td><td>WhatsApp</td><td>As needed</td></tr>
+                <tr><td>Deliverable submission</td><td>Shared Drive/Notion</td><td>Per task</td></tr>
+            </table>
+
+            <a href="#top" class="back-to-top">↑ Back to top</a>
+        </section>
+
+        <!-- Section 10: Tools -->
+        <section id="tools">
+            <h2>10. Tool Stack & Access</h2>
+
+            <h3>Core Tools</h3>
+            <table>
+                <tr>
+                    <th>Tool</th>
+                    <th>Purpose</th>
+                    <th>Owner</th>
+                </tr>
+                <tr><td><strong>Cal.com</strong></td><td>Booking calls</td><td>R</td></tr>
+                <tr><td><strong>Assembly</strong></td><td>CRM + Client Portal</td><td>R</td></tr>
+                <tr><td><strong>Twiller</strong></td><td>Invoicing</td><td>R</td></tr>
+                <tr><td><strong>LinkedIn</strong></td><td>Outreach + company page</td><td>R + Interns</td></tr>
+                <tr><td><strong>WhatsApp</strong></td><td>Client communication</td><td>R</td></tr>
+                <tr><td><strong>Google Workspace</strong></td><td>Email, docs, sheets</td><td>R + Interns</td></tr>
+            </table>
+
+            <h3>Lead Magnet Tools</h3>
+            <table>
+                <tr>
+                    <th>Tool</th>
+                    <th>URL</th>
+                </tr>
+                <tr>
+                    <td>Automation Savings Calculator</td>
+                    <td><code>mindlinksystems.netlify.app/automation-savings-calculator.html</code></td>
+                </tr>
+                <tr>
+                    <td>Free Audit Request Form</td>
+                    <td><code>mindlinksystems.netlify.app/audit-request.html</code></td>
+                </tr>
+                <tr>
+                    <td>Full Audit Request Form</td>
+                    <td><code>mindlinksystems.netlify.app/full-audit-request.html</code></td>
+                </tr>
+            </table>
+
+            <h3>Websites</h3>
+            <table>
+                <tr>
+                    <th>Site</th>
+                    <th>URL</th>
+                    <th>Purpose</th>
+                </tr>
+                <tr><td>MindLink Systems</td><td><code>mindlinksystems.ai</code></td><td>Main consulting site</td></tr>
+                <tr><td>MindLink App</td><td><code>mindlinkapp.ai</code></td><td>SaaS product site</td></tr>
+                <tr><td>Tools/Dashboard</td><td><code>mindlinksystems.netlify.app</code></td><td>Internal tools + lead magnets</td></tr>
+            </table>
+
+            <a href="#top" class="back-to-top">↑ Back to top</a>
+        </section>
+
+        <!-- Section 11: Templates -->
+        <section id="templates">
+            <h2>11. Templates & Scripts</h2>
+
+            <h3>LinkedIn Connection Request Templates</h3>
+
+            <div class="template-box">
+                <h5>Template A: Recent Activity Hook</h5>
+                <p>[Name], saw your post about [topic] — [brief reaction/insight]. We help [their industry] automate [specific pain point]. Curious if operational efficiency is on your radar?</p>
+            </div>
+
+            <div class="template-box">
+                <h5>Template B: Company News Hook</h5>
+                <p>[Name], congrats on [recent funding/expansion/news]! As you scale, operational bottlenecks often multiply. We help [industry] automate the tedious stuff. Worth connecting?</p>
+            </div>
+
+            <div class="template-box">
+                <h5>Template C: Mutual Connection</h5>
+                <p>[Name], noticed we're both connected to [mutual connection]. I help [industry] companies automate operations and cut admin time by 30-40%. Thought it might be relevant to [their company].</p>
+            </div>
+
+            <h3>Follow-Up Message Templates</h3>
+
+            <div class="template-box">
+                <h5>Follow-Up 1: After Connection Accepted</h5>
+                <p>Thanks for connecting, [Name]! Curious — is operational automation on [Company]'s radar? We've been helping [industry] firms cut admin time 30-40% on [specific processes]. Happy to share a quick case study if relevant.</p>
+            </div>
+
+            <div class="template-box">
+                <h5>Follow-Up 2: No Response After 3 Days</h5>
+                <p>[Name], wanted to share a quick example — We recently helped a [similar company] automate [process], saving them [X hours/week]. Worth a quick chat to see if there's a fit for [Company]?</p>
+            </div>
+
+            <div class="template-box">
+                <h5>Follow-Up 3: Soft Breakup</h5>
+                <p>[Name], don't want to clutter your inbox — If automation isn't a priority right now, totally understand. Happy to reconnect down the line if things change. Either way, wishing you and [Company] continued success!</p>
+            </div>
+
+            <h3>Cold Email Templates</h3>
+
+            <div class="template-box">
+                <h5>Email 1: Problem + Credibility</h5>
+                <p><strong>Subject:</strong> [Company] + operational efficiency<br><br>
+                Hi [Name],<br><br>
+                Noticed [Company] is [scaling/expanding/hiring] — congrats!<br><br>
+                As you grow, operational bottlenecks often multiply. We help [industry] companies automate the high-touch, repetitive work that kills margins.<br><br>
+                Recently helped a similar company save [X hours/week] on [process].<br><br>
+                Worth a 15-min chat to see if there's a fit?<br><br>
+                Best,<br>R<br>MindLink Systems</p>
+            </div>
+
+            <div class="template-box">
+                <h5>Email 3: Breakup</h5>
+                <p><strong>Subject:</strong> Closing the loop<br><br>
+                Hi [Name],<br><br>
+                Wanted to follow up one last time before closing the loop.<br><br>
+                If automation isn't a priority right now, no worries — happy to reconnect down the line.<br><br>
+                If it is, I'd love 15 minutes to show you what's possible.<br><br>
+                Either way, wishing [Company] continued success!<br><br>
+                Best,<br>R</p>
+            </div>
+
+            <h3>Quick Reference</h3>
+            <div class="highlight">
+                <p><strong>Key Links:</strong><br>
+                Main Site: <code>mindlinksystems.ai</code><br>
+                SaaS: <code>mindlinkapp.ai</code><br>
+                Tools: <code>mindlinksystems.netlify.app</code><br>
+                Booking: <code>cal.com/mindlinkai/strategy</code></p>
+            </div>
+
+            <div class="highlight">
+                <p><strong>Pricing Quick Reference:</strong><br>
+                Mini Audit: $2,000<br>
+                Full Audit: $5,000+<br>
+                Implementation: $10,000+</p>
+            </div>
+
+            <a href="#top" class="back-to-top">↑ Back to top</a>
+        </section>
+
+        <footer style="text-align: center; padding: 40px 0; color: var(--text-muted); border-top: 1px solid var(--border-color); margin-top: 40px;">
+            <p>MindLink Operations SOP • Version 1.0 • March 2026</p>
+            <p style="font-size: 0.85rem; margin-top: 10px;">This SOP is a living document. Update as processes evolve.</p>
+        </footer>
+    </div>
+</body>
+</html>
