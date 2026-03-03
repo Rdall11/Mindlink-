@@ -283,7 +283,7 @@
 </head>
 <body>
     <!-- Hidden form for Netlify detection -->
-    <form name="full-audit-request" method="POST" action="/full-audit-request.html" netlify netlify-honeypot="bot-field" hidden>
+    <form name="full-audit-request" method="POST" data-netlify="true" netlify-honeypot="bot-field" hidden>
         <input type="text" name="companyName" />
         <input type="url" name="website" />
         <input type="text" name="industry" />
@@ -307,7 +307,7 @@
         </div>
 
         <div class="form-card" id="form-container">
-            <form id="full-audit-form" name="full-audit-request" method="POST" action="/full-audit-request.html" data-netlify="true">
+            <form id="full-audit-form" name="full-audit-request" method="POST" data-netlify="true">
                 
                 <div class="section-title">Company Information</div>
                 
@@ -541,7 +541,7 @@
 
             try {
                 // Submit to Netlify Forms
-                const response = await fetch('/full-audit-request.html', {
+                const response = await fetch('/', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
                     body: new URLSearchParams({
