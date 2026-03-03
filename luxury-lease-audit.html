@@ -1,0 +1,1035 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Automation Audit - Luxury Lease Brokerage</title>
+    <style>
+        :root {
+            --bg-primary: #0a0a0f;
+            --bg-secondary: #12121a;
+            --bg-card: #1a1a24;
+            --accent-primary: #006AD7;
+            --accent-gradient: linear-gradient(135deg, #006AD7 0%, #0052a3 100%);
+            --text-primary: #ffffff;
+            --text-secondary: #94a3b8;
+            --text-muted: #64748b;
+            --border-color: rgba(255,255,255,0.1);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+            line-height: 1.6;
+            color: var(--text-primary);
+            background: var(--bg-primary);
+        }
+        
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+        
+        /* Header */
+        .header {
+            text-align: center;
+            margin-bottom: 50px;
+            padding-bottom: 30px;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            font-weight: 700;
+            background: var(--accent-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .header .subtitle {
+            font-size: 1.2em;
+            color: var(--text-secondary);
+        }
+        
+        .header .company {
+            font-size: 1.8em;
+            margin-top: 20px;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .header .date {
+            font-size: 1em;
+            color: var(--text-muted);
+        }
+
+        /* Key Stats */
+        .key-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin-bottom: 32px;
+        }
+
+        .key-stat {
+            background: var(--bg-card);
+            border-radius: 12px;
+            padding: 25px;
+            text-align: center;
+            border: 1px solid var(--border-color);
+        }
+
+        .key-stat-value {
+            font-size: 2.2em;
+            font-weight: 700;
+            color: var(--accent-primary);
+            margin-bottom: 5px;
+        }
+
+        .key-stat-label {
+            font-size: 0.95em;
+            color: var(--text-secondary);
+        }
+
+        @media (max-width: 600px) {
+            .key-stats { grid-template-columns: 1fr; }
+        }
+        
+        /* Content sections */
+        .section {
+            background: var(--bg-card);
+            border-radius: 16px;
+            padding: 40px;
+            margin-bottom: 32px;
+            border: 1px solid var(--border-color);
+        }
+        
+        .section-title {
+            font-size: 1.8em;
+            margin-bottom: 25px;
+            color: var(--accent-primary);
+            font-weight: 600;
+        }
+        
+        /* Executive Summary */
+        .exec-summary {
+            background: var(--bg-secondary);
+            padding: 30px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+        }
+        
+        .exec-summary p {
+            font-size: 1.1em;
+            margin-bottom: 15px;
+            line-height: 1.8;
+            color: var(--text-secondary);
+        }
+
+        .exec-summary p:last-child {
+            margin-bottom: 0;
+        }
+        
+        /* Readiness Score */
+        .readiness-container {
+            display: flex;
+            align-items: center;
+            gap: 40px;
+            margin: 30px 0;
+        }
+
+        @media (max-width: 768px) {
+            .readiness-container {
+                flex-direction: column;
+                text-align: center;
+            }
+        }
+        
+        .score-circle {
+            position: relative;
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            background: conic-gradient(var(--accent-primary) 50%, var(--bg-secondary) 50%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+        
+        .score-inner {
+            width: 160px;
+            height: 160px;
+            border-radius: 50%;
+            background: var(--bg-card);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .score-number {
+            font-size: 3.5em;
+            font-weight: 700;
+            color: var(--accent-primary);
+        }
+        
+        .score-label {
+            font-size: 0.9em;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .readiness-text {
+            flex: 1;
+        }
+        
+        .readiness-text h3 {
+            font-size: 1.4em;
+            margin-bottom: 15px;
+            color: var(--text-primary);
+        }
+        
+        .readiness-text p {
+            font-size: 1.05em;
+            line-height: 1.7;
+            color: var(--text-secondary);
+        }
+        
+        /* Matrix */
+        .matrix-container {
+            margin: 30px 0;
+            padding: 30px;
+            background: var(--bg-secondary);
+            border-radius: 12px;
+        }
+        
+        .matrix-grid {
+            position: relative;
+            padding-bottom: 30px;
+            padding-left: 10px;
+        }
+        
+        .matrix-x-label {
+            text-align: center;
+            margin-top: 15px;
+            font-size: 0.9em;
+            font-weight: 600;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .matrix-quadrants {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            grid-template-rows: 1fr 1fr;
+            gap: 2px;
+            background: var(--border-color);
+            border: 2px solid var(--border-color);
+            border-radius: 8px;
+            overflow: hidden;
+            min-height: 500px;
+        }
+        
+        .quadrant {
+            background: var(--bg-card);
+            padding: 20px;
+            position: relative;
+            min-height: 250px;
+        }
+        
+        .quadrant-label {
+            font-size: 0.85em;
+            font-weight: 600;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 15px;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .quadrant-tl { /* Top Left - Nice to Have */
+            opacity: 0.7;
+        }
+        
+        .quadrant-tr { /* Top Right - Quick Wins */
+            border-left: 2px solid var(--accent-primary);
+        }
+        
+        .quadrant-bl { /* Bottom Left - Avoid */
+            opacity: 0.5;
+        }
+        
+        .quadrant-br { /* Bottom Right - Strategic */
+            border-left: 2px solid var(--accent-primary);
+        }
+        
+        .matrix-bubble {
+            position: absolute;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.75em;
+            font-weight: 500;
+            color: white;
+            text-align: center;
+            padding: 8px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+            line-height: 1.2;
+            background: var(--accent-primary);
+        }
+        
+        .matrix-bubble:hover {
+            transform: scale(1.15);
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.5);
+            z-index: 10;
+        }
+
+        .matrix-bubble .priority-badge {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background: white;
+            color: var(--accent-primary);
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            font-size: 0.8em;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .bubble-tooltip {
+            display: none;
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--bg-primary);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 12px 16px;
+            margin-bottom: 10px;
+            white-space: nowrap;
+            font-size: 0.9em;
+            color: var(--text-secondary);
+            z-index: 100;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+        }
+        
+        .matrix-bubble:hover .bubble-tooltip {
+            display: block;
+        }
+        
+        @media (max-width: 768px) {
+            .matrix-quadrants {
+                grid-template-columns: 1fr;
+                min-height: auto;
+            }
+        }
+        
+        /* Opportunities */
+        .priority-section {
+            margin: 30px 0 50px 0;
+        }
+        
+        .priority-label {
+            display: inline-block;
+            background: var(--accent-gradient);
+            color: white;
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 15px;
+        }
+        
+        .opportunity {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 25px;
+            margin-bottom: 20px;
+            transition: all 0.3s ease;
+        }
+        
+        .opportunity:hover {
+            border-color: var(--accent-primary);
+            box-shadow: 0 4px 12px rgba(0, 106, 215, 0.3);
+        }
+        
+        .opportunity.priority {
+            border-color: var(--accent-primary);
+            background: var(--bg-secondary);
+        }
+        
+        .opportunity-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 15px;
+        }
+        
+        .opportunity-title {
+            font-size: 1.4em;
+            font-weight: 600;
+            color: var(--text-primary);
+            flex: 1;
+        }
+        
+        .opportunity-number {
+            background: var(--accent-gradient);
+            color: white;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            flex-shrink: 0;
+            margin-left: 15px;
+        }
+        
+        .opportunity-description {
+            font-size: 1.05em;
+            line-height: 1.7;
+            color: var(--text-secondary);
+            margin-bottom: 10px;
+        }
+        
+        .opportunity-departments {
+            color: var(--text-muted);
+            font-size: 0.95em;
+            margin-bottom: 15px;
+        }
+        
+        .opportunity-metrics {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .metric {
+            background: var(--bg-primary);
+            padding: 15px;
+            border-radius: 8px;
+        }
+        
+        .metric-label {
+            font-size: 0.85em;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 5px;
+        }
+        
+        .metric-value {
+            font-size: 1.3em;
+            font-weight: 600;
+            color: var(--accent-primary);
+        }
+        
+        /* All Opportunities List */
+        .all-opportunities {
+            margin-top: 40px;
+        }
+        
+        .all-opportunities-title {
+            font-size: 1.4em;
+            margin-bottom: 20px;
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+
+        /* Comparison Table */
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 30px 0;
+            font-size: 0.95em;
+        }
+
+        .comparison-table th {
+            background: var(--accent-gradient);
+            color: white;
+            padding: 15px;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        .comparison-table td {
+            padding: 15px;
+            border-bottom: 1px solid var(--border-color);
+            color: var(--text-secondary);
+        }
+
+        .comparison-table tr:hover td {
+            background: rgba(0, 106, 215, 0.05);
+        }
+
+        .comparison-table .priority-badge {
+            background: var(--accent-primary);
+            color: white;
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 0.85em;
+            font-weight: 600;
+        }
+
+        /* Total Value Summary */
+        .total-value {
+            background: var(--bg-secondary);
+            border-radius: 12px;
+            padding: 30px;
+            margin-top: 40px;
+            border: 2px solid var(--accent-primary);
+        }
+
+        .total-value h3 {
+            color: var(--accent-primary);
+            font-size: 1.3em;
+            margin-bottom: 20px;
+        }
+
+        .total-value-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+        }
+
+        .total-value-item {
+            text-align: center;
+        }
+
+        .total-value-amount {
+            font-size: 1.8em;
+            font-weight: 700;
+            color: var(--accent-primary);
+        }
+
+        .total-value-label {
+            color: var(--text-secondary);
+            font-size: 0.95em;
+            margin-top: 5px;
+        }
+        
+        /* Next Steps */
+        .next-steps {
+            background: var(--bg-secondary);
+            padding: 30px;
+            border-radius: 12px;
+        }
+        
+        .next-steps ol {
+            margin-left: 20px;
+        }
+        
+        .next-steps li {
+            font-size: 1.1em;
+            margin-bottom: 15px;
+            line-height: 1.7;
+            color: var(--text-secondary);
+        }
+        
+        /* Footer */
+        .footer {
+            text-align: center;
+            margin-top: 48px;
+            padding-top: 32px;
+            border-top: 1px solid var(--border-color);
+        }
+        
+        .footer p {
+            margin-bottom: 10px;
+            color: var(--text-secondary);
+        }
+        
+        .cta-button {
+            display: inline-block;
+            background: var(--accent-gradient);
+            color: white;
+            padding: 15px 40px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.1em;
+            margin-top: 20px;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(0, 106, 215, 0.4);
+        }
+        
+        @media print {
+            :root {
+                --bg-primary: white;
+                --bg-secondary: #f8f9fa;
+                --bg-card: white;
+                --text-primary: #000;
+                --text-secondary: #333;
+                --text-muted: #666;
+            }
+            .section {
+                page-break-inside: avoid;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <h1>AI Automation Audit</h1>
+            <div class="subtitle">Comprehensive Analysis & Roadmap</div>
+            <div class="company">Luxury Lease Brokerage</div>
+            <div class="date">March 2026</div>
+        </div>
+
+        <!-- Key Stats -->
+        <div class="key-stats">
+            <div class="key-stat">
+                <div class="key-stat-value">$460K–$690K</div>
+                <div class="key-stat-label">Annual Savings Potential</div>
+            </div>
+            <div class="key-stat">
+                <div class="key-stat-value">5–7</div>
+                <div class="key-stat-label">Full-Time Employee Equivalent</div>
+            </div>
+            <div class="key-stat">
+                <div class="key-stat-value">8</div>
+                <div class="key-stat-label">Automation Opportunities</div>
+            </div>
+        </div>
+        
+        <!-- Executive Summary -->
+        <div class="section">
+            <h2 class="section-title">Executive Summary</h2>
+            <div class="exec-summary">
+                <p>Your organization is a high-performing luxury residential lease brokerage generating $20M in annual revenue with an impressive 60% profit margin. You've built strong relationships with enterprise clients—your top 10 accounts represent 70% of revenue—and you're well-positioned for growth. However, your operational infrastructure hasn't scaled with the business.</p>
+                
+                <p>We've identified <strong>$460,000–$690,000 in annual savings potential</strong> across 8 automation opportunities. The core challenges center on three areas: <strong>visibility lag</strong> (month-end reporting takes 20 days), <strong>scattered data</strong> (Google Sheets, Drive, and DealCore operating in silos), and <strong>person-dependent execution</strong> (communication via email, personal phones, and verbal approvals creates continuity risk).</p>
+                
+                <p>Your stated objective—to become an "AI-enabled leasing and renewals operator" with a predictable 60-day renewal engine—is achievable within 12 months. We recommend starting with three high-impact initiatives: <strong>automated renewal pipeline tracking</strong>, <strong>digital approval workflows</strong>, and <strong>a centralized communication hub</strong>. These will address your core pain points while building the foundation for broader automation.</p>
+            </div>
+        </div>
+        
+        <!-- AI Readiness Score -->
+        <div class="section">
+            <h2 class="section-title">AI Readiness Assessment</h2>
+            <div class="readiness-container">
+                <div class="score-circle">
+                    <div class="score-inner">
+                        <div class="score-number">5</div>
+                        <div class="score-label">out of 10</div>
+                    </div>
+                </div>
+                <div class="readiness-text">
+                    <h3>Developing Readiness</h3>
+                    <p>Your organization has solid fundamentals—strong revenue, high margins, and clear strategic direction—but your operational infrastructure needs modernization before you can fully leverage AI automation. Your data lives across multiple disconnected systems (Sheets, Drive, DealCore), communication happens through fragmented channels (email, personal phones, verbal), and critical processes like approvals lack digital audit trails. The good news: your 60% margin gives you the financial capacity to invest in this transformation, and your in-office culture supports change management when leadership is aligned. Key foundational work includes consolidating data sources and implementing workflow tooling before advanced automation can scale effectively.</p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Opportunity Matrix -->
+        <div class="section">
+            <h2 class="section-title">Opportunity Matrix</h2>
+            <div class="matrix-container">
+                <div class="matrix-grid">
+                    <div class="matrix-quadrants">
+                        <!-- Top Left: Nice to Have -->
+                        <div class="quadrant quadrant-tl">
+                            <div class="quadrant-label">Nice to Have</div>
+                            <div class="matrix-bubble" style="width: 75px; height: 75px; top: 35%; left: 25%;">
+                                Partner Health
+                                <div class="bubble-tooltip">Partner/Account Health Dashboard<br>$30K-$50K/year</div>
+                            </div>
+                        </div>
+                        <!-- Top Right: Quick Wins -->
+                        <div class="quadrant quadrant-tr">
+                            <div class="quadrant-label">Quick Wins</div>
+                            <div class="matrix-bubble" style="width: 115px; height: 115px; top: 20%; left: 20%;">
+                                Renewal Pipeline
+                                <span class="priority-badge">1</span>
+                                <div class="bubble-tooltip">Renewal Pipeline Dashboard & Alerts<br>$80K-$120K/year</div>
+                            </div>
+                            <div class="matrix-bubble" style="width: 85px; height: 85px; top: 55%; left: 55%;">
+                                Approvals
+                                <span class="priority-badge">2</span>
+                                <div class="bubble-tooltip">Approval Workflow Engine<br>$40K-$60K/year</div>
+                            </div>
+                            <div class="matrix-bubble" style="width: 100px; height: 100px; top: 30%; left: 65%;">
+                                Commission
+                                <div class="bubble-tooltip">Commission & Revenue Reconciliation<br>$60K-$90K/year</div>
+                            </div>
+                        </div>
+                        <!-- Bottom Left: Avoid -->
+                        <div class="quadrant quadrant-bl">
+                            <div class="quadrant-label">Avoid</div>
+                            <!-- Empty - no low-impact, high-effort items identified -->
+                        </div>
+                        <!-- Bottom Right: Strategic -->
+                        <div class="quadrant quadrant-br">
+                            <div class="quadrant-label">Strategic</div>
+                            <div class="matrix-bubble" style="width: 125px; height: 125px; top: 25%; left: 25%;">
+                                Comms Hub
+                                <span class="priority-badge">3</span>
+                                <div class="bubble-tooltip">Centralized Communication Hub<br>$100K-$150K/year</div>
+                            </div>
+                            <div class="matrix-bubble" style="width: 90px; height: 90px; top: 55%; left: 55%;">
+                                Doc Mgmt
+                                <div class="bubble-tooltip">Document Management System<br>$50K-$70K/year</div>
+                            </div>
+                            <div class="matrix-bubble" style="width: 95px; height: 95px; top: 30%; left: 70%;">
+                                Transaction
+                                <div class="bubble-tooltip">Transaction Milestone Automation<br>$60K-$90K/year</div>
+                            </div>
+                            <div class="matrix-bubble" style="width: 80px; height: 80px; top: 65%; left: 30%;">
+                                Quote Gen
+                                <div class="bubble-tooltip">Quote Generation & Pricing<br>$40K-$60K/year</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="matrix-x-label">Business Impact →</div>
+                </div>
+            </div>
+        
+            <div style="background: var(--bg-secondary); padding: 25px; border-radius: 12px; margin-top: 30px; border-left: 4px solid var(--accent-primary);">
+                <h3 style="color: var(--accent-primary); margin-bottom: 15px; font-size: 1.2em;">How to Read This Matrix</h3>
+                <div style="display: grid; gap: 12px; color: var(--text-secondary); line-height: 1.7;">
+                    <p><strong style="color: var(--text-primary);">Position:</strong> Right = Higher Business Impact | Top = Lower Implementation Effort</p>
+                    <p><strong style="color: var(--text-primary);">Bubble Size:</strong> Larger bubbles represent higher potential cost savings</p>
+                    <p><strong style="color: var(--text-primary);">Priority Badges (1-2-3):</strong> Recommended implementation order</p>
+                    <p style="margin-top: 10px; font-style: italic; color: var(--text-muted);">
+                        Note: Priority #3 (Centralized Communication Hub) appears in the Strategic quadrant—while it requires higher implementation effort, it earns top-3 placement because it addresses your core risk: person-dependent continuity. When key people are unavailable, you currently lose visibility into what's been promised to partners. This foundation unlocks the value of all other automations.
+                    </p>
+                </div>
+            </div>
+        
+        </div>
+        
+        <!-- Top Priority Opportunities -->
+        <div class="section">
+            <h2 class="section-title">Recommended Priorities</h2>
+            <div class="priority-section">
+                <div class="priority-label">Top 3 Priorities</div>
+                
+                <div class="opportunity priority">
+                    <div class="opportunity-header">
+                        <h3 class="opportunity-title">Renewal Pipeline Dashboard & Alerts</h3>
+                        <div class="opportunity-number">1</div>
+                    </div>
+                    <p class="opportunity-description">
+                        Implement an automated system that tracks all upcoming lease renewals starting 60+ days before expiration. The dashboard provides real-time visibility into renewal status, owner assignments, and deadlines—eliminating the "someone realizes late, then it's a rush" problem your leadership identified. Automated alerts notify the right people when renewals approach key milestones, ensuring nothing slips through the cracks.
+                    </p>
+                    <p style="color: var(--accent-primary); font-size: 0.95em; margin-bottom: 15px;">
+                        <strong>Relevant Departments:</strong> Transaction Management, Account Management, Leadership
+                    </p>
+                    <div class="opportunity-metrics">
+                        <div class="metric">
+                            <div class="metric-label">Annual Savings</div>
+                            <div class="metric-value">$80K – $120K</div>
+                        </div>
+                        <div class="metric">
+                            <div class="metric-label">Implementation</div>
+                            <div class="metric-value">6-8 weeks</div>
+                        </div>
+                        <div class="metric">
+                            <div class="metric-label">Payback Period</div>
+                            <div class="metric-value">8-12 months</div>
+                        </div>
+                        <div class="metric">
+                            <div class="metric-label">Impact Area</div>
+                            <div class="metric-value">Revenue Protection</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="opportunity priority">
+                    <div class="opportunity-header">
+                        <h3 class="opportunity-title">Approval Workflow Engine</h3>
+                        <div class="opportunity-number">2</div>
+                    </div>
+                    <p class="opportunity-description">
+                        Replace your current email-and-verbal approval process with a digital workflow system for price exceptions, concessions, and term modifications. Every approval is tracked, timestamped, and auditable—so you always know what was promised, by whom, and when. This reduces deal cycle time, eliminates "who approved this?" confusion, and creates compliance documentation automatically.
+                    </p>
+                    <p style="color: var(--accent-primary); font-size: 0.95em; margin-bottom: 15px;">
+                        <strong>Relevant Departments:</strong> Transaction Management, Account Management, Finance, Compliance
+                    </p>
+                    <div class="opportunity-metrics">
+                        <div class="metric">
+                            <div class="metric-label">Annual Savings</div>
+                            <div class="metric-value">$40K – $60K</div>
+                        </div>
+                        <div class="metric">
+                            <div class="metric-label">Implementation</div>
+                            <div class="metric-value">4-6 weeks</div>
+                        </div>
+                        <div class="metric">
+                            <div class="metric-label">Payback Period</div>
+                            <div class="metric-value">6-9 months</div>
+                        </div>
+                        <div class="metric">
+                            <div class="metric-label">Impact Area</div>
+                            <div class="metric-value">Deal Velocity & Compliance</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="opportunity priority">
+                    <div class="opportunity-header">
+                        <h3 class="opportunity-title">Centralized Communication Hub</h3>
+                        <div class="opportunity-number">3</div>
+                    </div>
+                    <p class="opportunity-description">
+                        Consolidate your fragmented communication channels (email, personal phones, WhatsApp, in-person conversations) into a unified platform that captures all partner and client interactions. When someone is out of office, their team can see exactly what's been discussed and promised. This addresses your CEO's concern: "If someone's unavailable, it's not always clear what's been promised or discussed." Includes integration with your CRM data for full context.
+                    </p>
+                    <p style="color: var(--accent-primary); font-size: 0.95em; margin-bottom: 15px;">
+                        <strong>Relevant Departments:</strong> Account Management, Placement, Portfolio Partnerships, Leadership
+                    </p>
+                    <div class="opportunity-metrics">
+                        <div class="metric">
+                            <div class="metric-label">Annual Savings</div>
+                            <div class="metric-value">$100K – $150K</div>
+                        </div>
+                        <div class="metric">
+                            <div class="metric-label">Implementation</div>
+                            <div class="metric-value">10-14 weeks</div>
+                        </div>
+                        <div class="metric">
+                            <div class="metric-label">Payback Period</div>
+                            <div class="metric-value">10-14 months</div>
+                        </div>
+                        <div class="metric">
+                            <div class="metric-label">Impact Area</div>
+                            <div class="metric-value">Risk Mitigation & Continuity</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- All Opportunities -->
+            <div class="all-opportunities">
+                <h3 class="all-opportunities-title">All Identified Opportunities</h3>
+                
+                <div class="opportunity">
+                    <div class="opportunity-header">
+                        <h3 class="opportunity-title">Commission & Revenue Reconciliation Automation</h3>
+                        <div style="text-align: right; color: var(--accent-primary); font-weight: 600; font-size: 1.1em;">
+                            $60K – $90K/year
+                        </div>
+                    </div>
+                    <p class="opportunity-description">
+                        Automate your month-end commission calculations and revenue reconciliation, reducing your current 20-day lag to same-day reporting. The system handles partner-specific commission rules (8-10% for new leases, 4-5% for renewals) automatically, flagging discrepancies for human review rather than requiring manual calculation across spreadsheets.
+                    </p>
+                    <p style="color: var(--accent-primary); font-size: 0.9em; margin-top: 10px;">
+                        <strong>Relevant Departments:</strong> Finance, Leadership, Account Management
+                    </p>
+                </div>
+
+                <div class="opportunity">
+                    <div class="opportunity-header">
+                        <h3 class="opportunity-title">Document Management & Version Control</h3>
+                        <div style="text-align: right; color: var(--accent-primary); font-weight: 600; font-size: 1.1em;">
+                            $50K – $70K/year
+                        </div>
+                    </div>
+                    <p class="opportunity-description">
+                        Replace your scattered Google Drive folder structure with a centralized document management system that automatically organizes contracts, quotes, and lease documents by partner, property, and transaction. Version control ensures everyone works from the latest document, and search functionality eliminates time spent hunting for files.
+                    </p>
+                    <p style="color: var(--accent-primary); font-size: 0.9em; margin-top: 10px;">
+                        <strong>Relevant Departments:</strong> Transaction Management, Compliance, Account Management
+                    </p>
+                </div>
+
+                <div class="opportunity">
+                    <div class="opportunity-header">
+                        <h3 class="opportunity-title">Transaction Milestone Automation</h3>
+                        <div style="text-align: right; color: var(--accent-primary); font-weight: 600; font-size: 1.1em;">
+                            $60K – $90K/year
+                        </div>
+                    </div>
+                    <p class="opportunity-description">
+                        Automate the tracking and coordination of transaction milestones—document collection, signature status, handoff triggers, and deadline monitoring. Clear ownership is assigned at each stage, eliminating the "waiting on something and it's not clear who owns it" problem. Automated notifications keep all parties aligned without manual follow-up.
+                    </p>
+                    <p style="color: var(--accent-primary); font-size: 0.9em; margin-top: 10px;">
+                        <strong>Relevant Departments:</strong> Transaction Management, Placement, Finance
+                    </p>
+                </div>
+
+                <div class="opportunity">
+                    <div class="opportunity-header">
+                        <h3 class="opportunity-title">Partner/Account Health Dashboard</h3>
+                        <div style="text-align: right; color: var(--accent-primary); font-weight: 600; font-size: 1.1em;">
+                            $30K – $50K/year
+                        </div>
+                    </div>
+                    <p class="opportunity-description">
+                        Create real-time visibility into your top 10 accounts (70% of revenue) with automated health scoring, SLA tracking, and early warning indicators. Leadership can see portfolio performance without "asking five people," and Account Management can proactively address issues before they escalate.
+                    </p>
+                    <p style="color: var(--accent-primary); font-size: 0.9em; margin-top: 10px;">
+                        <strong>Relevant Departments:</strong> Account Management, Leadership, Portfolio Partnerships
+                    </p>
+                </div>
+
+                <div class="opportunity">
+                    <div class="opportunity-header">
+                        <h3 class="opportunity-title">Quote Generation & Pricing Automation</h3>
+                        <div style="text-align: right; color: var(--accent-primary); font-weight: 600; font-size: 1.1em;">
+                            $40K – $60K/year
+                        </div>
+                    </div>
+                    <p class="opportunity-description">
+                        AI-assisted quote generation that pulls pricing guidelines, concession bands, and market data to create accurate quotes faster. Integrates with your Trends & Strategy team's pricing playbooks to ensure consistency while flagging outliers for review. Reduces quote turnaround time and pricing errors.
+                    </p>
+                    <p style="color: var(--accent-primary); font-size: 0.9em; margin-top: 10px;">
+                        <strong>Relevant Departments:</strong> Placement, Trends & Strategy, Account Management
+                    </p>
+                </div>
+            </div>
+
+            <!-- Comparison Table -->
+            <h3 class="all-opportunities-title" style="margin-top: 50px;">Opportunity Comparison</h3>
+            <table class="comparison-table">
+                <thead>
+                    <tr>
+                        <th>Opportunity</th>
+                        <th>Annual Savings</th>
+                        <th>Implementation</th>
+                        <th>Payback</th>
+                        <th>Priority</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Renewal Pipeline Dashboard & Alerts</td>
+                        <td>$80K–$120K</td>
+                        <td>6-8 weeks</td>
+                        <td>8-12 mo</td>
+                        <td><span class="priority-badge">1</span></td>
+                    </tr>
+                    <tr>
+                        <td>Approval Workflow Engine</td>
+                        <td>$40K–$60K</td>
+                        <td>4-6 weeks</td>
+                        <td>6-9 mo</td>
+                        <td><span class="priority-badge">2</span></td>
+                    </tr>
+                    <tr>
+                        <td>Centralized Communication Hub</td>
+                        <td>$100K–$150K</td>
+                        <td>10-14 weeks</td>
+                        <td>10-14 mo</td>
+                        <td><span class="priority-badge">3</span></td>
+                    </tr>
+                    <tr>
+                        <td>Commission & Revenue Reconciliation</td>
+                        <td>$60K–$90K</td>
+                        <td>6-8 weeks</td>
+                        <td>8-11 mo</td>
+                        <td>—</td>
+                    </tr>
+                    <tr>
+                        <td>Document Management & Version Control</td>
+                        <td>$50K–$70K</td>
+                        <td>8-10 weeks</td>
+                        <td>10-13 mo</td>
+                        <td>—</td>
+                    </tr>
+                    <tr>
+                        <td>Transaction Milestone Automation</td>
+                        <td>$60K–$90K</td>
+                        <td>8-12 weeks</td>
+                        <td>9-12 mo</td>
+                        <td>—</td>
+                    </tr>
+                    <tr>
+                        <td>Partner/Account Health Dashboard</td>
+                        <td>$30K–$50K</td>
+                        <td>4-6 weeks</td>
+                        <td>7-10 mo</td>
+                        <td>—</td>
+                    </tr>
+                    <tr>
+                        <td>Quote Generation & Pricing</td>
+                        <td>$40K–$60K</td>
+                        <td>8-12 weeks</td>
+                        <td>10-14 mo</td>
+                        <td>—</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <!-- Total Value Summary -->
+            <div class="total-value">
+                <h3>Total Value Summary</h3>
+                <div class="total-value-grid">
+                    <div class="total-value-item">
+                        <div class="total-value-amount">$220K–$330K</div>
+                        <div class="total-value-label">Top 3 Priorities (Year 1)</div>
+                    </div>
+                    <div class="total-value-item">
+                        <div class="total-value-amount">$240K–$360K</div>
+                        <div class="total-value-label">Additional Opportunities</div>
+                    </div>
+                    <div class="total-value-item">
+                        <div class="total-value-amount">$460K–$690K</div>
+                        <div class="total-value-label">Total Annual Potential</div>
+                    </div>
+                    <div class="total-value-item">
+                        <div class="total-value-amount">$1.4M–$2.1M</div>
+                        <div class="total-value-label">3-Year Cumulative Value</div>
+                    </div>
+                </div>
+                <p style="margin-top: 20px; color: var(--text-secondary); font-size: 0.95em; text-align: center;">
+                    Implementation Note: We recommend sequencing priorities 1-2-3 over 6-9 months, then addressing additional opportunities based on capacity and results.
+                </p>
+            </div>
+        </div>
+        
+        <!-- Implementation Roadmap -->
+        <div class="section">
+            <h2 class="section-title">Recommended Next Steps</h2>
+            <div class="next-steps">
+                <ol>
+                    <li><strong>Discovery Workshop (Week 1-2)</strong> — Deep dive into your renewal pipeline and approval workflows with Transaction Management and Account Management teams. Validate assumptions, map current-state processes in detail, and define success metrics.</li>
+                    <li><strong>Priority #1: Renewal Dashboard (Weeks 3-10)</strong> — Implement automated renewal tracking with 60-day alerts. Start with your top 10 accounts to prove value quickly, then expand across the portfolio.</li>
+                    <li><strong>Priority #2: Approval Workflows (Weeks 8-14)</strong> — Deploy digital approval system for exceptions. Run parallel to existing process for 2 weeks, then cut over. Train all approvers on new workflow.</li>
+                    <li><strong>Priority #3: Communication Hub (Weeks 12-26)</strong> — Longer implementation but foundational. Begin with Account Management team, expand to Placement, then full rollout. Requires change management focus.</li>
+                    <li><strong>Measure & Expand (Month 7+)</strong> — Review results from first three initiatives. Use learnings to prioritize next wave: Commission Automation, Document Management, or Transaction Milestone system based on observed pain points.</li>
+                </ol>
+            </div>
+        </div>
+        
+        <!-- Footer -->
+        <div class="footer">
+            <p style="font-size: 1.2rem; font-weight: 700; color: var(--accent-primary); margin-bottom: 8px;">MindLink Systems</p>
+            <p>AI Automation Consulting</p>
+            <a href="https://cal.com/mindlinkai/strategy" class="cta-button">Book Strategy Call</a>
+        </div>
+    </div>
+</body>
+</html>
