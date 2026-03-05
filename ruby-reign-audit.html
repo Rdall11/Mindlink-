@@ -1,0 +1,673 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Automation Audit - Ruby Reign Events</title>
+    <style>
+        :root {
+            --bg-primary: #0a0a0f;
+            --bg-secondary: #12121a;
+            --bg-card: #1a1a24;
+            --accent-primary: #006AD7;
+            --accent-gradient: linear-gradient(135deg, #006AD7 0%, #0052a3 100%);
+            --text-primary: #ffffff;
+            --text-secondary: #94a3b8;
+            --text-muted: #64748b;
+            --border-color: rgba(255,255,255,0.1);
+        }
+        
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+            line-height: 1.6;
+            color: var(--text-primary);
+            background: var(--bg-primary);
+        }
+        
+        .container { max-width: 1100px; margin: 0 auto; padding: 40px 20px; }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 50px;
+            padding-bottom: 30px;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            font-weight: 700;
+            background: var(--accent-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .header .subtitle { font-size: 1.2em; color: var(--text-secondary); }
+        .header .company { font-size: 1.8em; margin-top: 20px; margin-bottom: 8px; font-weight: 600; color: var(--text-primary); }
+        .header .date { font-size: 1em; color: var(--text-muted); }
+
+        .key-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-bottom: 32px; }
+        @media (max-width: 600px) { .key-stats { grid-template-columns: 1fr; } }
+        .key-stat { background: var(--bg-card); border-radius: 12px; padding: 25px; text-align: center; border: 1px solid var(--border-color); }
+        .key-stat-value { font-size: 2.2em; font-weight: 700; color: var(--accent-primary); margin-bottom: 5px; }
+        .key-stat-label { font-size: 0.95em; color: var(--text-secondary); }
+        
+        .section {
+            background: var(--bg-card);
+            border-radius: 16px;
+            padding: 40px;
+            margin-bottom: 32px;
+            border: 1px solid var(--border-color);
+        }
+        
+        .section-title { font-size: 1.8em; margin-bottom: 25px; color: var(--accent-primary); font-weight: 600; }
+        
+        .exec-summary { background: var(--bg-secondary); padding: 30px; border-radius: 12px; margin-bottom: 20px; }
+        .exec-summary p { font-size: 1.1em; margin-bottom: 15px; line-height: 1.8; color: var(--text-secondary); }
+        .exec-summary p:last-child { margin-bottom: 0; }
+        
+        .readiness-container { display: flex; align-items: center; gap: 40px; margin: 30px 0; }
+        @media (max-width: 768px) { .readiness-container { flex-direction: column; text-align: center; } }
+        
+        .score-circle {
+            position: relative; width: 200px; height: 200px; border-radius: 50%;
+            background: conic-gradient(var(--accent-primary) 40%, var(--bg-secondary) 40%);
+            display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+        }
+        
+        .score-inner {
+            width: 160px; height: 160px; border-radius: 50%; background: var(--bg-card);
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+        }
+        
+        .score-number { font-size: 3.5em; font-weight: 700; color: var(--accent-primary); }
+        .score-label { font-size: 0.9em; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; }
+        .readiness-text { flex: 1; }
+        .readiness-text h3 { font-size: 1.4em; margin-bottom: 15px; color: var(--text-primary); }
+        .readiness-text p { font-size: 1.05em; line-height: 1.7; color: var(--text-secondary); }
+        
+        .matrix-container { margin: 30px 0; padding: 30px; background: var(--bg-secondary); border-radius: 12px; }
+        .matrix-grid { position: relative; padding-bottom: 30px; padding-left: 10px; }
+        .matrix-x-label { text-align: center; margin-top: 15px; font-size: 0.9em; font-weight: 600; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 1px; }
+        
+        .matrix-quadrants {
+            display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr;
+            gap: 2px; background: var(--border-color); border: 2px solid var(--border-color);
+            border-radius: 8px; overflow: hidden; min-height: 500px;
+        }
+        
+        .quadrant { background: var(--bg-card); padding: 20px; position: relative; min-height: 250px; }
+        .quadrant-label { font-size: 0.85em; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 15px; position: relative; z-index: 2; }
+        .quadrant-tl { opacity: 0.7; }
+        .quadrant-tr { border-left: 2px solid var(--accent-primary); }
+        .quadrant-bl { opacity: 0.5; }
+        .quadrant-br { border-left: 2px solid var(--accent-primary); }
+        
+        .matrix-bubble {
+            position: absolute; border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            font-size: 0.75em; font-weight: 500; color: white; text-align: center; padding: 8px;
+            transition: all 0.3s ease; cursor: pointer; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+            line-height: 1.2; background: var(--accent-primary);
+        }
+        
+        .matrix-bubble:hover { transform: scale(1.15); box-shadow: 0 4px 16px rgba(0, 0, 0, 0.5); z-index: 10; }
+        .matrix-bubble .priority-badge {
+            position: absolute; top: -8px; right: -8px; background: white; color: var(--accent-primary);
+            width: 22px; height: 22px; border-radius: 50%; font-size: 0.8em; font-weight: 700;
+            display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .bubble-tooltip {
+            display: none; position: absolute; bottom: 100%; left: 50%; transform: translateX(-50%);
+            background: var(--bg-primary); border: 1px solid var(--border-color); border-radius: 8px;
+            padding: 12px 16px; margin-bottom: 10px; white-space: nowrap; font-size: 0.9em;
+            color: var(--text-secondary); z-index: 100; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+        }
+        .matrix-bubble:hover .bubble-tooltip { display: block; }
+        
+        @media (max-width: 768px) { .matrix-quadrants { grid-template-columns: 1fr; min-height: auto; } }
+        
+        .priority-section { margin: 30px 0 50px 0; }
+        .priority-label {
+            display: inline-block; background: var(--accent-gradient); color: white;
+            padding: 6px 16px; border-radius: 20px; font-size: 0.9em; font-weight: 600;
+            text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 15px;
+        }
+        
+        .opportunity {
+            background: var(--bg-secondary); border: 1px solid var(--border-color);
+            border-radius: 12px; padding: 25px; margin-bottom: 20px; transition: all 0.3s ease;
+        }
+        .opportunity:hover { border-color: var(--accent-primary); box-shadow: 0 4px 12px rgba(0, 106, 215, 0.3); }
+        .opportunity.priority { border-color: var(--accent-primary); background: var(--bg-secondary); }
+        
+        .opportunity-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 15px; }
+        .opportunity-title { font-size: 1.4em; font-weight: 600; color: var(--text-primary); flex: 1; }
+        .opportunity-number {
+            background: var(--accent-gradient); color: white; width: 32px; height: 32px;
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            font-weight: 700; flex-shrink: 0; margin-left: 15px;
+        }
+        .opportunity-description { font-size: 1.05em; line-height: 1.7; color: var(--text-secondary); margin-bottom: 10px; }
+        
+        .opportunity-metrics { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 15px; margin-top: 20px; }
+        .metric { background: var(--bg-primary); padding: 15px; border-radius: 8px; }
+        .metric-label { font-size: 0.85em; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 5px; }
+        .metric-value { font-size: 1.3em; font-weight: 600; color: var(--accent-primary); }
+        
+        .all-opportunities { margin-top: 40px; }
+        .all-opportunities-title { font-size: 1.4em; margin-bottom: 20px; color: var(--text-primary); font-weight: 600; }
+
+        .comparison-table { width: 100%; border-collapse: collapse; margin: 20px 0; }
+        .comparison-table th { background: var(--accent-gradient); color: white; padding: 15px; text-align: left; font-weight: 600; }
+        .comparison-table td { padding: 15px; border-bottom: 1px solid var(--border-color); color: var(--text-secondary); }
+        .comparison-table .priority-badge { background: var(--accent-primary); color: white; padding: 4px 12px; border-radius: 12px; font-size: 0.85em; font-weight: 600; }
+        
+        .next-steps { background: var(--bg-secondary); padding: 30px; border-radius: 12px; }
+        .next-steps ol { margin-left: 20px; }
+        .next-steps li { font-size: 1.1em; margin-bottom: 15px; line-height: 1.7; color: var(--text-secondary); }
+        
+        .footer { text-align: center; margin-top: 48px; padding-top: 32px; border-top: 1px solid var(--border-color); }
+        .footer p { margin-bottom: 10px; color: var(--text-secondary); }
+        .cta-button {
+            display: inline-block; background: var(--accent-gradient); color: white;
+            padding: 15px 40px; border-radius: 8px; text-decoration: none;
+            font-weight: 600; font-size: 1.1em; margin-top: 20px;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .cta-button:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0, 106, 215, 0.4); }
+        
+        @media print {
+            :root { --bg-primary: white; --bg-secondary: #f8f9fa; --bg-card: white; --text-primary: #000; --text-secondary: #333; --text-muted: #666; }
+            .section { page-break-inside: avoid; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <h1>AI Automation Audit</h1>
+            <div class="subtitle">Comprehensive Analysis & Roadmap</div>
+            <div class="company">Ruby Reign Events</div>
+            <div class="date">March 2026</div>
+        </div>
+
+        <!-- Key Stats -->
+        <div class="key-stats">
+            <div class="key-stat">
+                <div class="key-stat-value">£120K–£172K</div>
+                <div class="key-stat-label">Annual Savings Potential</div>
+            </div>
+            <div class="key-stat">
+                <div class="key-stat-value">1.5–2</div>
+                <div class="key-stat-label">Full-Time Employee Equivalent</div>
+            </div>
+            <div class="key-stat">
+                <div class="key-stat-value">8</div>
+                <div class="key-stat-label">Automation Opportunities</div>
+            </div>
+        </div>
+        
+        <!-- Executive Summary -->
+        <div class="section">
+            <h2 class="section-title">Executive Summary</h2>
+            <div class="exec-summary">
+                <p>Ruby Reign Events has built an exceptional reputation in UK event staffing, with consistently glowing reviews highlighting your team's professionalism, reliability, and attention to detail. Your core team—Jack and Dan—have created something special: a service that clients trust with their most important occasions, from 40th birthday celebrations to corporate Christmas parties and weddings.</p>
+                
+                <p>However, your success is creating operational strain. Managing event inquiries, coordinating staff schedules, handling last-minute changes, and maintaining communication across multiple events simultaneously consumes significant time—time that could be spent growing the business or ensuring even higher service quality. We've identified <strong>£120,000–£172,000 in annual savings potential</strong> across 8 automation opportunities.</p>
+                
+                <p>The core challenges centre on three areas: <strong>inquiry response speed</strong> (during peak season, delayed responses mean lost bookings to faster competitors), <strong>staff coordination overhead</strong> (matching availability, skills, and locations across simultaneous events), and <strong>communication fragmentation</strong> (client details, staff briefings, and event changes scattered across calls, texts, and emails).</p>
+                
+                <p>We recommend starting with three high-impact initiatives: <strong>automated inquiry and quote management</strong>, <strong>smart staff scheduling</strong>, and <strong>a centralised staff communication hub</strong>. These will reduce your weekly admin burden by 25-35 hours while improving response times and staff coordination.</p>
+            </div>
+        </div>
+        
+        <!-- AI Readiness Score -->
+        <div class="section">
+            <h2 class="section-title">AI Readiness Assessment</h2>
+            <div class="readiness-container">
+                <div class="score-circle">
+                    <div class="score-inner">
+                        <div class="score-number">4</div>
+                        <div class="score-label">out of 10</div>
+                    </div>
+                </div>
+                <div class="readiness-text">
+                    <h3>Developing Readiness</h3>
+                    <p>Ruby Reign Events operates with strong fundamentals—excellent service delivery, loyal client relationships, and a growing reputation—but your operational infrastructure is typical of a successful small business that's grown organically. You likely rely on a combination of spreadsheets, WhatsApp groups, email, and phone calls to coordinate everything. This works, but it doesn't scale efficiently. The good news: your relatively simple current setup means you can implement automation without complex legacy system integration. Your strong client relationships and consistent service quality demonstrate the operational discipline needed for successful automation adoption. Key foundational work includes centralising staff and event data before layering on intelligent automation.</p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Opportunity Matrix -->
+        <div class="section">
+            <h2 class="section-title">Opportunity Matrix</h2>
+            <div class="matrix-container">
+                <div class="matrix-grid">
+                    <div class="matrix-quadrants">
+                        <!-- Top Left: Nice to Have -->
+                        <div class="quadrant quadrant-tl">
+                            <div class="quadrant-label">Nice to Have</div>
+                            <div class="matrix-bubble" style="width: 75px; height: 75px; top: 30%; left: 25%;">
+                                Post-Event
+                                <div class="bubble-tooltip">Post-Event Follow-up<br>£10K-£15K/year</div>
+                            </div>
+                            <div class="matrix-bubble" style="width: 80px; height: 80px; top: 55%; left: 55%;">
+                                Availability
+                                <div class="bubble-tooltip">Staff Availability Tracking<br>£12K-£18K/year</div>
+                            </div>
+                        </div>
+                        <!-- Top Right: Quick Wins -->
+                        <div class="quadrant quadrant-tr">
+                            <div class="quadrant-label">Quick Wins</div>
+                            <div class="matrix-bubble" style="width: 105px; height: 105px; top: 25%; left: 20%;">
+                                Inquiry & Quotes
+                                <span class="priority-badge">1</span>
+                                <div class="bubble-tooltip">Event Inquiry & Quote Automation<br>£28K-£38K/year</div>
+                            </div>
+                            <div class="matrix-bubble" style="width: 115px; height: 115px; top: 50%; left: 55%;">
+                                Scheduling
+                                <span class="priority-badge">2</span>
+                                <div class="bubble-tooltip">Staff Scheduling & Shift Management<br>£35K-£48K/year</div>
+                            </div>
+                            <div class="matrix-bubble" style="width: 70px; height: 70px; top: 20%; left: 70%;">
+                                Reviews
+                                <div class="bubble-tooltip">Client Review Collection<br>£8K-£12K/year</div>
+                            </div>
+                        </div>
+                        <!-- Bottom Left: Avoid -->
+                        <div class="quadrant quadrant-bl">
+                            <div class="quadrant-label">Avoid</div>
+                            <div class="matrix-bubble" style="width: 65px; height: 65px; top: 40%; left: 35%;">
+                                Payroll
+                                <div class="bubble-tooltip">Payroll Integration<br>£5K-£8K/year</div>
+                            </div>
+                        </div>
+                        <!-- Bottom Right: Strategic -->
+                        <div class="quadrant quadrant-br">
+                            <div class="quadrant-label">Strategic</div>
+                            <div class="matrix-bubble" style="width: 100px; height: 100px; top: 30%; left: 30%;">
+                                Staff Hub
+                                <span class="priority-badge">3</span>
+                                <div class="bubble-tooltip">Staff Communication Hub<br>£22K-£32K/year</div>
+                            </div>
+                            <div class="matrix-bubble" style="width: 85px; height: 85px; top: 55%; left: 60%;">
+                                Briefings
+                                <div class="bubble-tooltip">Event Briefing Automation<br>£15K-£22K/year</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="matrix-x-label">Business Impact →</div>
+                </div>
+            </div>
+        
+            <div style="background: var(--bg-secondary); padding: 25px; border-radius: 12px; margin-top: 30px; border-left: 4px solid var(--accent-primary);">
+                <h3 style="color: var(--accent-primary); margin-bottom: 15px; font-size: 1.2em;">How to Read This Matrix</h3>
+                <div style="display: grid; gap: 12px; color: var(--text-secondary); line-height: 1.7;">
+                    <p><strong style="color: var(--text-primary);">Position:</strong> Right = Higher Business Impact | Top = Lower Implementation Effort</p>
+                    <p><strong style="color: var(--text-primary);">Bubble Size:</strong> Larger bubbles represent higher potential cost savings</p>
+                    <p><strong style="color: var(--text-primary);">Priority Badges (1-2-3):</strong> Recommended implementation order</p>
+                    <p style="margin-top: 10px; font-style: italic; color: var(--text-muted);">
+                        Note: Priority #3 (Staff Communication Hub) appears in the Strategic quadrant—while it requires more implementation effort, it earns top-3 placement because it's foundational. Without centralised staff communication, other automations can't reach their full potential. This hub becomes the backbone for scheduling, briefings, and coordination.
+                    </p>
+                </div>
+            </div>
+        
+        </div>
+        
+        <!-- Top Priority Opportunities -->
+        <div class="section">
+            <h2 class="section-title">Recommended Priorities</h2>
+            <div class="priority-section">
+                <div class="priority-label">Top 3 Priorities</div>
+                
+                <div class="opportunity priority">
+                    <div class="opportunity-header">
+                        <h3 class="opportunity-title">Event Inquiry & Quote Automation</h3>
+                        <div class="opportunity-number">1</div>
+                    </div>
+                    <p class="opportunity-description">
+                        Implement an intelligent system that responds to event inquiries instantly—24/7, including weekends and evenings when many clients research event services. The system gathers essential details (event type, date, location, guest count, service needs), checks your availability, and delivers preliminary quotes automatically. During peak wedding and party season, this prevents losing bookings to competitors who respond faster while you're busy running other events.
+                    </p>
+                    <p style="color: var(--accent-primary); font-size: 0.95em; margin-bottom: 15px;">
+                        <strong>Relevant Areas:</strong> Sales, Client Communication, Business Development
+                    </p>
+                    <div class="opportunity-metrics">
+                        <div class="metric">
+                            <div class="metric-label">Annual Savings</div>
+                            <div class="metric-value">£28K – £38K</div>
+                        </div>
+                        <div class="metric">
+                            <div class="metric-label">Timeline</div>
+                            <div class="metric-value">4-6 weeks</div>
+                        </div>
+                        <div class="metric">
+                            <div class="metric-label">Payback Period</div>
+                            <div class="metric-value">2-3 months</div>
+                        </div>
+                        <div class="metric">
+                            <div class="metric-label">Impact Area</div>
+                            <div class="metric-value">Revenue & Response Time</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="opportunity priority">
+                    <div class="opportunity-header">
+                        <h3 class="opportunity-title">Staff Scheduling & Shift Management</h3>
+                        <div class="opportunity-number">2</div>
+                    </div>
+                    <p class="opportunity-description">
+                        Replace your current manual scheduling process with an intelligent system that matches staff to events based on availability, skills (bartending vs. waiting vs. mixology), location proximity, and client preferences. When you book an event, the system automatically identifies suitable staff, sends shift offers, tracks acceptances, and manages the back-and-forth. If someone cancels, it instantly alerts and offers the shift to qualified backups—no frantic phone calls required.
+                    </p>
+                    <p style="color: var(--accent-primary); font-size: 0.95em; margin-bottom: 15px;">
+                        <strong>Relevant Areas:</strong> Operations, Staff Management, Event Coordination
+                    </p>
+                    <div class="opportunity-metrics">
+                        <div class="metric">
+                            <div class="metric-label">Annual Savings</div>
+                            <div class="metric-value">£35K – £48K</div>
+                        </div>
+                        <div class="metric">
+                            <div class="metric-label">Timeline</div>
+                            <div class="metric-value">6-8 weeks</div>
+                        </div>
+                        <div class="metric">
+                            <div class="metric-label">Payback Period</div>
+                            <div class="metric-value">2-4 months</div>
+                        </div>
+                        <div class="metric">
+                            <div class="metric-label">Impact Area</div>
+                            <div class="metric-value">Operational Efficiency</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="opportunity priority">
+                    <div class="opportunity-header">
+                        <h3 class="opportunity-title">Staff Communication Hub</h3>
+                        <div class="opportunity-number">3</div>
+                    </div>
+                    <p class="opportunity-description">
+                        Consolidate all staff communication into a single platform that captures shift confirmations, event details, dress codes, venue information, and real-time updates. No more scrolling through WhatsApp threads to find details, no more repeating information to multiple staff members. Every team member sees exactly what they need to know for each event, with automated reminders before shifts and real-time updates if anything changes.
+                    </p>
+                    <p style="color: var(--accent-primary); font-size: 0.95em; margin-bottom: 15px;">
+                        <strong>Relevant Areas:</strong> Staff Management, Operations, Quality Control
+                    </p>
+                    <div class="opportunity-metrics">
+                        <div class="metric">
+                            <div class="metric-label">Annual Savings</div>
+                            <div class="metric-value">£22K – £32K</div>
+                        </div>
+                        <div class="metric">
+                            <div class="metric-label">Timeline</div>
+                            <div class="metric-value">8-12 weeks</div>
+                        </div>
+                        <div class="metric">
+                            <div class="metric-label">Payback Period</div>
+                            <div class="metric-value">4-6 months</div>
+                        </div>
+                        <div class="metric">
+                            <div class="metric-label">Impact Area</div>
+                            <div class="metric-value">Coordination & Reliability</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- All Opportunities -->
+            <div class="all-opportunities">
+                <h3 class="all-opportunities-title">All Identified Opportunities</h3>
+                
+                <div class="opportunity">
+                    <div class="opportunity-header">
+                        <h3 class="opportunity-title">Event Briefing Automation</h3>
+                        <div style="text-align: right; color: var(--accent-primary); font-weight: 600; font-size: 1.1em;">
+                            £15K – £22K/year
+                        </div>
+                    </div>
+                    <p class="opportunity-description">
+                        Automatically generate and distribute comprehensive event briefings to assigned staff 48-24 hours before each event. Include venue details, parking instructions, dress code, client preferences, menu details, and any special requirements. Staff arrive fully informed without you manually briefing each person.
+                    </p>
+                    <p style="color: var(--accent-primary); font-size: 0.9em; margin-top: 10px;">
+                        <strong>Relevant Areas:</strong> Operations, Quality Control, Staff Management
+                    </p>
+                </div>
+
+                <div class="opportunity">
+                    <div class="opportunity-header">
+                        <h3 class="opportunity-title">Client Review Collection</h3>
+                        <div style="text-align: right; color: var(--accent-primary); font-weight: 600; font-size: 1.1em;">
+                            £8K – £12K/year
+                        </div>
+                    </div>
+                    <p class="opportunity-description">
+                        Automatically request reviews from clients 24-48 hours after events, when satisfaction is highest. Route positive responses to Google/TrustPilot, capture constructive feedback privately for improvement. Your excellent reviews are a key differentiator—automation ensures you capture them consistently.
+                    </p>
+                    <p style="color: var(--accent-primary); font-size: 0.9em; margin-top: 10px;">
+                        <strong>Relevant Areas:</strong> Marketing, Client Relations, Reputation Management
+                    </p>
+                </div>
+
+                <div class="opportunity">
+                    <div class="opportunity-header">
+                        <h3 class="opportunity-title">Post-Event Follow-up Automation</h3>
+                        <div style="text-align: right; color: var(--accent-primary); font-weight: 600; font-size: 1.1em;">
+                            £10K – £15K/year
+                        </div>
+                    </div>
+                    <p class="opportunity-description">
+                        Automated thank-you messages, feedback requests, and future booking reminders. For recurring clients (corporate events, annual parties), proactive outreach when their event anniversary approaches. Turn one-time clients into repeat customers without manual follow-up effort.
+                    </p>
+                    <p style="color: var(--accent-primary); font-size: 0.9em; margin-top: 10px;">
+                        <strong>Relevant Areas:</strong> Client Relations, Sales, Business Development
+                    </p>
+                </div>
+
+                <div class="opportunity">
+                    <div class="opportunity-header">
+                        <h3 class="opportunity-title">Staff Availability Tracking</h3>
+                        <div style="text-align: right; color: var(--accent-primary); font-weight: 600; font-size: 1.1em;">
+                            £12K – £18K/year
+                        </div>
+                    </div>
+                    <p class="opportunity-description">
+                        Digital system where staff submit their availability weekly or monthly. When inquiries come in, you can instantly see who's available without texting multiple people. Reduces the back-and-forth of checking availability for each event.
+                    </p>
+                    <p style="color: var(--accent-primary); font-size: 0.9em; margin-top: 10px;">
+                        <strong>Relevant Areas:</strong> Operations, Staff Management, Scheduling
+                    </p>
+                </div>
+
+                <div class="opportunity">
+                    <div class="opportunity-header">
+                        <h3 class="opportunity-title">Payroll Integration</h3>
+                        <div style="text-align: right; color: var(--accent-primary); font-weight: 600; font-size: 1.1em;">
+                            £5K – £8K/year
+                        </div>
+                    </div>
+                    <p class="opportunity-description">
+                        Automated calculation of staff hours, event pay rates, and payment processing. Lower priority as it's high-effort relative to impact, and off-the-shelf solutions exist. Consider only after core operational automations are in place.
+                    </p>
+                    <p style="color: var(--accent-primary); font-size: 0.9em; margin-top: 10px;">
+                        <strong>Relevant Areas:</strong> Finance, Administration
+                    </p>
+                </div>
+            </div>
+
+            <!-- Comparison Table -->
+            <h3 class="all-opportunities-title" style="margin-top: 50px;">Opportunity Comparison</h3>
+            <table class="comparison-table">
+                <thead>
+                    <tr>
+                        <th>Opportunity</th>
+                        <th>Annual Savings</th>
+                        <th>Timeline</th>
+                        <th>Payback</th>
+                        <th>Priority</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Event Inquiry & Quote Automation</td>
+                        <td>£28K–£38K</td>
+                        <td>4-6 weeks</td>
+                        <td>2-3 mo</td>
+                        <td><span class="priority-badge">1</span></td>
+                    </tr>
+                    <tr>
+                        <td>Staff Scheduling & Shift Management</td>
+                        <td>£35K–£48K</td>
+                        <td>6-8 weeks</td>
+                        <td>2-4 mo</td>
+                        <td><span class="priority-badge">2</span></td>
+                    </tr>
+                    <tr>
+                        <td>Staff Communication Hub</td>
+                        <td>£22K–£32K</td>
+                        <td>8-12 weeks</td>
+                        <td>4-6 mo</td>
+                        <td><span class="priority-badge">3</span></td>
+                    </tr>
+                    <tr>
+                        <td>Event Briefing Automation</td>
+                        <td>£15K–£22K</td>
+                        <td>6-10 weeks</td>
+                        <td>5-8 mo</td>
+                        <td>—</td>
+                    </tr>
+                    <tr>
+                        <td>Client Review Collection</td>
+                        <td>£8K–£12K</td>
+                        <td>2-3 weeks</td>
+                        <td>2-3 mo</td>
+                        <td>—</td>
+                    </tr>
+                    <tr>
+                        <td>Post-Event Follow-up</td>
+                        <td>£10K–£15K</td>
+                        <td>3-4 weeks</td>
+                        <td>3-4 mo</td>
+                        <td>—</td>
+                    </tr>
+                    <tr>
+                        <td>Staff Availability Tracking</td>
+                        <td>£12K–£18K</td>
+                        <td>4-6 weeks</td>
+                        <td>4-5 mo</td>
+                        <td>—</td>
+                    </tr>
+                    <tr>
+                        <td>Payroll Integration</td>
+                        <td>£5K–£8K</td>
+                        <td>8-12 weeks</td>
+                        <td>12+ mo</td>
+                        <td>—</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Time Savings by Role -->
+        <div class="section">
+            <h2 class="section-title">Time Savings by Role</h2>
+            <p style="color: var(--text-secondary); margin-bottom: 20px;">Estimated weekly hours saved once all priority opportunities are implemented:</p>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 20px; margin-top: 20px;">
+                <div style="background: var(--bg-primary); border-radius: 12px; padding: 24px; text-align: center; border: 1px solid var(--border-color);">
+                    <div style="font-size: 0.9em; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 10px;">Event Coordination</div>
+                    <div style="font-size: 2em; font-weight: 700; color: var(--accent-primary); margin-bottom: 5px;">18 hrs</div>
+                    <div style="font-size: 0.85em; color: var(--text-secondary);">saved per week</div>
+                </div>
+                <div style="background: var(--bg-primary); border-radius: 12px; padding: 24px; text-align: center; border: 1px solid var(--border-color);">
+                    <div style="font-size: 0.9em; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 10px;">Staff Management</div>
+                    <div style="font-size: 2em; font-weight: 700; color: var(--accent-primary); margin-bottom: 5px;">15 hrs</div>
+                    <div style="font-size: 0.85em; color: var(--text-secondary);">saved per week</div>
+                </div>
+                <div style="background: var(--bg-primary); border-radius: 12px; padding: 24px; text-align: center; border: 1px solid var(--border-color);">
+                    <div style="font-size: 0.9em; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 10px;">Sales & Inquiries</div>
+                    <div style="font-size: 2em; font-weight: 700; color: var(--accent-primary); margin-bottom: 5px;">12 hrs</div>
+                    <div style="font-size: 0.85em; color: var(--text-secondary);">saved per week</div>
+                </div>
+                <div style="background: var(--bg-primary); border-radius: 12px; padding: 24px; text-align: center; border: 1px solid var(--border-color);">
+                    <div style="font-size: 0.9em; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 10px;">Client Follow-up</div>
+                    <div style="font-size: 2em; font-weight: 700; color: var(--accent-primary); margin-bottom: 5px;">8 hrs</div>
+                    <div style="font-size: 0.85em; color: var(--text-secondary);">saved per week</div>
+                </div>
+            </div>
+            <p style="color: var(--text-muted); font-size: 0.9em; margin-top: 20px; font-style: italic;">* Based on industry benchmarks for event staffing operations. Actual savings may vary.</p>
+        </div>
+
+        <!-- Total Value Summary -->
+        <div class="section">
+            <h2 class="section-title">Total Value Summary</h2>
+            <div style="background: var(--bg-secondary); padding: 40px; border-radius: 12px; border: 2px solid var(--accent-primary);">
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 40px; margin-bottom: 30px;">
+                    <div style="text-align: center; padding: 30px; background: var(--bg-card); border-radius: 8px;">
+                        <div style="font-size: 0.9em; color: var(--text-muted); margin-bottom: 10px; text-transform: uppercase; letter-spacing: 1px;">Year 1</div>
+                        <div style="font-size: 3em; font-weight: 700; color: var(--accent-primary); margin-bottom: 10px;">
+                            £120K - £172K
+                        </div>
+                        <div style="font-size: 1.1em; color: var(--text-secondary);">
+                            Annual Savings Potential
+                        </div>
+                    </div>
+                    <div style="text-align: center; padding: 30px; background: var(--accent-gradient); border-radius: 8px;">
+                        <div style="font-size: 0.9em; color: rgba(255,255,255,0.9); margin-bottom: 10px; text-transform: uppercase; letter-spacing: 1px;">3-Year Total</div>
+                        <div style="font-size: 3em; font-weight: 700; color: white; margin-bottom: 10px;">
+                            £360K - £516K
+                        </div>
+                        <div style="font-size: 1.1em; color: rgba(255,255,255,0.95);">
+                            Cumulative Savings
+                        </div>
+                    </div>
+                </div>
+                
+                <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; margin-top: 30px;">
+                    <div style="background: var(--bg-card); padding: 20px; border-radius: 8px;">
+                        <div style="font-size: 0.9em; color: var(--text-muted); margin-bottom: 10px;">TOP 3 PRIORITIES</div>
+                        <div style="font-size: 1.8em; font-weight: 700; color: var(--text-primary);">£85K - £118K</div>
+                        <div style="color: var(--text-secondary); margin-top: 5px;">Inquiries + Scheduling + Staff Hub</div>
+                    </div>
+                    
+                    <div style="background: var(--bg-card); padding: 20px; border-radius: 8px;">
+                        <div style="font-size: 0.9em; color: var(--text-muted); margin-bottom: 10px;">ADDITIONAL 5 OPPORTUNITIES</div>
+                        <div style="font-size: 1.8em; font-weight: 700; color: var(--text-primary);">£35K - £54K</div>
+                        <div style="color: var(--text-secondary); margin-top: 5px;">Briefings + Reviews + Follow-ups + Availability + Payroll</div>
+                    </div>
+                </div>
+                
+                <div style="margin-top: 30px; padding: 25px; background: var(--bg-card); border-radius: 8px; border-left: 4px solid var(--accent-primary);">
+                    <p style="color: var(--text-secondary); font-size: 1.05em; line-height: 1.7;">
+                        <strong style="color: var(--text-primary);">Implementation Approach:</strong> We recommend starting with Priority #1 (Inquiry Automation) to generate immediate impact during your next peak season, then layering in Scheduling and the Staff Hub over 4-6 months. This phased approach builds momentum while allowing your team to adapt to new workflows progressively.
+                    </p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Implementation Roadmap -->
+        <div class="section">
+            <h2 class="section-title">Recommended Next Steps</h2>
+            <div class="next-steps">
+                <ol>
+                    <li><strong>Discovery Workshop (Week 1-2)</strong> — Deep dive into your current inquiry handling, scheduling process, and staff communication methods. Map the exact workflows, identify integration points, and define success metrics specific to Ruby Reign Events.</li>
+                    <li><strong>Priority #1: Inquiry Automation (Weeks 3-8)</strong> — Implement automated inquiry response and quote generation. Test with real inquiries while running parallel to your existing process, then cut over once confidence is high.</li>
+                    <li><strong>Priority #2: Scheduling System (Weeks 8-16)</strong> — Deploy intelligent staff scheduling with availability matching and shift offers. Start with a subset of events to validate the workflow, then expand to all bookings.</li>
+                    <li><strong>Priority #3: Staff Communication Hub (Weeks 14-26)</strong> — Centralise all staff communication and event briefings. This is the foundation that makes everything else more powerful. Roll out gradually, starting with your most engaged staff members.</li>
+                    <li><strong>Measure & Expand (Month 7+)</strong> — Review results from the first three initiatives. Use learnings to prioritise remaining opportunities: Review Collection, Post-Event Follow-ups, and Availability Tracking based on observed impact.</li>
+                </ol>
+            </div>
+        </div>
+        
+        <!-- Footer -->
+        <div class="footer">
+            <p style="font-size: 1.2rem; font-weight: 700; color: var(--accent-primary); margin-bottom: 8px;">MindLink Systems</p>
+            <p>AI Automation Consulting</p>
+            <a href="https://cal.com/mindlinkai/strategy" class="cta-button">Book Strategy Call</a>
+        </div>
+    </div>
+</body>
+</html>
