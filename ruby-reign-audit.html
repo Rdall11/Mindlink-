@@ -72,10 +72,12 @@
         .readiness-container { display: flex; align-items: center; gap: 40px; margin: 30px 0; }
         @media (max-width: 768px) { .readiness-container { flex-direction: column; text-align: center; } }
         
+        .score-circle-wrapper { position: relative; flex-shrink: 0; }
+        
         .score-circle {
             position: relative; width: 200px; height: 200px; border-radius: 50%;
             background: conic-gradient(var(--accent-primary) 40%, var(--bg-secondary) 40%);
-            display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+            display: flex; align-items: center; justify-content: center;
         }
         
         .score-inner {
@@ -85,6 +87,11 @@
         
         .score-number { font-size: 3.5em; font-weight: 700; color: var(--accent-primary); }
         .score-label { font-size: 0.9em; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; }
+        
+        .readiness-dimensions { margin-top: 20px; display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
+        .dimension-item { display: flex; align-items: center; gap: 8px; font-size: 0.85em; color: var(--text-secondary); }
+        .dimension-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--accent-primary); }
+        
         .readiness-text { flex: 1; }
         .readiness-text h3 { font-size: 1.4em; margin-bottom: 15px; color: var(--text-primary); }
         .readiness-text p { font-size: 1.05em; line-height: 1.7; color: var(--text-secondary); }
@@ -230,10 +237,34 @@
         <div class="section">
             <h2 class="section-title">AI Readiness Assessment</h2>
             <div class="readiness-container">
-                <div class="score-circle">
-                    <div class="score-inner">
-                        <div class="score-number">4</div>
-                        <div class="score-label">out of 10</div>
+                <div class="score-circle-wrapper">
+                    <div class="score-circle">
+                        <div class="score-inner">
+                            <div class="score-number">4</div>
+                            <div class="score-label">out of 10</div>
+                        </div>
+                    </div>
+                    <div class="readiness-dimensions">
+                        <div class="dimension-item">
+                            <div class="dimension-dot"></div>
+                            <span>Data Infrastructure</span>
+                        </div>
+                        <div class="dimension-item">
+                            <div class="dimension-dot"></div>
+                            <span>Technical Maturity</span>
+                        </div>
+                        <div class="dimension-item">
+                            <div class="dimension-dot"></div>
+                            <span>Process Documentation</span>
+                        </div>
+                        <div class="dimension-item">
+                            <div class="dimension-dot"></div>
+                            <span>Team Readiness</span>
+                        </div>
+                        <div class="dimension-item">
+                            <div class="dimension-dot"></div>
+                            <span>Budget/Resources</span>
+                        </div>
                     </div>
                 </div>
                 <div class="readiness-text">
