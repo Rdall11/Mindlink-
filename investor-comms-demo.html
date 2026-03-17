@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Investor Communication Hub - Demo</title>
+    <style>
+        :root {
+            --bg-primary: #0a0a0f;
+            --bg-secondary: #12121a;
+            --bg-card: #1a1a24;
+            --accent-primary: #006AD7;
+            --accent-gradient: linear-gradient(135deg, #006AD7 0%, #0052a3 100%);
+            --text-primary: #ffffff;
+            --text-secondary: #94a3b8;
+            --text-muted: #64748b;
+            --border-color: rgba(255,255,255,0.1);
+            --success: #10b981;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding-bottom: 30px;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .header h1 {
+            font-size: 2.2em;
+            margin-bottom: 10px;
+            background: var(--accent-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .header p {
+            color: var(--text-secondary);
+            font-size: 1.1em;
+        }
+        
+        .demo-stages {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-bottom: 50px;
+        }
+        
+        .stage-indicator {
+            padding: 12px 24px;
+            background: var(--bg-card);
+            border: 2px solid var(--border-color);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .stage-indicator.active {
+            background: var(--accent-gradient);
+            border-color: var(--accent-primary);
+        }
+        
+        .stage-indicator:hover {
+            border-color: var(--accent-primary);
+        }
+        
+        .stage-content {
+            display: none;
+        }
+        
+        .stage-content.active {
+            display: block;
+            animation: fadeIn 0.5s;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 30px;
+            margin-bottom: 30px;
+        }
+        
+        .card h2 {
+            color: var(--accent-primary);
+            margin-bottom: 20px;
+            font-size: 1.6em;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+        
+        .form-group input, .form-group select, .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            background: var(--bg-primary);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            color: var(--text-primary);
+            font-size: 1em;
+        }
+        
+        .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+            outline: none;
+            border-color: var(--accent-primary);
+        }
+        
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        
+        .btn {
+            padding: 14px 32px;
+            background: var(--accent-gradient);
+            border: none;
+            border-radius: 8px;
+            color: white;
+            font-size: 1.1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+        }
+        
+        .btn-secondary {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+        }
+        
+        .updates-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 20px;
+            margin-top: 30px;
+        }
+        
+        .update-card {
+            background: var(--bg-primary);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 20px;
+        }
+        
+        .update-card h3 {
+            color: var(--accent-primary);
+            margin-bottom: 15px;
+            font-size: 1.2em;
+        }
+        
+        .update-card .badge {
+            display: inline-block;
+            padding: 4px 12px;
+            background: rgba(0, 106, 215, 0.2);
+            border-radius: 12px;
+            font-size: 0.85em;
+            color: var(--accent-primary);
+            margin-bottom: 10px;
+        }
+        
+        .update-content {
+            color: var(--text-secondary);
+            line-height: 1.7;
+            font-size: 0.95em;
+        }
+        
+        .portal-nav {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 30px;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .portal-nav button {
+            padding: 12px 24px;
+            background: none;
+            border: none;
+            color: var(--text-secondary);
+            cursor: pointer;
+            border-bottom: 2px solid transparent;
+            transition: all 0.3s;
+        }
+        
+        .portal-nav button.active {
+            color: var(--accent-primary);
+            border-bottom-color: var(--accent-primary);
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .stat-card {
+            background: var(--bg-secondary);
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+        }
+        
+        .stat-card .label {
+            color: var(--text-muted);
+            font-size: 0.9em;
+            margin-bottom: 8px;
+        }
+        
+        .stat-card .value {
+            font-size: 1.8em;
+            font-weight: 700;
+            color: var(--accent-primary);
+        }
+        
+        .timeline {
+            margin-top: 20px;
+        }
+        
+        .timeline-item {
+            padding: 15px;
+            border-left: 3px solid var(--accent-primary);
+            margin-bottom: 15px;
+            background: var(--bg-secondary);
+            border-radius: 0 8px 8px 0;
+        }
+        
+        .timeline-item .date {
+            color: var(--text-muted);
+            font-size: 0.85em;
+            margin-bottom: 5px;
+        }
+        
+        .timeline-item .title {
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+        
+        .timeline-item .amount {
+            color: var(--success);
+            font-weight: 600;
+        }
+        
+        .loading {
+            text-align: center;
+            padding: 40px;
+        }
+        
+        .spinner {
+            border: 3px solid var(--border-color);
+            border-top: 3px solid var(--accent-primary);
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .comparison {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin: 30px 0;
+        }
+        
+        .comparison-box {
+            padding: 30px;
+            border-radius: 12px;
+            text-align: center;
+        }
+        
+        .comparison-box.before {
+            background: rgba(239, 68, 68, 0.1);
+            border: 2px solid rgba(239, 68, 68, 0.3);
+        }
+        
+        .comparison-box.after {
+            background: rgba(16, 185, 129, 0.1);
+            border: 2px solid rgba(16, 185, 129, 0.3);
+        }
+        
+        .comparison-box h3 {
+            margin-bottom: 15px;
+            font-size: 1.4em;
+        }
+        
+        .comparison-box .time {
+            font-size: 2.5em;
+            font-weight: 700;
+            margin: 20px 0;
+        }
+        
+        .comparison-box.before .time {
+            color: #ef4444;
+        }
+        
+        .comparison-box.after .time {
+            color: var(--success);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Investor Communication Hub</h1>
+            <p>AI-Powered Investor Updates & Portal Demo</p>
+        </div>
+        
+        <div class="demo-stages">
+            <div class="stage-indicator active" onclick="showStage(1)">
+                <strong>Step 1:</strong> Generate Update
+            </div>
+            <div class="stage-indicator" onclick="showStage(2)">
+                <strong>Step 2:</strong> AI Generated Updates
+            </div>
+            <div class="stage-indicator" onclick="showStage(3)">
+                <strong>Step 3:</strong> Investor Portal
+            </div>
+        </div>
+        
+        <!-- Stage 1: Input Form -->
+        <div id="stage1" class="stage-content active">
+            <div class="comparison">
+                <div class="comparison-box before">
+                    <h3>❌ Manual Process</h3>
+                    <div class="time">2 hours</div>
+                    <p style="color: var(--text-secondary);">Per investor update<br>Manually personalized<br>Copy-paste from templates</p>
+                </div>
+                <div class="comparison-box after">
+                    <h3>✅ Automated</h3>
+                    <div class="time">30 sec</div>
+                    <p style="color: var(--text-secondary);">AI-generated<br>Personalized to investor type<br>Consistent & professional</p>
+                </div>
+            </div>
+            
+            <div class="card">
+                <h2>Generate Q4 2025 Investor Update</h2>
+                <form id="generateForm">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Fund Name</label>
+                            <input type="text" value="European Residential Fund I" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label>Quarter</label>
+                            <select>
+                                <option>Q4 2025</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>NAV (€M)</label>
+                            <input type="text" value="294" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label>IRR (%)</label>
+                            <input type="text" value="18.5" readonly>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Deployment Rate (%)</label>
+                            <input type="text" value="87" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label>Asset Count</label>
+                            <input type="text" value="47" readonly>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Key Updates This Quarter</label>
+                        <textarea rows="3" readonly>Acquired 3 new residential assets in Lisbon (€42M). Completed value-add repositioning on 2 London properties (+22% NOI). Started construction on co-living project in Porto (180 units, completion Q3 2026).</textarea>
+                    </div>
+                    
+                    <div style="margin-top: 30px; text-align: center;">
+                        <button type="button" class="btn" onclick="generateUpdates()">
+                            Generate Personalized Updates
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        
+        <!-- Stage 2: Generated Updates -->
+        <div id="stage2" class="stage-content">
+            <div id="loading" class="loading">
+                <div class="spinner"></div>
+                <p style="color: var(--text-secondary);">AI generating personalized updates...</p>
+            </div>
+            
+            <div id="generatedContent" style="display: none;">
+                <div class="card">
+                    <h2>✨ AI-Generated Updates (3 versions)</h2>
+                    <p style="color: var(--text-secondary); margin-bottom: 30px;">
+                        Personalized for different investor types. Click any update to preview in the portal.
+                    </p>
+                    
+                    <div class="updates-grid">
+                        <div class="update-card">
+                            <span class="badge">Institutional Investor</span>
+                            <h3>Pension Fund / Endowment</h3>
+                            <div class="update-content">
+                                <p><strong>Q4 2025 Performance Summary</strong></p>
+                                <p style="margin-top: 10px;">European Residential Fund I NAV: €294M | IRR: 18.5% (vs 15% target)</p>
+                                <p style="margin-top: 10px;">Portfolio update: Deployed €42M across 3 Lisbon residential acquisitions (87% total deployment). Value-add initiatives delivered +22% NOI on London repositioning. Porto co-living development on schedule for Q3 2026 completion (180 units, pre-leasing initiated).</p>
+                                <p style="margin-top: 10px;">Risk metrics: Portfolio occupancy 94%, weighted avg cap rate 5.2%, debt-to-equity 55%. Geographic exposure: Portugal 48%, UK 35%, France 17%.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="update-card">
+                            <span class="badge">Family Office</span>
+                            <h3>UHNW / Family Office</h3>
+                            <div class="update-content">
+                                <p><strong>Q4 2025 Portfolio Update</strong></p>
+                                <p style="margin-top: 10px;">We're pleased to report strong momentum in European Residential Fund I. The fund now stands at €294M NAV with an 18.5% IRR—well ahead of our 15% target.</p>
+                                <p style="margin-top: 10px;">This quarter we acquired three excellent residential assets in Lisbon for €42M, bringing our deployment to 87%. We also completed value-add work on two London properties, increasing their operating income by 22%.</p>
+                                <p style="margin-top: 10px;">Looking ahead, our Porto co-living project (180 units) broke ground and is tracking for Q3 2026 completion. We're already seeing strong pre-leasing interest from corporate tenants.</p>
+                                <p style="margin-top: 10px;">Happy to discuss the portfolio in detail on our next call.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="update-card">
+                            <span class="badge">Individual Investor</span>
+                            <h3>High Net Worth Individual</h3>
+                            <div class="update-content">
+                                <p><strong>Your Q4 2025 Update</strong></p>
+                                <p style="margin-top: 10px;">Great news on your investment in European Residential Fund I! The fund is performing ahead of target with an 18.5% return.</p>
+                                <p style="margin-top: 10px;">Here's what happened this quarter:</p>
+                                <ul style="margin-top: 10px; margin-left: 20px; color: var(--text-secondary);">
+                                    <li>Bought 3 new properties in Lisbon (€42M total)</li>
+                                    <li>Upgraded 2 London buildings—now earning 22% more rent</li>
+                                    <li>Started building a 180-unit co-living project in Porto</li>
+                                </ul>
+                                <p style="margin-top: 10px;">Your fund value continues to grow as we execute on our strategy. We're now 87% invested across 47 properties in Portugal, the UK, and France.</p>
+                                <p style="margin-top: 10px;">Questions? Just reply to this email or schedule a call anytime.</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div style="text-align: center; margin-top: 40px;">
+                        <button class="btn" onclick="showPortal()">View Investor Portal →</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Stage 3: Investor Portal -->
+        <div id="stage3" class="stage-content">
+            <div class="card">
+                <h2>Investor Portal - Family Office View</h2>
+                <p style="color: var(--text-secondary); margin-bottom: 20px;">
+                    What your investors see when they log in
+                </p>
+                
+                <div class="portal-nav">
+                    <button class="active">Dashboard</button>
+                    <button>Updates</button>
+                    <button>Documents</button>
+                    <button>Capital Activity</button>
+                </div>
+                
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="label">Total Investment</div>
+                        <div class="value">€2.5M</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="label">Current NAV</div>
+                        <div class="value">€3.1M</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="label">IRR</div>
+                        <div class="value">18.5%</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="label">Distributions YTD</div>
+                        <div class="value">€124K</div>
+                    </div>
+                </div>
+                
+                <h3 style="color: var(--accent-primary); margin-bottom: 15px; font-size: 1.3em;">Recent Updates</h3>
+                <div class="update-card" style="margin-bottom: 20px;">
+                    <span class="badge">Q4 2025</span>
+                    <h3>Portfolio Update</h3>
+                    <div class="update-content">
+                        <p>We're pleased to report strong momentum in European Residential Fund I. The fund now stands at €294M NAV with an 18.5% IRR—well ahead of our 15% target.</p>
+                        <p style="margin-top: 10px;">This quarter we acquired three excellent residential assets in Lisbon for €42M, bringing our deployment to 87%...</p>
+                        <p style="margin-top: 15px; color: var(--accent-primary); cursor: pointer;">Read more →</p>
+                    </div>
+                </div>
+                
+                <h3 style="color: var(--accent-primary); margin-bottom: 15px; font-size: 1.3em; margin-top: 30px;">Capital Activity</h3>
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <div class="date">December 15, 2025</div>
+                        <div class="title">Distribution Payment</div>
+                        <div class="amount">+€31,000</div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="date">October 1, 2025</div>
+                        <div class="title">Distribution Payment</div>
+                        <div class="amount">+€28,500</div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="date">July 15, 2025</div>
+                        <div class="title">Capital Call - Porto Development</div>
+                        <div class="amount" style="color: var(--text-muted);">-€150,000</div>
+                    </div>
+                </div>
+                
+                <div style="text-align: center; margin-top: 40px;">
+                    <button class="btn btn-secondary" onclick="showStage(1)">← Back to Start</button>
+                    <button class="btn" style="margin-left: 15px;" onclick="alert('Demo complete! This shows how the Investor Communication Hub reduces manual update time from 2 hours to 30 seconds while delivering personalized, professional communications.')">Complete Demo ✓</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        function showStage(stage) {
+            // Hide all stages
+            document.querySelectorAll('.stage-content').forEach(el => {
+                el.classList.remove('active');
+            });
+            document.querySelectorAll('.stage-indicator').forEach(el => {
+                el.classList.remove('active');
+            });
+            
+            // Show selected stage
+            document.getElementById('stage' + stage).classList.add('active');
+            document.querySelectorAll('.stage-indicator')[stage - 1].classList.add('active');
+        }
+        
+        function generateUpdates() {
+            showStage(2);
+            
+            // Show loading spinner
+            document.getElementById('loading').style.display = 'block';
+            document.getElementById('generatedContent').style.display = 'none';
+            
+            // Simulate AI generation
+            setTimeout(() => {
+                document.getElementById('loading').style.display = 'none';
+                document.getElementById('generatedContent').style.display = 'block';
+            }, 2000);
+        }
+        
+        function showPortal() {
+            showStage(3);
+        }
+    </script>
+</body>
+</html>
