@@ -222,6 +222,15 @@
             border-bottom-color: var(--accent-primary);
         }
         
+        .portal-tab {
+            display: none;
+        }
+        
+        .portal-tab.active {
+            display: block;
+            animation: fadeIn 0.5s;
+        }
+        
         .stats-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -497,12 +506,14 @@
                 </p>
                 
                 <div class="portal-nav">
-                    <button class="active">Dashboard</button>
-                    <button>Updates</button>
-                    <button>Documents</button>
-                    <button>Capital Activity</button>
+                    <button class="active" onclick="showPortalTab('dashboard')">Dashboard</button>
+                    <button onclick="showPortalTab('updates')">Updates</button>
+                    <button onclick="showPortalTab('documents')">Documents</button>
+                    <button onclick="showPortalTab('capital')">Capital Activity</button>
                 </div>
                 
+                <!-- Dashboard Tab -->
+                <div id="portal-dashboard" class="portal-tab active">
                 <div class="stats-grid">
                     <div class="stat-card">
                         <div class="label">Total Investment</div>
@@ -551,6 +562,144 @@
                         <div class="amount" style="color: var(--text-muted);">-€150,000</div>
                     </div>
                 </div>
+                </div>
+                
+                <!-- Updates Tab -->
+                <div id="portal-updates" class="portal-tab">
+                    <h3 style="color: var(--accent-primary); margin-bottom: 20px; font-size: 1.4em;">Investor Updates</h3>
+                    
+                    <div class="update-card" style="margin-bottom: 20px;">
+                        <span class="badge">Q4 2025</span>
+                        <h3>Portfolio Update</h3>
+                        <div class="update-content">
+                            <p><strong>December 20, 2025</strong></p>
+                            <p style="margin-top: 10px;">We're pleased to report strong momentum in European Residential Fund I. The fund now stands at €294M NAV with an 18.5% IRR—well ahead of our 15% target.</p>
+                            <p style="margin-top: 10px;">This quarter we acquired three excellent residential assets in Lisbon for €42M, bringing our deployment to 87%. We also completed value-add work on two London properties, increasing their operating income by 22%.</p>
+                            <p style="margin-top: 10px;">Looking ahead, our Porto co-living project (180 units) broke ground and is tracking for Q3 2026 completion. We're already seeing strong pre-leasing interest from corporate tenants.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="update-card" style="margin-bottom: 20px;">
+                        <span class="badge">Q3 2025</span>
+                        <h3>Quarterly Performance Summary</h3>
+                        <div class="update-content">
+                            <p><strong>September 25, 2025</strong></p>
+                            <p style="margin-top: 10px;">Q3 delivered solid performance with NAV growing to €281M. We made progress on several strategic initiatives including securing planning approval for the Porto project and refinancing two UK properties at favorable terms.</p>
+                            <p style="margin-top: 10px;">Portfolio occupancy remained strong at 95% with rental growth averaging 4.2% across markets.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="update-card">
+                        <span class="badge">Q2 2025</span>
+                        <h3>Mid-Year Review</h3>
+                        <div class="update-content">
+                            <p><strong>June 30, 2025</strong></p>
+                            <p style="margin-top: 10px;">First half performance exceeded expectations with 17.2% IRR. We deployed €85M in new acquisitions and saw strong value creation from our repositioning initiatives in London and Paris.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Documents Tab -->
+                <div id="portal-documents" class="portal-tab">
+                    <h3 style="color: var(--accent-primary); margin-bottom: 20px; font-size: 1.4em;">Documents</h3>
+                    
+                    <div style="background: var(--bg-secondary); padding: 20px; border-radius: 8px; margin-bottom: 15px; cursor: pointer;" onclick="alert('In production, this would download the Q4 2025 report PDF')">
+                        <div style="display: flex; justify-content: space-between; align-items: center;">
+                            <div>
+                                <div style="font-weight: 600; margin-bottom: 5px;">Q4 2025 Quarterly Report</div>
+                                <div style="color: var(--text-muted); font-size: 0.9em;">PDF • 2.4 MB • Dec 20, 2025</div>
+                            </div>
+                            <div style="color: var(--accent-primary);">↓ Download</div>
+                        </div>
+                    </div>
+                    
+                    <div style="background: var(--bg-secondary); padding: 20px; border-radius: 8px; margin-bottom: 15px; cursor: pointer;" onclick="alert('In production, this would download the K-1 tax document')">
+                        <div style="display: flex; justify-content: space-between; align-items: center;">
+                            <div>
+                                <div style="font-weight: 600; margin-bottom: 5px;">2025 K-1 Tax Document</div>
+                                <div style="color: var(--text-muted); font-size: 0.9em;">PDF • 1.2 MB • Jan 15, 2026</div>
+                            </div>
+                            <div style="color: var(--accent-primary);">↓ Download</div>
+                        </div>
+                    </div>
+                    
+                    <div style="background: var(--bg-secondary); padding: 20px; border-radius: 8px; margin-bottom: 15px; cursor: pointer;" onclick="alert('In production, this would download the Q3 report')">
+                        <div style="display: flex; justify-content: space-between; align-items: center;">
+                            <div>
+                                <div style="font-weight: 600; margin-bottom: 5px;">Q3 2025 Quarterly Report</div>
+                                <div style="color: var(--text-muted); font-size: 0.9em;">PDF • 2.1 MB • Sep 25, 2025</div>
+                            </div>
+                            <div style="color: var(--accent-primary);">↓ Download</div>
+                        </div>
+                    </div>
+                    
+                    <div style="background: var(--bg-secondary); padding: 20px; border-radius: 8px; cursor: pointer;" onclick="alert('In production, this would download the annual report')">
+                        <div style="display: flex; justify-content: space-between; align-items: center;">
+                            <div>
+                                <div style="font-weight: 600; margin-bottom: 5px;">2024 Annual Report</div>
+                                <div style="color: var(--text-muted); font-size: 0.9em;">PDF • 5.8 MB • Mar 15, 2025</div>
+                            </div>
+                            <div style="color: var(--accent-primary);">↓ Download</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Capital Activity Tab -->
+                <div id="portal-capital" class="portal-tab">
+                    <h3 style="color: var(--accent-primary); margin-bottom: 20px; font-size: 1.4em;">Capital Activity</h3>
+                    
+                    <div class="stats-grid" style="margin-bottom: 30px;">
+                        <div class="stat-card">
+                            <div class="label">Total Invested</div>
+                            <div class="value">€2.5M</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="label">Total Distributions</div>
+                            <div class="value">€124K</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="label">Outstanding Capital</div>
+                            <div class="value">€0</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="label">Next Distribution</div>
+                            <div class="value" style="font-size: 1.3em;">Mar 2026</div>
+                        </div>
+                    </div>
+                    
+                    <div class="timeline">
+                        <div class="timeline-item">
+                            <div class="date">December 15, 2025</div>
+                            <div class="title">Q4 Distribution Payment</div>
+                            <div class="amount">+€31,000</div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="date">October 1, 2025</div>
+                            <div class="title">Q3 Distribution Payment</div>
+                            <div class="amount">+€28,500</div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="date">July 15, 2025</div>
+                            <div class="title">Capital Call - Porto Co-Living Development</div>
+                            <div class="amount" style="color: var(--text-muted);">-€150,000</div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="date">June 20, 2025</div>
+                            <div class="title">Q2 Distribution Payment</div>
+                            <div class="amount">+€32,500</div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="date">March 15, 2025</div>
+                            <div class="title">Q1 Distribution Payment</div>
+                            <div class="amount">+€32,000</div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="date">January 10, 2025</div>
+                            <div class="title">Initial Capital Commitment</div>
+                            <div class="amount" style="color: var(--text-muted);">-€2,500,000</div>
+                        </div>
+                    </div>
+                </div>
                 
                 <div style="text-align: center; margin-top: 40px;">
                     <button class="btn btn-secondary" onclick="showStage(1)">← Back to Start</button>
@@ -591,6 +740,24 @@
         
         function showPortal() {
             showStage(3);
+        }
+        
+        function showPortalTab(tabName) {
+            // Hide all portal tabs
+            document.querySelectorAll('.portal-tab').forEach(el => {
+                el.classList.remove('active');
+            });
+            
+            // Remove active class from all nav buttons
+            document.querySelectorAll('.portal-nav button').forEach(el => {
+                el.classList.remove('active');
+            });
+            
+            // Show selected tab
+            document.getElementById('portal-' + tabName).classList.add('active');
+            
+            // Set active nav button
+            event.target.classList.add('active');
         }
     </script>
 </body>
