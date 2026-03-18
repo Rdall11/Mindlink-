@@ -569,6 +569,26 @@
                     </div>
                 </div>
 
+                <div class="redeployment-section" style="margin-top: 40px; background: linear-gradient(135deg, rgba(0, 106, 215, 0.08) 0%, rgba(0, 82, 163, 0.03) 100%); padding: 32px; border-radius: 12px; border: 2px solid var(--accent-primary);">
+                    <h3 style="font-size: 1.4rem; margin-bottom: 16px; color: var(--text-primary);">Beyond Cost Savings: Redeployment Impact</h3>
+                    <p style="color: var(--text-secondary); margin-bottom: 24px; line-height: 1.7;">
+                        Saving time and money is table stakes. The real value lies in <strong>where your freed capacity gets redeployed</strong>. When your team redirects <span id="redeploy-hours" style="color: var(--accent-primary); font-weight: 600;">0 hours per week</span> from manual work to high-value activities:
+                    </p>
+                    
+                    <div id="industry-specific-impact" style="background: var(--bg-card); padding: 24px; border-radius: 8px; margin-bottom: 20px;">
+                        <!-- This will be populated based on industry selection -->
+                    </div>
+                    
+                    <div style="padding: 20px; background: var(--bg-secondary); border-radius: 8px; border-left: 4px solid var(--success);">
+                        <p style="color: var(--text-primary); font-size: 1.05rem; font-weight: 600; margin-bottom: 8px;">
+                            Conservative Estimate
+                        </p>
+                        <p style="color: var(--text-secondary); line-height: 1.7;">
+                            When redeployed strategically, this freed capacity can generate additional value <strong>2-5x beyond the direct cost savings</strong> through improved revenue, faster growth, and better customer outcomes.
+                        </p>
+                    </div>
+                </div>
+
                 <div class="cta-section">
                     <h3>Ready to unlock these savings?</h3>
                     <p>Book a free strategy call to see how automation can work for your business</p>
@@ -876,6 +896,86 @@
             document.getElementById('savings-6mo').textContent = formatCurrency(monthlySavings * 6);
             document.getElementById('savings-12mo').textContent = formatCurrency(monthlySavings * 12);
             document.getElementById('savings-24mo').textContent = formatCurrency(monthlySavings * 24);
+
+            // Update redeployment section
+            document.getElementById('redeploy-hours').textContent = Math.round(hoursSaved);
+            
+            const redeploymentExamples = {
+                'home-services': {
+                    title: 'For Home Services Teams',
+                    examples: [
+                        'More time on high-value jobs and complex projects',
+                        'Proactive customer relationship building and referral generation',
+                        'Service quality improvement and training initiatives'
+                    ]
+                },
+                'healthcare': {
+                    title: 'For Healthcare Practices',
+                    examples: [
+                        'More patient face-time and higher-value consultations',
+                        'Proactive patient care and preventive medicine initiatives',
+                        'Practice growth activities and community outreach'
+                    ]
+                },
+                'real-estate': {
+                    title: 'For Real Estate Teams',
+                    examples: [
+                        'More time on strategic client advisory and relationship building',
+                        'Business development and market expansion initiatives',
+                        'Higher-value deal sourcing and complex transactions'
+                    ]
+                },
+                'consulting': {
+                    title: 'For Professional Services',
+                    examples: [
+                        'More billable client-facing work (increased utilization)',
+                        'Strategic advisory and business development',
+                        'Thought leadership and relationship cultivation'
+                    ]
+                },
+                'ecommerce': {
+                    title: 'For E-Commerce Businesses',
+                    examples: [
+                        'Product development and strategic sourcing',
+                        'Marketing optimization and customer experience',
+                        'Strategic partnerships and market expansion'
+                    ]
+                },
+                'saas': {
+                    title: 'For SaaS Companies',
+                    examples: [
+                        'Strategic enterprise deals and expansion accounts',
+                        'Proactive customer success and expansion plays',
+                        'Product development and market research'
+                    ]
+                },
+                'hospitality': {
+                    title: 'For Hospitality Businesses',
+                    examples: [
+                        'Guest experience enhancement and personalization',
+                        'Revenue management and pricing optimization',
+                        'Strategic partnerships and event cultivation'
+                    ]
+                }
+            };
+            
+            const redeploymentContent = redeploymentExamples[industry] || {
+                title: 'Redeployment Opportunities',
+                examples: [
+                    'Strategic business development and growth initiatives',
+                    'Customer relationship building and retention',
+                    'Innovation and process improvement projects'
+                ]
+            };
+            
+            let redeploymentHTML = '<h4 style="color: var(--accent-primary); margin-bottom: 12px; font-size: 1.1rem;">' + redeploymentContent.title + '</h4>';
+            redeploymentHTML += '<ul style="list-style: none; padding: 0; color: var(--text-secondary); line-height: 1.9;">';
+            redeploymentContent.examples.forEach(example => {
+                redeploymentHTML += '<li style="padding-left: 24px; position: relative; margin-bottom: 8px;"><span style="position: absolute; left: 0; color: var(--accent-primary);">→</span>' + example + '</li>';
+            });
+            redeploymentHTML += '</ul>';
+            
+            document.getElementById('industry-specific-impact').innerHTML = redeploymentHTML;
 
             // Show results
             document.getElementById('results').classList.add('show');
